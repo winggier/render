@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html style="background-color:rgb(238, 230, 203);">
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-contour.v1.min.js"></script>
+
+
+<!-- <h1>CG Annotation<span class = 'ano'>updated on May 10, 2022</span></h1> -->
+
+<div class="header" id="header"></div>
+
+
+<!-- <div id="dialog"></div><br> -->
+<!-- <h3 style="font-family:Verdana; padding:2px; text-align:center;">Annotations</h3> -->
+<div id="table"></div>
+
+<!-- <br><h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:Grey">Dialogs</h3>
+<ul id="tt"></ul><br>
+<div id="msg"></div> -->
+
+<br><h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:grey">Info</h3>
+
+<div class="info" contenteditable="true" >Click row # to select/highlight row</div><br>
+
+<div class="info" contenteditable="true" >Click the word in the sentences to add it to Entity
+    <li>Click it again to remove it from the Entity</li>
+</div><br>
+
+<div class="info" contenteditable="true" >Click "+" to add items to the corresponding tags
+    <li>Additional events will be added in a new row under the same sentence</li>
+    <li>There can be multiple entities and events under the same sentence</li>
+    <li>The same event can only be associated with at most one Pragmatics, one Why in prose, and one Comment</li>
+</div><br>
+
+<div class="info" contenteditable="true" >Belief Tags Click Cycle:
+    <li>CT+ (certain belief)</li>
+    <li>CT- (certain belief that not)</li>
+    <li>PS (event may or may not have happened)</li>
+</div><br>
+
+
+<div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
+    <li>JA (when an event has been just added to the CG)</li>
+    <li>JA→IN</li>
+    <li>JA→RT</li>
+    <li>JA→AM</li>
+
+    <li>IN (when an event already existed in the CG)</li>
+    <li>IN→RT</li>
+    <li>IN→AM</li>
+
+    <li>RT (when an event has been rejected from the CG)</li>
+
+    <li>AM (when it is impossible to determine the status)</li>
+    <li>AM→IN</li>
+    <li>AM→RT</li>
+
+</div><br>
+
+<div class="info" contenteditable="true" >Why Tags Click Cycle:
+    <li>C (context present in the dialog)</li>
+    <li>PS (specific lexical item: word/phrase/expression)</li>
+    <li>WK (world knowledge)</li>
+</div><br>
+
+
+<style>
+    h1 {
+        font-family: Verdana;
+        padding: 2px;
+        color: grey;
+        font-size: 400%;
+    }
+
+    .header {
+        font-family: Verdana;
+        color: grey;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        /* line-height: 300%; */
+        /* padding-bottom: 10px; */
+        font-weight: bold;
+        /* margin-bottom: 20px; */
+        /* padding: 2px; */
+        /* color: grey; */
+        font-size: 200%;
+    }
+
+    .info {
+        font-family: Verdana;
+        color: dimgrey;
+        margin-left: 20px;
+        line-height: 125%;
+        /* padding-bottom: 10px; */
+        /* font-weight: bold; */
+        /* margin-bottom: 20px; */
+        /* padding: 2px; */
+        /* color: grey; */
+        /* font-size: 400%; */
+    }
+
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    h1 {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    li {
+        font-family: Verdana, sans-serif;
+        font-size: 90%;
+        margin-left: 20px;
+        font-weight: normal;
+        /* padding: 2px; */
+        /* border-collapse: collapse; */
+        /* width: 100%; */
+    }
+
+    .tab {
+        display: inline-block;
+        margin-left: 60px;
+    }
+
+    .add {
+        font-family: Verdana, sans-serif;
+        font-weight: bold;
+        font-size: 120%;
+        color: lightgrey;
+        /* float: right; */
+        text-align: center;
+    }
+
+    .cc {
+        /* font-weight: bold; */
+        /* font-size: 18px; */
+        text-align: center; 
+    }
+
+    .foot {
+        font-family: Verdana, sans-serif;
+        font-weight: bold;
+        color: grey;
+        /* color: lightpink; */
+
+        float: right;
+    }
+
+    </style>
+
+
+<script>
+    var text = 'grey'
+    var updata = {{ data|tojson }}
+    // console.log(text)
+    // header = updata[0]
+    hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
+    hd1 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
+    hd2 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+    'CG(A)', 'CG(B)', 'Why', 'Why in prose', 'Comment']
+    bel = ['', 'CT+', 'CT-', 'PS']
+    cc = ['', 'JA', 'JA→IN', 'JA→RT', 'JA→AM', 'IN', 'IN→RT', 'IN→AM', 'RT', 'AM', 'AM→IN', 'AM→RT']
+    why = ['', 'C', 'PS', 'WK']
+    phase = 2;
+    annotator = 'John Hick'
+
+    dialog = updata[1]
+    // entity = updata[2]
+
+    var data = [];
+    for(var i = 0; i < dialog.length; i++) {
+        var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+            why:[], wip:[], com:[],  ty:[0, 1, 0]})
+        data.push(tuple)
+    }
+    console.log(data)
+
+    function reset() {
+        console.log('RESET click')
+        data = []
+        for(var i = 0; i < dialog.length; i++) {
+            var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+                why:[], wip:[], com:[], er:[]})
+            data.push(tuple)
+        }
+        bar()
+        process_table()
+    }
+
+    function bar() {
+        var svgb = d3.select("#ban")
+
+        svgb
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 65)
+            .attr("font-size", "55px")
+            .attr("font-family", "Verdana")
+            .attr("text-anchor", "start")
+            .attr('font-weight', 900)
+            .attr('fill', text)
+            .text('Common Ground Annotation')
+        
+        svgb  
+            .append("text")
+            .attr("x", 1400)
+            .attr("y", 65)
+            .attr("font-size", "26px")
+            .attr("font-family", "Arial")
+            .attr("text-anchor", "end")
+            .attr('font-weight', 500)
+            .attr('fill', text)
+            .text('Dataset updated on May 10, 2022')
+
+        svgb  
+            .append("text")
+            .on("mouseover", function (d, i) {
+                d3.select(this).attr("fill", "DarkRed")
+            })
+            .on("mouseout", function (d, i) {
+                d3.select(this).attr("fill", "grey")
+            })
+            .on("click", reset)
+            .attr("x", 1400)
+            .attr("y", 35)
+            .attr("font-size", "26px")
+            .attr("font-family", "Arial")
+            .attr("text-anchor", "end")
+            .attr('font-weight', 900)
+            .attr('fill', text)
+            .text('RESET')
+
+
+    }
+
+    function refine(line) {
+        return line .replace("’s", "")
+                    .replace("’re", "")
+                    .replace("’ll", "")
+                    .replace("n’t", "")
+                    .replace(/[^\w\s\']|_/g, "")
+                    .replace(/\s+/g, " ")
+        // return line.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " ")
+    }
+
+    function notation(type, index) {
+        if(type == 0) {
+            var input = prompt('Please input event', data[index].st);
+            if(input) data[index].ev.push(input);
+            console.log(data[index].ev)
+        }
+        else if(type == 1) {
+            var input = prompt('Please input pragmatic', data[index].st);
+            if(input) data[index].pr.push(input)
+        }
+        // console.log(index)
+        process_table()
+    }
+
+    function header() {
+        html = `Dialog:<span style='color:Darkred;' class='d'>#4895</span><span> Phase:</span>`
+        if(!phase%3) html +=`<span style='color:Darkred;'> Entities</span><span class='phase1'> Events </span>` + 
+            `<span class='phase2'>All</span><span class='tab'></span>Annotator: ` + annotator
+        else if(phase%3 == 1) html +=`<span class='phase0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
+            `<span class='phase2'>All</span><span class='tab'></span>Annotator: ` + annotator
+        else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
+            `<span style='color:Darkred;'>All</span><span class='tab'></span>Annotator: ` + annotator
+        document.getElementById("header").innerHTML = html;
+
+        document.getElementById("header").querySelectorAll(".phase0").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => { 
+                console.log("phase click", phase)
+                phase = 0
+                header()
+                process_table()
+            });
+        });
+
+        document.getElementById("header").querySelectorAll(".phase1").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => { 
+                console.log("phase click", phase)
+                phase = 1
+                header()
+                process_table()
+            });
+        });
+
+        document.getElementById("header").querySelectorAll(".phase2").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => { 
+                console.log("phase click", phase)
+                phase = 2
+                header()
+                process_table()
+            });
+        });
+
+    }
+
+// main table
+    function process_table() {
+        ph = phase        
+        html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
+        html += "<tr style='font-weight:bold; background-color:Grey'>";
+
+        if(!ph) hd = hd0
+        else if(ph == 1) hd = hd1
+        else hd = hd2
+
+        for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
+        html += "</tr>";
+
+        for (var i = 0; i < data.length; i++) {
+            // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
+            // else html += "<tr><td>" + i + "</td>";
+            if(data[i].ty[2]%2) 
+                html += `<tr style='background-color:lightpink'><td style='text-align:center;' class="num" li="${i}">`
+                    + i + `</td>`;
+            else html += `<tr><td style='text-align:center;' class="num" li="${i}">` + i + `</td>`;
+
+            html += stn(data[i].st, i);                 //sentance
+            html += "<td style='text-align:center;'>" + data[i].e1 + "</td>";      //entity1
+            // html += "<td>" + data[i].e2 + "</td>";      //entity2
+            // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
+            // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
+            html += not(4, i); 
+
+            if(ph) {
+                html += not(0, i);                          //event
+                html += not(1, i);                          //Pragmatics
+                if(ph == 2) {
+                    html += `<td class="cc" ty="0" li="${i}">` + bel[data[i].cc[0]%bel.length];         //BelA
+                    html += `</td><td class="cc" ty="1" li="${i}">` + bel[data[i].cc[1]%bel.length];    //BelB
+                    html += `</td><td class="cc" ty="2" li="${i}">` + cc[data[i].cc[2]%cc.length];      //CGA
+                    html += `</td><td class="cc" ty="3" li="${i}">` + cc[data[i].cc[3]%cc.length];      //CGB
+                    html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
+                    html += not(2, i);                          //wip
+                }
+            }
+            html += not(3, i);                          //comment
+            // html += "<td><input type='checkbox' ></td>";     //mark
+
+            html += "</tr>";
+        }
+        html += "</table><p class='foot'>Next(#4922) ></p><br><br>";
+        document.getElementById("table").innerHTML = html;
+
+        document.getElementById("table").querySelectorAll(".word").forEach(word => {
+            word.addEventListener("mouseover", () => {
+                const t = event.target;
+                t.style.color = "Red";
+                // t.style.fontWeight = "bold";
+                // const pos = t.getAttribute("pos");
+                // const line = t.getAttribute("line");
+                // document.getElementById("msg").innerText = `"'${t.innerText}' is the (${pos}) word of "${line}"`;
+            });
+
+            word.addEventListener("mouseout", () => { 
+                const t = event.target;
+                t.style.color = "black";
+                // t.style.fontWeight = "normal";
+                // document.getElementById("msg").innerText = "";
+            });
+
+            word.addEventListener("click", () => { 
+                const w = refine(event.target.innerText);
+                const li = event.target.getAttribute("li");
+
+                if(data[li].er.includes(w)) {
+                    data[li].e1.splice(data[li].er.indexOf(w), 1)
+                    data[li].er.splice(data[li].er.indexOf(w), 1)
+                }
+                else{
+                    data[li].er.push(w)
+                    var input = prompt('Please input entity value');
+                    if(input) data[li].e1.push(w + '=' + input)
+                    else data[li].e1.push(w)
+                } 
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".cc").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("click", () => { 
+                const type = event.target.getAttribute("ty");
+                const li = event.target.getAttribute("li");
+                data[li].cc[type] += 1;
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".add").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("click", () => { 
+                const line = event.target.getAttribute("line");
+                const type = event.target.getAttribute("ty");
+                const li = event.target.getAttribute("li");
+                // console.log(li)
+                if(type == 0) {
+                    var input = prompt('Please input event', line.substring(3));
+
+                    if(!data[li].ev.length) {
+                        if(input) data[li].ev.push(input);
+                        console.log(data[li].ev)
+                    }
+                    else {
+                        if(input) {
+                            console.log(li)
+                            data[parseInt(li)].ty[1] += 1;
+                            var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[],
+                                cc:[0, 0, 0, 0, 0], why:[], wip:[], com:[], ty:[1, parseInt(li), 0]})
+                            // data.splice(parseInt(li) + 1, 0, tuple);
+                            data.splice(parseInt(li) + data[li].ty[1]-1, 0, tuple);
+                        }
+                    }
+                }
+
+                if(type == 1) {
+                    var input = prompt('Please input Pragmatics', line.substring(3));
+                    if(input) data[li].pr.push(input);
+                }
+
+                if(type == 2) {
+                    var input = prompt('Please input Why in prose');
+                    if(input) data[li].wip.push(input);
+                }
+
+                if(type == 3) {
+                    var input = prompt('Please input Pragmatics');
+                    if(input) data[li].com.push(input);
+                }
+                if(type == 4) {
+                    var input = prompt('Please input Entity(JA)', data[li].e1[0]);
+                    if(input) data[li].e2.push(input);
+                }
+                console.log(data)
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".edits").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("click", () => { 
+                const type = event.target.getAttribute("ty");
+                const li = event.target.getAttribute("li");
+                var input = prompt('Please input new value', event.target.innerText);
+                if(type == 0) {
+                    if(input) data[li].ev.splice(0, 1, input);
+                    else data[li].ev.splice(0, 1)
+                }
+                if(type == 1) {
+                    if(input) data[li].pr.splice(0, 1, input);
+                    else data[li].pr.splice(0, 1)
+                }
+                if(type == 2) {
+                    if(input) data[li].wip.splice(0, 1, input);
+                    else data[li].wip.splice(0, 1)
+                }
+                if(type == 3) {
+                    if(input) data[li].com.splice(0, 1, input);
+                    else data[li].com.splice(0, 1)
+                }
+                if(type == 4) {
+                    if(input) data[li].e2.splice(0, 1, input);
+                    else data[li].e2.splice(0, 1)
+                }
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".num").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("click", () => { 
+                const li = event.target.getAttribute("li");
+                data[li].ty[2] += 1;
+                process_table()
+            });
+        });
+
+
+    }
+
+    function stn(line, i) {
+        // console.log(data[i].ty)
+        // return `<td style='padding:4px;' class="text">` 
+        //     + line.split(" ").map(word => 
+        //         `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
+        if(!phase) w = 45
+        else if(phase == 1) w = 30
+        else w = 25
+        if(!data[i].ty[0]) 
+        return `<td rowspan="` + data[i].ty[1] + `" style='padding:4px; width:` + w + `%' class="text">` 
+            + line.split(" ").map(word => 
+                `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
+            // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e1 + `</td>`
+            // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e2 + `</td>`
+            
+        else return ``
+
+    }
+
+    function not(type, i) {
+        // console.log(data[i].ev)
+        const line = data[i].st
+        if(type == 0) {
+            if(!data[i].ev.length) {
+                // console.log("empty event")
+                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            }
+            else if(!data[i].st.length) {
+                return `<td class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</td>`
+            }
+            return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
+                <span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
+        }
+
+        if(type == 1) {
+            if(!data[i].pr.length) {
+                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            }
+            else {
+                return `<td class="edits" li="${i}" ty="${type}">` + data[i].pr[0] + `</td>`
+            }
+        }
+
+        if(type == 2) {
+            if(!data[i].wip.length) {
+                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            }
+            else {
+                return `<td class="edits" li="${i}" ty="${type}">` + data[i].wip[0] + `</td>`
+            }
+        }
+
+        if(type == 3) {
+            if(!data[i].com.length) {
+                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            }
+            else {
+                return `<td class="edits" li="${i}" ty="${type}">` + data[i].com[0] + `</td>`
+            }
+        }
+
+        if(type == 4) {
+            if(!data[i].e2.length) {
+                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            }
+            else {
+                return `<td class="edits" style='text-align:center;' li="${i}" ty="${type}">` + data[i].e2[0] + `</td>`
+            }
+        }
+    }
+
+
+    // bar()
+    header()
+    process_table()
+    // dialog_table()
+
+</script>

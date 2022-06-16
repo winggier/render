@@ -1,0 +1,318 @@
+<script>
+    var text = 'grey'
+    var updata = {{ data|tojson }}
+
+    // var updata = JSON.parse("{{ data|tojson }}");
+    // console.log(updata)
+
+    console.log(text)
+    console.log(updata)
+
+    header = updata[0]
+    dialog = updata[1]
+    entity = updata[2]
+    // console.log(header)
+
+
+    function reset() {
+        console.log('RESET click')
+
+    }
+
+    // entry = prompt("Enter your name")
+    // entryArray = entry.split("");
+    // console.log(entryArray)
+
+    function bar() {
+        var svgb = d3.select("#ban")
+        // svgb.append("rect")
+        //     .attr('x', 40)
+        //     .attr('y', 20)
+        //     .attr("width", 1400)
+        //     .attr("height", 50)
+        //     .attr("fill", hd);
+        // title()
+
+        // svgb
+        //     .on("mouseover", info)
+        //     .on("mouseout", title)
+        //     .on("click", reset)
+        svgb
+            .append("text")
+            .attr("x", 40)
+            .attr("y", 65)
+            .attr("font-size", "55px")
+            .attr("font-family", "Verdana")
+            .attr("text-anchor", "start")
+            .attr('font-weight', 900)
+            .attr('fill', text)
+            .text('Common Ground Annotation')
+        
+        svgb  
+            .append("text")
+            .attr("x", 1400)
+            .attr("y", 65)
+            .attr("font-size", "26px")
+            .attr("font-family", "Arial")
+            .attr("text-anchor", "end")
+            .attr('font-weight', 500)
+            .attr('fill', text)
+            .text('Dataset updated on May 10, 2022')
+
+        svgb  
+            .append("text")
+            .on("mouseover", function (d, i) {
+                d3.select(this).attr("fill", "DarkRed")
+            })
+            .on("mouseout", function (d, i) {
+                d3.select(this).attr("fill", "grey")
+            })
+            .on("click", reset)
+            .attr("x", 1400)
+            .attr("y", 35)
+            .attr("font-size", "32px")
+            .attr("font-family", "Arial")
+            .attr("text-anchor", "end")
+            .attr('font-weight', 900)
+            .attr('fill', text)
+            .text('RESET')
+
+        // function title() {
+        //     svgb.selectAll("*").remove();
+        //     svgb.append("text")
+        //         // .on("mouseover", function (d, i) {
+        //         //     d3.select(this).attr("fill", "DarkRed")
+        //         // })
+        //         // .on("mouseout", function (d, i) {
+        //         //     d3.select(this).attr("fill", "grey")
+        //         // })
+        //         .attr("x", 40)
+        //         .attr("y", 80)
+        //         .attr("font-size", "80px")
+        //         .attr("font-family", "Verdana")
+        //         .attr("text-anchor", "start")
+        //         .attr('font-weight', 900)
+        //         .attr('fill', text)
+        //         .text('One Million Calories Challenge')
+        // }
+    }
+
+    // d3.csv(file, function (data) {
+    // })
+
+    function dialog_table() {
+        var html = "<br><table style='text-align:center; font-family:Verdana; padding:2px;'>";
+        html += "<tr style='font-weight:bold;'><td>Dialog</td></tr>";
+        for (var i = 0; i < dialog.length; i++) html += "<tr style=''><td>" + dialog[i] + "</td></tr>";
+        html += "</table><br><br>";
+        document.getElementById("dialog").innerHTML = html;
+    }
+
+    function process_table() {        
+        html = "<br><br><table style='text-align:center; font-family:Verdana; padding:2px;'>";
+        html += "<tr style='font-weight:bold; background-color:Grey'>";
+        for (var i = 0; i < header.length; i++) html += "<td>" + header[i] + "</td>";
+        html += "</tr>";
+
+        for (var i = 0; i < dialog.length; i++) {
+            html += "<tr>";
+            html += "<td>" + dialog[i] + "</td>";
+            if (i == 0) { for (var j = 0; j < entity.length; j++) html += "<td>" + entity[j] + "</td>"; }
+            else {for (var j = 0; j < header.length-1; j++) html += "<td> .. </td>";}
+            html += "</tr>";
+        }
+        html += "</table><br><br>";
+        document.getElementById("table").innerHTML = html;
+    }
+
+    function tt(line) {
+        wordss = line.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " ").split(" ");
+        console.log(wordss)
+        space = 0
+        
+        var html = "<br><table style=font-family:Verdana; padding:2px;'>";
+        html += "<tr style='font-weight:bold; color:blue;'><td>></td></tr>";
+        html += "<tr style='font-weight:bold;'>";
+        for (var i = 0; i < wordss.length; i++) {
+            space += wordss[i].length;
+            // console.log(words[i].length);
+            html += "<td width=" + wordss[i].length + "%>" + wordss[i] + "</td>";
+        }
+        console.log(space)
+        html += "<td width=" +  (100 - space) + "%></td>";
+        html += "</tr>";
+        // html += "<tr style=''><td>" + line + "</td></tr>";
+        // html += "<tr style=''><td>Covid is real.</td></tr>";
+        // for (var i = 0; i < words.length; i++) html += "<tr style=''><td>" + words[i] + "</td></tr>";
+        html += "</table><br><br>";
+
+
+        document.getElementById("tt").innerHTML = html;
+
+        const list = dialog.map((line, li) => {
+            const html = `<p style='padding:4px;' class="text">` + refine(line).split(" ").map((word, i) => 
+                `<span class="word" pos="${i + 1}" line="${line}" li="${li}">${word}</span>`).join(" ") + "</p>";
+            return html
+            // if(line[0] == 'A') {
+            //     return `<p style='padding:4px; background-color:#dddddd' class="text">` + 
+            //         refine(line).split(" ").map((word, i) => 
+            //         `<span class="word" pos="${i + 1}" line="${line}">${word}</span>`).join(" ") + "</p>";
+            // }
+            return `<p style='padding:4px;' class="text">` + refine(line).split(" ").map((word, i) => 
+                `<span class="word" pos="${i + 1}" line="${line}" li="${li}">${word}</span>`).join(" ") + "</p>";
+        });
+
+        // document.getElementById("tt").onmouseover = function() {mouseOver()};
+        // document.getElementById("tt").onmouseout = function() {mouseOut()};
+
+        // function mouseOver() {
+        //     // console.log('mouseover')
+        //     document.getElementById("tt").style.color = "red";
+        // }
+
+        // function mouseOut() {
+        //     document.getElementById("tt").style.color = "black";
+        // }
+    }
+
+    // document.getElementById("word").onmouseover = function() {mouseOver()};
+    // document.getElementById("word").onmouseout = function() {mouseOut()};
+
+    // function mouseOver() {
+    //     document.getElementById("word").style.color = "red";
+    // }
+
+    // function mouseOut() {
+    //     document.getElementById("word").style.color = "black";
+    // }
+
+    bar()
+
+    tt('A: Covid is real.')
+    dialog_table()
+    process_table()
+
+
+
+    // const statements = [{glossHand: "this is a test" }, {glossHand: "this is another test"}];
+
+    // const display_list = statements.map(statement => {
+    //     return `<li class="text">` + statement.glossHand.split(" ").map((word, i) => 
+    //         `<span class="word" pos="${i + 1}" statement="${statement.glossHand}">${word}</span>`).join(" ") + "</li>";
+    // });
+
+    const data = ["this is a test", "this is another test"];
+
+    const list = data.map(line => {
+        return `<li class="text">` + line.split(" ").map((word, i) => 
+            `<span class="word" pos="${i + 1}" line="${line}">${word}</span>`).join(" ") + "</li>";
+    });
+
+    console.log(list);
+    document.getElementById("texts").innerHTML = list.join("");
+    
+    document.getElementById("texts").querySelectorAll(".word").forEach(word => {
+
+        // mouseover
+        word.addEventListener("mouseover", () => {
+            const t = event.target;
+            t.style.color = "red";
+            const pos = t.getAttribute("pos");
+            const line = t.getAttribute("line");
+            document.getElementById("msg").innerText = `"'${t.innerText}' is the (${pos}) word of "${line}"`;
+        });
+
+        // mouseout
+        word.addEventListener("mouseout", () => { 
+            const t = event.target;
+            t.style.color = "black";
+            document.getElementById("msg").innerText = "";
+        });
+    });
+
+    function process_table() {        
+        html = "<table style='text-align:center; font-family:Verdana; padding:2px;'>";
+        html += "<tr style='font-weight:bold; background-color:Grey'>";
+        for (var i = 0; i < header.length; i++) html += "<td>" + header[i] + "</td>";
+        html += "</tr>";
+
+        for (var i = 0; i < dialog.length; i++) {
+            html += "<tr>";
+            html += "<td>" + data[i].st + "</td>";    //sentance
+            html += "<td>" + data[i].et + "</td>";    //entities
+            html += "<td>" + data[i].ev + "</td>";    //event
+            html += "<td>" + "JA" + "</td>";          //CGA
+            html += "<td>" + "JA" + "</td>";          //CGB
+            html += "<td>" + "C" + "</td>";           //why
+            html += "<td>" + data[i].pr + "</td>";    //Pragmatics             
+            // if (i == 0) { for (var j = 0; j < entity.length; j++) html += "<td>" + entity[j] + "</td>"; }
+            // else {for (var j = 0; j < header.length-1; j++) html += "<td> .. </td>";}
+            html += "</tr>";
+        }
+        html += "</table><p class='foot'>Save and Next ></p><br><br>";
+        document.getElementById("table").innerHTML = html;
+    }
+
+
+    function tt(dialog) {
+        // wordss = line.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " ").split(" ");
+        // console.log(wordss)
+        // space = 0
+        
+        const list = dialog.map((line, li) => {
+            const html = `<p style='padding:4px;' class="text">` + refine(line).split(" ").map((word, i) => 
+                `<span class="word" pos="${i + 1}" line="${line}" li="${li}">${word}</span>`).join(" ") + 
+                `<span class='tab'></span>` +
+                `<span class='ano' onclick='notation(0, "${li}")'>Event</span>` +
+                `<span class='tab'></span>` +
+                `<span class='ano' onclick='notation(1, "${li}")'>Pragmatics</span></p>`
+                // + '<li onclick="func()">Event</li>';
+            // html += "<br>";
+            return html
+        });
+
+        // console.log(list);
+        document.getElementById("tt").innerHTML = list.join("");
+
+        document.getElementById("tt").querySelectorAll(".word").forEach(word => {
+            word.addEventListener("mouseover", () => {
+                const t = event.target;
+                t.style.color = "red";
+                const pos = t.getAttribute("pos");
+                const line = t.getAttribute("line");
+                document.getElementById("msg").innerText = `"'${t.innerText}' is the (${pos}) word of "${line}"`;
+            });
+
+            word.addEventListener("mouseout", () => { 
+                const t = event.target;
+                t.style.color = "black";
+                document.getElementById("msg").innerText = "";
+            });
+
+            word.addEventListener("click", () => { 
+                const w = event.target.innerText;
+                const li = event.target.getAttribute("li");
+                // console.log(w)
+                if (data[li].et.includes(w)) {
+                    data[li].et.splice(data[li].et.indexOf(w), 1)
+                }
+                else {
+                    // var input = prompt('Please input value');
+                    // if(input) data[li].ev.push(input)
+                    // else
+                    data[li].et.push(w)
+
+                } 
+                
+                process_table()
+                // t.style.color = "black";
+                // document.getElementById("msg").innerText = "";
+            });
+
+        });
+
+
+    }
+
+</script>
+
