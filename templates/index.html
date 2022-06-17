@@ -282,6 +282,8 @@
             `<span class='phase2'>All</span><span class='tab'></span>Annotator: ` + annotator
         else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
             `<span style='color:Darkred;'>All</span><span class='tab'></span>Annotator: ` + annotator
+        
+        html += `<span style='float:right;'>ver.0.11</span>`
         document.getElementById("header").innerHTML = html;
 
         document.getElementById("header").querySelectorAll(".phase0").forEach(word => {
