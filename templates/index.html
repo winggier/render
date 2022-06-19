@@ -2,9 +2,6 @@
 <meta charset="utf-8">
 
 <html style="background-color:rgb(238, 230, 203);">
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-contour.v1.min.js"></script>
 
 
 <!-- <h1>CG Annotation<span class = 'ano'>updated on May 10, 2022</span></h1> -->
@@ -136,7 +133,14 @@
 
     .tab {
         display: inline-block;
-        margin-left: 60px;
+        margin-left: 40px;
+    }
+
+    .aa {
+        font-family: Verdana, sans-serif;
+        font-weight: bold;
+        color: grey;
+        text-align: center;
     }
 
     .add {
@@ -144,13 +148,25 @@
         font-weight: bold;
         font-size: 120%;
         color: lightgrey;
-        /* float: right; */
-        text-align: center;
+        text-align: center; 
+    }
+
+    .prev {
+        font-size: 70%;
+        float: right;
+    }
+
+    .next {
+        font-size: 70%;
+        float: right;
+    }
+
+    .num {
+        color: grey;
     }
 
     .cc {
-        /* font-weight: bold; */
-        /* font-size: 18px; */
+
         text-align: center; 
     }
 
@@ -171,6 +187,7 @@
     var updata = {{ data|tojson }}
     // console.log(text)
     // header = updata[0]
+    di = 3
     hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
     hd1 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
     hd2 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
@@ -178,19 +195,13 @@
     bel = ['', 'CT+', 'CT-', 'PS']
     cc = ['', 'JA', 'JA→IN', 'JA→RT', 'JA→AM', 'IN', 'IN→RT', 'IN→AM', 'RT', 'AM', 'AM→IN', 'AM→RT']
     why = ['', 'C', 'PS', 'WK']
+    ano = ['', '', '']
     phase = 2;
-    annotator = 'John Hick'
-
-    dialog = updata[1]
-    // entity = updata[2]
-
-    var data = [];
-    for(var i = 0; i < dialog.length; i++) {
-        var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-            why:[], wip:[], com:[],  ty:[0, 1, 0]})
-        data.push(tuple)
-    }
-    console.log(data)
+    ver = 0.12
+    dialog = updata[di].slice(1)
+    did = updata[di].slice(0, 1)
+    data = []
+    reload(0)
 
     function reset() {
         console.log('RESET click')
@@ -198,56 +209,38 @@
         for(var i = 0; i < dialog.length; i++) {
             var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
                 why:[], wip:[], com:[], er:[]})
+                data.push(tuple)
+            }
+            bar()
+            process_table()
+        }
+        
+    function reload(v) {
+        di += v
+        dialog = updata[di].slice(1)
+        did = updata[di].slice(0, 1)
+        prev = 0
+        next = 0
+        if(0 < di && di < (updata.length-1)) {
+            prev = updata[di-1].slice(0, 1)
+            next = updata[di+1].slice(0, 1)
+        }
+        else if(!di && updata.length >1) next = updata[di+1].slice(0, 1)
+        else prev = updata[di-1].slice(0, 1)
+        // console.log(prev, di, next)
+        console.log(dialog)
+
+
+        data = [];
+        for(var i = 0; i < dialog.length; i++) {
+            var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+                why:[], wip:[], com:[],  ty:[0, 1, 0]})
             data.push(tuple)
         }
-        bar()
+        // console.log(data)
+
+        header()
         process_table()
-    }
-
-    function bar() {
-        var svgb = d3.select("#ban")
-
-        svgb
-            .append("text")
-            .attr("x", 20)
-            .attr("y", 65)
-            .attr("font-size", "55px")
-            .attr("font-family", "Verdana")
-            .attr("text-anchor", "start")
-            .attr('font-weight', 900)
-            .attr('fill', text)
-            .text('Common Ground Annotation')
-        
-        svgb  
-            .append("text")
-            .attr("x", 1400)
-            .attr("y", 65)
-            .attr("font-size", "26px")
-            .attr("font-family", "Arial")
-            .attr("text-anchor", "end")
-            .attr('font-weight', 500)
-            .attr('fill', text)
-            .text('Dataset updated on May 10, 2022')
-
-        svgb  
-            .append("text")
-            .on("mouseover", function (d, i) {
-                d3.select(this).attr("fill", "DarkRed")
-            })
-            .on("mouseout", function (d, i) {
-                d3.select(this).attr("fill", "grey")
-            })
-            .on("click", reset)
-            .attr("x", 1400)
-            .attr("y", 35)
-            .attr("font-size", "26px")
-            .attr("font-family", "Arial")
-            .attr("text-anchor", "end")
-            .attr('font-weight', 900)
-            .attr('fill', text)
-            .text('RESET')
-
-
     }
 
     function refine(line) {
@@ -274,16 +267,27 @@
         process_table()
     }
 
+    function annotator(p) {
+        return `John`
+        if(!ano[p].length) return `<span class="aa" p="${p}">+</span>`
+        else return ano[p]
+    }
+
     function header() {
-        html = `Dialog:<span style='color:Darkred;' class='d'>#4895</span><span> Phase:</span>`
+
+
+        html = `<span style='color:Darkred;' class='d'>#`+ did + `</span>`
         if(!phase%3) html +=`<span style='color:Darkred;'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span class='phase2'>All</span><span class='tab'></span>Annotator: ` + annotator
+            `<span class='phase2'>All</span><span class='tab'></span>@:` + annotator(0)
         else if(phase%3 == 1) html +=`<span class='phase0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
-            `<span class='phase2'>All</span><span class='tab'></span>Annotator: ` + annotator
+            `<span class='phase2'>All</span><span class='tab'></span>@:` + annotator(1)
         else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span style='color:Darkred;'>All</span><span class='tab'></span>Annotator: ` + annotator
+            `<span style='color:Darkred;'>All</span><span class='tab'></span>@:` + annotator(2)
+
+        if(next) html += `<span class='next'>` + next + `&nbsp;></span>`
+        html += `<span class='tab' style='float:right'>&nbsp;</span>`
+        if(prev) html += `<span class='prev'><&nbsp;` + prev + `</span>`
         
-        html += `<span style='float:right;'>ver.0.11</span>`
         document.getElementById("header").innerHTML = html;
 
         document.getElementById("header").querySelectorAll(".phase0").forEach(word => {
@@ -319,6 +323,33 @@
             });
         });
 
+        document.getElementById("header").querySelectorAll(".aa").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => {
+                var input = prompt('Annotator for current phase');
+                if(input) console.log(input); 
+                console.log("ano click", ano)
+                header()
+            });
+        });
+
+        document.getElementById("header").querySelectorAll(".prev").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => {
+                reload(-1)
+            });
+        });
+
+        document.getElementById("header").querySelectorAll(".next").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => {
+                reload(1)
+            });
+        });
+
     }
 
 // main table
@@ -340,7 +371,7 @@
             if(data[i].ty[2]%2) 
                 html += `<tr style='background-color:lightpink'><td style='text-align:center;' class="num" li="${i}">`
                     + i + `</td>`;
-            else html += `<tr><td style='text-align:center;' class="num" li="${i}">` + i + `</td>`;
+            else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
 
             html += stn(data[i].st, i);                 //sentance
             html += "<td style='text-align:center;'>" + data[i].e1 + "</td>";      //entity1
@@ -366,7 +397,7 @@
 
             html += "</tr>";
         }
-        html += "</table><p class='foot'>Next(#4922) ></p><br><br>";
+        html += "</table>";
         document.getElementById("table").innerHTML = html;
 
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
@@ -460,6 +491,7 @@
                     var input = prompt('Please input Entity(JA)', data[li].e1[0]);
                     if(input) data[li].e2.push(input);
                 }
+
                 console.log(data)
                 process_table()
             });
@@ -498,7 +530,7 @@
 
         document.getElementById("table").querySelectorAll(".num").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
             word.addEventListener("click", () => { 
                 const li = event.target.getAttribute("li");
                 data[li].ty[2] += 1;

@@ -1,0 +1,448 @@
+#Language: eng
+#File id: 4861
+#Starting at 500 Ending at 1100
+# 500 510 #BEGIN
+# 1090 1100 #END
+
+
+
+499.97 503.28 B: Well could could you enroll in two other courses if you wanted to?  
+
+500.00 500.16 A: (( ))  
+
+507.06 510.81 B: In addition to the one you're already in, are there two other things that you'd also like to take?  
+
+511.82 512.27 A: {breath}  
+
+513.83 514.56 B: For example.  
+
+517.41 519.20 A: I don't know what the limit is for  
+
+519.54 521.11 A: I know there's a limit for  
+
+521.25 522.43 A: students who e-  
+
+522.68 523.88 A: {breath}  
+
+524.24 525.32 A: {breath}  
+
+525.71 526.70 B: %uh a limit for what?  
+
+526.94 529.99 A: You know I'm thinking a lot about this job that I just took that  
+
+530.08 535.15 A: you know you seem to think is a dead end and obviously doesn't make enough money and you know I don't know I'm going to like it.  
+
+536.11 538.26 A: You don't know that going into a job. There's  
+
+538.14 539.38 B: I understand that.  
+
+540.07 540.49 A: Well tha-  
+
+540.15 542.11 B: I understand that. You've taken it and that's a  
+
+540.63 543.43 A: (( )) I feel like I just made a big mistake.  
+
+546.59 548.61 B: &Liz I can't tell you whether you did or not.  
+
+547.97 552.94 A: It just feels lousy. And I just tried for the longest time to figure out what to do. {crying} 
+
+552.45 557.67 B: &Liz, &Liz, I don't know whether you made a mistake or not. I can't possibly tell.  
+
+556.29 556.76 A: {breath}  
+
+558.42 559.01 B: And I  
+
+559.31 566.78 B: and I d- I don't even have enough information to say whether you did or not. And you will find out. And if it's a b- huge mistake you'll just quit, that's all.  
+
+567.53 569.20 B: You have no way of knowing. {breath}  
+
+569.52 572.97 B: {breath} Did you tell the public health people that you definitely don't want that job?  
+
+572.80 574.37 A: No I didn't tell them anything.  
+
+574.23 577.23 B: oh okay. Is that e- is that really such an awful job?  
+
+577.64 579.62 B: Sounded to me like a lot of interesting things.  
+
+580.13 582.87 B: Sounded to me like too much but it sounded like a very interesting  
+
+583.26 584.01 B: set of things.  
+
+584.39 586.67 B: Is that something you definitely d- would not want to do?  
+
+585.87 586.26 A: {laugh}  
+
+588.95 590.13 B: You had said that was an eas-  
+
+589.68 589.96 A: I  
+
+590.81 593.94 B: You had said you had said that was an easier job in some ways.  
+
+590.86 591.30 A: What?  
+
+593.89 597.65 A: {breath} Actually I don't think so anymore because I think that it's too many things.  
+
+597.99 604.96 B: {breath} Are y- are you going to have to for either one of them are you going to have to spend hours preparing outside of the hours that you actually get paid for?  
+
+607.96 610.91 A: {breath} I I don't know yet.  
+
+612.45 614.36 B: Because I don't think that that would be warranted --  
+
+614.25 615.54 A: {sniff}  
+
+615.38 621.32 B: -- at at at the salary that they're giving you. I I think that you ought to be able to circumscribe your hours very carefully.  
+
+621.52 621.94 A: {breath}  
+
+623.34 626.32 A: I just got this call yesterday from this I mean I j-  
+
+623.70 624.03 B: &Liz  
+
+626.47 629.89 A: it was on a message on my machine when I came home from this {breath}  
+
+629.95 632.15 A: nurse at a high school  
+
+632.30 633.34 A: nearby  
+
+633.54 633.75 A: {lipsmack}  
+
+633.89 638.67 A: saying I should call her about openings in the district that she called me because  
+
+638.79 641.12 A: of one of the letters I wrote to one of the principals  
+
+641.26 641.50 A: {breath}  
+
+641.32 642.13 B: oh yeah?  
+
+642.01 642.76 A: {breath}  
+
+642.88 645.49 A: who knows what kinds of openings there are. {breath}  
+
+645.33 645.88 B: mhm.  
+
+646.12 646.54 B: mhm.  
+
+646.97 647.61 A: So may-  
+
+647.10 653.27 B: {breath} &Lizzy I know how up in the a- you know when I was in graduate school I I spent a lot of time in my last year of c- college  
+
+653.64 657.76 B: thinking about whether w- wanted to go into biophysics or wanted to teach little kids.  
+
+659.21 659.55 B: And  
+
+661.04 666.02 B: I I knew it was obviously because what I really wanted to do was go into biophysics but also have my own little kids.  
+
+666.50 667.86 B: But I went into biophysics.  
+
+668.52 672.84 B: By the end of the year I'd met Daddy and I decided that was going to be it. I really wanted to  
+
+672.97 675.47 B: i- I really Daddy was really going to be the one.  
+
+675.62 676.16 B: {breath} I got  
+
+676.32 677.72 B: very unhappy with the science.  
+
+678.74 678.99 B: and   
+
+679.22 682.82 B: I just walked out of one lab and I said no this is it. I just don't want it.  
+
+683.31 687.06 B: I wanted to be teaching little kids. Because Daddy was at that point noncommittal	  
+
+688.84 689.78 B: to say the least.  
+
+690.17 693.00 B: And %um and he was also leaving for &Syracuse.  
+
+694.40 698.14 B: And so a friend of mine sat down with me, &Wayne &Meyers and he said he was a very bright  
+
+698.14 702.48 B: guy. He was the one I cried whose shoulder I cried on when I took &Dexadrin that time too for  
+
+702.68 704.67 B: the doctor had given it to me for cramps and I  
+
+705.05 707.77 B: ended up getting %um depressed for twenty-four hours.  
+
+708.60 709.11 B: %um  
+
+710.23 710.75 B: and  
+
+711.96 712.73 B: he said to me  
+
+712.85 718.14 B: you really want to change. I said yeah I really want to go. He says well take the bus across the river this afternoon  
+
+718.32 718.78 B: {breath}  
+
+718.88 724.19 B: because I had already applied and been accepted to the I mean it went so far that I w- I applied both to biophysics  
+
+724.25 725.99 B: and to %um &Harvard &School of &Ed.  
+
+727.20 731.91 B: And I didn't apply to any other ed schools because I figured I could get in in there which I had.  
+
+732.39 734.12 B: And I went across the river that day  
+
+734.74 738.07 B: and I said can I get into your next year's class. And they said absolutely.  
+
+738.95 740.78 B: And I mean by then it was like May.  
+
+741.19 742.06 B: Certainly April.  
+
+742.20 743.05 B: Certainly April not  
+
+743.17 744.02 B: not not earlier.  
+
+745.02 745.30 B: {breath}  
+
+745.54 745.82 B: And  
+
+747.01 753.80 B: I remember &Mama &Sadie was upset about it. But everybody knew why I was doing it and everybody kn- e- it was obvious even to Daddy why I I just had to   
+
+753.84 757.06 B: I had to do that for a while. I couldn't just study science for a while.  
+
+757.78 758.08 B: And  
+
+758.70 759.83 B: I was twenty-two.  
+
+760.39 761.12 B: Twenty-one.  
+
+762.39 763.79 B: And and %um  
+
+764.77 766.59 B: yeah I guess I was twenty-two already.  
+
+766.71 768.03 B: %um and %um  
+
+769.00 769.82 B: a- and  
+
+772.76 776.67 B: and a- a- it's it's not any rational kind of thing &Liz. It's hormonal.  
+
+776.91 780.17 B: It's absolutely hormonal. I mean here you are, you are thirty.  
+
+780.72 781.94 B: And it's no wonder  
+
+783.81 786.53 B: it's no wonder that that that you don't know what you want to do.  
+
+786.58 792.23 B: I didn't know what I wanted to do at that stage. Well I did but it was out of reach. And for you it's obviously out of reach too.  
+
+792.39 793.78 B: Unless it works out with &Matt  
+
+794.11 795.03 B: you haven't met him.  
+
+796.65 797.63 B: And therefore  
+
+798.62 799.28 B: I'm I'm  
+
+799.72 800.42 B: I I {breath}  
+
+801.72 803.64 B: I I'm disappointed in how you're going about it  
+
+806.90 809.01 B: because I don't see I don't see I mean {breath}  
+
+809.67 815.84 B: I I I I I've I've known so many people who didn't get married and so many people who got married too late to have children.  
+
+816.22 816.92 B: It's very  
+
+817.11 817.66 B: sad.  
+
+818.00 822.41 B: I find it very sad. I didn't expect that I would be in this position  
+
+822.96 823.95 B: with my children.  
+
+824.37 824.62 B: Well  
+
+824.83 828.38 B: actually I expected it with &Jonathan. I expected to worry about him not you  
+
+831.26 833.06 B: because he was very slow socially.  
+
+834.19 838.03 B: And and and you know you never can tell with life. There aren't any rules about it  
+
+839.03 842.38 B: and %uh th- nobody has nobody has written the future.  
+
+842.96 847.10 B: And it's not really it's it's %uh %eh prayer and %uh  
+
+847.54 855.25 B: %eh penitence doesn't really help. It's going to happen, things are going to happen when it happen they happen. But you have to {breath} there there are ways to help them along.  
+
+855.59 859.28 B: There are ways to help them along. And maybe you're doing them but I don't see it.  
+
+860.38 862.24 B: I know you went out with some guy the other night.  
+
+862.35 866.60 B: May- maybe you are looking actively but I I don't see it. So all I can do is sit and worry  
+
+868.69 869.76 B: and be concerned  
+
+869.91 870.15 B: and  
+
+870.54 870.92 B: I don't  
+
+871.45 872.59 B: think that you would  
+
+871.61 873.64 A: Can we talk about the job things now?  
+
+874.37 875.00 B: that {breath}  
+
+875.96 881.06 B: {breath} Well what about the job things? I I can't talk about them. I don't know anything about them. You want to tell me about them?  
+
+880.92 882.83 A: Well you don't like the job I just took.  
+
+883.13 883.95 B: {breath} Now wait a moment.  
+
+884.72 885.11 B: Don't  
+
+886.48 889.35 B: Well Daddy says they're less important than the other stuff and I agree.  
+
+889.41 893.31 B: But don't tell me I don't like the job you just took &Lizzy. I don't know enough about it.  
+
+895.93 897.38 B: You know I raised you and   
+
+897.54 898.51 B: I I thought I was  
+
+897.93 898.13 A: {breath}  
+
+898.31 899.53 A: So maybe I can sign  
+
+899.85 907.58 A: ten hours in the school district doing something else. [siren]  
+
+907.43 909.38 B: Maybe you can. %eh it's it's  
+
+910.00 911.90 B: that would be that would be interesting if  
+
+912.09 914.37 B: you know you have hours during the week that are available.  
+
+918.06 923.17 B: Don't don't don't block them out until you find out whether or not you can take a a an art course during the week.  
+
+926.33 926.75 B: {breath}  
+
+929.41 932.93 B: so that you can have your I mean I you know I'd like to see you flying down to %um  
+
+933.40 935.15 B: where was it that they had that hiking group  
+
+935.57 937.65 B: &San &Francisco for the for the weekends.  
+
+935.60 936.49 A: mhm 
+
+937.54 941.25 A: I want to fly out to &Michigan and visit &Matt. That's where I want to fly.  
+
+941.18 943.58 B: %uh I'd like to see you do that too.  
+
+945.67 949.76 B: All I want is your happiness &Liz. And I think I know what will make you happy.  
+
+945.87 946.04 A: (( ))   
+
+950.36 955.13 A: Well {breath} I just want to figure out what I want to do with my life. You know I feel like I'm never going to figure it out.  
+
+955.01 957.54 B: &Lizzy, you might not. I haven't figured out mine yet.  
+
+957.98 959.65 A: You're a scientist.  
+
+959.95 963.58 B: I'm a scientist. &Liz, that's a pretty poor showing for a scientist.  
+
+963.77 966.41 A: Ma, are you kidding? Look how many days you go into the lab.  
+
+966.02 968.36 B: I know. Look what I've published. One paper.  
+
+968.73 970.41 A: So who cares about publishing.  
+
+970.51 975.07 B: Well that's what otherwise, otherwise, I I'm I'm cooking and nobody's eating it.  
+
+975.83 977.24 B: It's it's recycling it's  
+
+977.34 984.95 B: it's work- working that nobody nobody ever knows about. That's not what defines me as a person. What defines me as a person is is is my family.  
+
+983.74 984.20 A: {breath}  
+
+986.90 988.45 A: And your failure daughter.  
+
+989.81 992.11 B: That's what I'm feeling sad about at the moment.  
+
+994.11 1000.61 A: I just I'm not going to be able to figure out what I want to do. I just didn't know. I thought this might be interesting okay. And and maybe  
+
+999.96 1001.10 B: {breath} That's fine.  
+
+1001.22 1001.50 A: {breath}  
+
+1001.33 1004.71 B: I don't that's not my big that's not my big worry about you &Liz.  
+
+1005.44 1011.37 A: But it it's it's mine. And I feel like I didn't know what to do and then I feel like I took it and now I feel like it's a mistake and now I   
+
+1011.08 1015.19 B: Well I'm I'm telling you I'm telling you it's hormonal. It's not rational.  
+
+1011.55 1012.25 A: what to do.  
+
+1015.93 1018.86 B: You don't just all of a su- the heavens don't  open up ((as Gib))  
+
+1018.93 1023.90 B: wrote and and all of a sudden you know just what you're going to do. If you define yourself that way --  
+
+1021.09 1021.43 A: {breath}  
+
+1021.94 1022.54 A: {breath}  
+
+1024.52 1024.91 A: {breath}  
+
+1024.71 1027.15 B: -- you're you're you're you're you're you're looking for trouble.  
+
+1027.49 1028.76 A: But I just feel like I'm --  
+
+1027.62 1028.45 B: You're opening yoursel-  
+
+1028.94 1033.06 A: -- **putty-duddying** around for the rest of my life. And I don't even have like I don't have any specific  
+
+1033.15 1035.62 A: {breath} skills or body of knowledge. I'm just sort of this  
+
+1036.31 1037.13 A: blob.  
+
+1037.21 1037.63 B: &Lizzy  
+
+1037.86 1041.95 B: &Lizzy the mo- &Lizzy Daddy feels that way too. He feels he doesn't know anything.  
+
+1043.41 1043.93 A: {breath}  
+
+1043.84 1046.38 B: Everybody feels that way. You just have to get used to that.  
+
+1047.95 1052.74 B: You want to count your degrees? You want to count the courses you've had? You want to count the work you've done the jobs you've had?  
+
+1053.64 1054.55 B: That's nonsense.  
+
+1054.52 1057.74 A: I don't know. Like maybe if I were a teacher then I would {breath}  
+
+1054.73 1056.07 B: Everybody always  
+
+1057.98 1059.22 A: you know and I taught  
+
+1059.41 1059.85 A: say  
+
+1060.15 1065.64 A: health, science and art, then I would sort of get this body of knowledge that I would have and this --  
+
+1065.48 1066.13 B: &Lizzy  
+
+1065.88 1066.97 A: -- structure to it. And then I   
+
+1066.73 1068.34 B: yeah, yeah. &Lizzy, &Lizzy  
+
+1067.12 1067.59 A: give it  
+
+1068.54 1069.75 B: &Lizzy, that's a dream.  
+
+1069.88 1070.95 B: It never happens.  
+
+1071.21 1073.78 B: And I can tell you people at all levels  
+
+1075.00 1077.77 B: The only people who really think they know something  
+
+1078.19 1080.51 B: are the people who usually are deficient.  
+
+1081.05 1081.23 A: {breath}  
+
+1081.50 1082.66 B: When you don't know know how mu-  
+
+1081.58 1081.95 A: But there's  
+
+1082.07 1088.34 A: people who have a specific set of skills. I don't even feel like I have that sometimes, you know. ((It's a-)) {breath}  
+
+1089.17 1091.96 A: ((what)) they have to offer. I don't have anything to offer.  
+
+1092.12 1095.69 B: yeah becau- {breath} we- we- we- because you because you can't %um  
+
+1096.37 1099.60 B: %eh &Lizzy &Lizzy everybody feels that way whose worth his salt.  
+
+1097.98 1099.00 A: (( ))  
+
+1100.06 1100.83 B: Do you know that?  
+
+1100.56 1101.24 A: Is what?  
+

@@ -1,0 +1,770 @@
+#Language: eng
+#File id: 5242
+#Starting at 500 Ending at 1100
+# 500 510 #BEGIN
+# 1090 1100 #END
+
+
+
+499.74 500.37 B: {breath}  
+
+500.56 501.17 B: %um  
+
+501.75 502.66 B: extra money {breath} 
+
+502.86 504.82 A: Yes. I- it'll come in handy.  
+
+503.58 504.37 B: ((for the while))  
+
+504.80 505.09 B: ((yeah)) {distorted}  
+
+505.45 508.96 A: oh good. And how's %uh (( )) dad doing?  
+
+509.16 511.49 B: Good he he's running that hardware.  
+
+509.65 510.11 A: Is he  
+
+511.63 512.54 A: And he likes it.  
+
+512.79 513.71 B: yeah, he likes it.  
+
+514.18 514.89 B: {yawn}  
+
+514.46 515.90 A: oh that's great.  
+
+516.03 517.71 B: {yawn} He's doing really good.  
+
+516.46 517.38 A: oh gre- and and  
+
+517.68 518.84 A: and how is &Margaret?   
+
+519.49 520.68 B: {lipsmack} oh she's good.  
+
+520.82 522.33 A: uh-huh. Does she talk about (( ))  
+
+521.25 522.58 B: She just yeah she just (( ))  
+
+522.97 529.26 B: yeah, I just saw her tonight. She said oh I got to write your mom a letter. {breath} She's had those Scottish people here for about four weeks.  
+
+526.02 526.55 A: uh-huh.  
+
+528.12 533.90 A: Right. I know she's been busy. In fact I was thinking of her this morning. {breath} And and %um  
+
+530.09 530.44 B: yeah.  
+
+532.29 532.72 B: yeah.  
+
+534.15 537.23 A: {breath} I thought oh I should write her a little note. {breath}  
+
+537.06 537.52 B: yeah s-  
+
+537.33 538.19 A: But %um  
+
+538.45 542.02 A: e- did she talk about, did she enjoy coming visiting here? 
+
+541.85 542.85 B: yeah she did.  
+
+542.88 543.87 A: oh good.  
+
+543.38 544.49 B: She had a good time.  
+
+545.58 548.16 B: She told %um me and &Johnston all about it too.  
+
+548.25 549.73 A: y- %ah oh good.   
+
+549.44 550.91 B: That she had fun yeah.  
+
+550.78 552.18 A: I'm so glad.  
+
+551.94 552.89 B: yeah.  
+
+552.65 553.60 A: oh good.  
+
+553.37 555.19 B: [distortion] She had a good time.  
+
+553.74 554.05 A: [pop]  
+
+555.03 555.97 A: oh gosh.  
+
+555.33 555.72 B: {breath}  
+
+555.87 558.05 B: And what else? %um  
+
+556.99 560.22 A: What else to tell you? There's so many things. I can't think.   
+
+560.86 561.53 A: But %um  
+
+561.20 562.03 B: How is  
+
+563.68 564.45 B: How's the kids?  
+
+564.89 566.37 A: oh they're all fine.  
+
+566.75 568.38 A: It's so cute, %um  
+
+568.92 576.04 A: the other night we or no let's see Sunday night we got to have %uh &Nancy's children. They stayed overnight with Grandma and Grandpa.  
+
+575.29 575.93 B: oh right.  
+
+576.17 576.60 A: {breath}  
+
+576.69 580.57 A: And then in  in the morning we had %ah raspberry leaf tea  
+
+580.66 581.14 A: {breath} --  
+
+581.17 581.60 B: {laugh}  
+
+581.22 582.08 A: -- and muffins.  
+
+582.63 583.12 B: {laugh}  
+
+582.66 583.88 A: That was the starters.  
+
+584.07 585.58 A: With those girls you know.  
+
+585.49 586.71 B: They're such pigs.  
+
+586.63 591.92 A: I e- oh anyway. So &Nancy made them pancakes and scrambled eggs and %uh --  
+
+586.90 587.07 B: (( ))  
+
+588.18 589.07 B: {laugh}  
+
+592.01 593.55 A: -- sausage patties. {breath} 
+
+593.41 594.70 B: oh and they ate it all.  
+
+594.24 596.96 A: And and they ha- oh they had a wonderful time.  
+
+597.05 597.38 B: {gasp}  
+
+597.06 602.50 A: So then at supper when they were home that evening they were telling their daddy what all they did at grandma's house.  
+
+599.15 600.33 B: {laugh}  
+
+601.87 602.69 B: {laugh}  
+
+602.98 607.97 A: And he said next time I'm staying at grandma's house. You can stay home. {laugh}  
+
+604.80 606.58 B: {laugh}  
+
+607.41 609.24 B: {laugh}  
+
+608.56 611.03 A: And so of course they love that you know.  
+
+609.50 610.41 B: {breath}  
+
+610.90 612.43 B: {laugh}  
+
+611.80 612.97 A: So it was cute.  
+
+612.63 613.84 B: {laugh}  
+
+613.80 616.91 A: oh and you know what &Kendall, %uh &Nancy was --  
+
+614.13 614.63 B: {sigh}  
+
+617.21 618.74 A: -- cutting down the %um  
+
+618.83 619.08 A: {breath}  
+
+619.15 619.95 A: irises.  
+
+620.16 622.31 A: And you know they have those stiff pods --  
+
+620.36 620.51 B: (( ))  
+
+622.96 623.53 B: mhm.  
+
+622.98 627.06 A: -- in the fall you know. So anyway &Kendall must've bent down and  
+
+627.18 628.25 A: poked her eye.  
+
+628.47 629.26 B: {gasp}  
+
+629.30 634.97 A: So anyway d- &Nancy took her to the do- {swallow} doctor and they think it scratched her cornea.  
+
+634.85 636.55 B: {gasp} Let me tell you.  
+
+636.70 637.38 A: oh no.  
+
+637.74 639.41 B: %um there are birds here  
+
+640.01 640.27 A: Yes.  
+
+640.02 640.75 B: {laugh}  
+
+640.80 641.73 B1: {laugh} 
+
+641.69 644.56 B: ((Lacy)) is laughing at me. There are birds here that attack you.  
+
+645.12 645.78 A: oh re-  
+
+646.24 646.66 A: You're kiddi-  
+
+646.27 649.04 B: No literally. They will attack you and and poke your eye out --  
+
+649.17 650.13 A: {gasp} oh.  
+
+650.63 651.82 B: -- and eat your eye.  
+
+652.00 652.57 A: oh.  
+
+652.45 655.62 B: {laugh} because I
+
+654.23 654.80 A: {gasp}  
+
+655.71 657.45 B: They've been like attacking people. {breath}  
+
+657.61 660.12 B: And remember I told you I got attacked by that bird in the 
+
+660.47 661.08 A: Yes.  
+
+661.28 665.83 B: Well that wasn't [distortion] yeah, it wasn't the same kind of bird he was just trying to steal my food. {breath} But there are bir-  
+
+661.31 662.06 A: In the park.  
+
+665.06 666.39 A: He wanted your sandwich. {laugh}  
+
+666.46 667.91 B: Right. But there are birds here that  
+
+668.07 670.88 B: like if you walk underneath their nest or something {breath} --  
+
+670.74 671.06 A: Yes.  
+
+671.05 671.49 B: -- they'll --  
+
+671.63 672.34 A: Attack you.  
+
+671.90 675.65 B: -- swoop your head and claw your head and get attached and poke your eye out.  
+
+675.55 676.03 A: {gasp}  
+
+675.92 676.28 B: {breath}  
+
+676.42 680.32 B: e- I just saw in the paper today, a little boy a little boy got attacked and --  
+
+677.84 678.34 A: oh.  
+
+680.48 683.69 B: -- e- he couldn't he couldn't get him off his head, because you don't see them coming. {breath}  
+
+683.46 683.96 A: Right.  
+
+683.78 684.42 B: So it  
+
+684.58 685.30 B: %um  
+
+685.97 686.52 B: it like  
+
+687.28 690.02 B: ate his eye or poked it out or something and %um --  
+
+689.52 690.39 A: oh.  
+
+690.19 693.16 B: -- oh look at my plant [crash] woops {breath}  
+
+693.25 696.27 B: and %um {laugh} there was yeah so he's blind.  
+
+696.30 697.83 A: oh my goodness.  
+
+697.71 698.63 B: Isn't that sick?  
+
+698.76 702.35 B: And they're like and w- I run in the morning and they're all around where I run.  
+
+702.82 703.43 A: oh.  
+
+703.55 704.75 B: Magpies.  
+
+704.87 706.69 A: oh Magpies. I've heard of that.  
+
+705.22 706.00 B: Isn't that gross?   
+
+706.54 709.78 B: [line] yeah but we don't have them. [line] We don't have them.  
+
+707.37 707.73 A: I  
+
+708.69 711.89 A: No, no, but I mean I've heard of a a Magpie fly.  
+
+711.66 712.48 B: [click] Right.  
+
+712.36 713.50 A: I- but I've heard of that.  
+
+713.72 714.41 A: Or a bird.  
+
+713.92 715.98 B: Isn't that sick? [pouring water]  
+
+715.25 718.30 A: oh my goodness. oh a- you better be careful &Amy.  
+
+716.76 717.38 B: [crash]  
+
+718.09 719.33 B: I know I  
+
+719.83 720.67 B: ((I didn't know it))  
+
+721.02 721.88 B: I never heard of that.  
+
+721.90 722.29 A: yeah.  
+
+722.70 723.86 A: oh my goodness.  
+
+723.30 723.91 B: [clank]  
+
+724.17 724.47 A: {breath}  
+
+724.35 725.28 B: [crash]  
+
+724.77 727.16 A: oh there was something else I thought of to tell you.  
+
+726.09 726.85 B: ((my god)) [distortion] 
+
+727.36 728.60 A: And now I can't think of it.  
+
+727.47 728.34 B: come on (( ))  
+
+728.93 729.68 A: [line] e-  
+
+729.43 729.88 B: %ah.  
+
+730.01 735.13 A: oh Daddy has been going up to church and and th- him and &John have been spreading g- grass seeds.  
+
+735.99 736.73 A: So they're they're  
+
+736.10 736.29 B: {lipsmack} 
+
+736.46 737.21 B: really?  
+
+737.04 739.00 A: Dad's yeah, he's been doing that.  
+
+739.18 740.67 B: Did they blacktop that yet?  
+
+740.80 742.54 A: Yes and it looks very nice.  
+
+742.69 744.84 B: Did you decide what kind of house y- you're going to get?  
+
+744.74 745.09 A: {breath}  
+
+745.23 748.06 A: Well you know what we're kind of %um e- not  
+
+747.97 748.83 B2: [clank] ((did you say we were)) 
+
+748.37 751.72 A: (( )) going for the log cabin because you know they have maintenance  
+
+752.09 758.93 A: on the outside a lot. And so %um I don't think we'll %uh go with a log cabin house.  
+
+752.20 752.59 B: %hm.  
+
+758.78 759.37 B: mhm.  
+
+759.23 760.41 A: I think we'll %uh  
+
+760.75 762.66 B: Get a regular {yawn}  
+
+761.46 763.81 A: Or or a ((thick-built)) they call it. You know.  
+
+764.28 765.76 A: ((But I can't do that))  
+
+764.68 765.65 B: ((oh well)) [[sounds like she's yawning during words.]]  
+
+765.91 768.25 B: Well what about the house? Is that lady going to buy it?  
+
+768.05 769.91 A: Well the lady is still interested.  
+
+770.46 771.57 A: But %um  
+
+770.99 771.82 B: But not ready yet.  
+
+771.83 774.39 A: But they have to sell their home first.  
+
+774.31 774.79 B: oh.  
+
+774.78 777.37 A: And so but they like the big old farm house.  
+
+776.38 777.47 B: [background noise, male voice]  
+
+777.76 779.05 A: So that was exciting.  
+
+779.37 781.09 B: {breath} What about &Larry and &Tim did th-  
+
+781.37 782.21 B: are they still  
+
+782.35 785.27 A: Well the thing is we have to %um  
+
+785.61 788.84 A: %uh see how it goes first w- if we're able to sell it.  
+
+789.40 792.95 A: You know. And if not then then we'll d- think of the other  
+
+792.53 793.18 B: That's good.  
+
+793.31 793.81 A: (( ))  
+
+793.42 794.05 B: That's good.  
+
+794.15 795.53 A: Right. That's what we figure.  
+
+795.24 797.66 B: But what was the hassle with him? [smack]  
+
+797.51 798.26 A: oh nothing.  
+
+797.89 799.28 B: [background noise] with &Larry 
+
+798.39 798.86 A: ((nothing))  
+
+799.80 800.60 A: oh nothing.  
+
+801.00 801.51 A: uh-uh.  
+
+802.03 803.79 B: oh. I thought they gave you a hassle.  
+
+802.00 803.03 A: No {breath}  
+
+804.08 808.76 A: oh no. No. uh-uh. And and &Larry has been coming deer hunting.  
+
+809.30 810.27 B: {lipsmack} oh really.  
+
+809.25 809.78 A: He has a   
+
+809.94 812.38 A: He he has a blind back in the fields you know.  
+
+812.54 813.33 B: oh jeez.  
+
+813.28 820.92 A: And so e- %um he comes in but I I really don't think he'll get one because he said shooting the bow and arrow  
+
+821.51 823.36 A: from the tree is kind of hard to do.  
+
+824.12 824.75 B: {laugh}  
+
+824.50 826.31 A: You know to kill a deer. So  
+
+826.10 828.38 B: There was a guy doing it back there when I was out there.  
+
+828.45 828.91 A: uh-huh.  
+
+828.80 829.15 B: once  
+
+829.38 831.80 A: Right. That's right. You had walked back in the woods  
+
+831.60 832.13 B: yeah.  
+
+832.71 833.83 A: Was he up in a tree?  
+
+833.12 834.94 B: [squeak] uh-huh. [[yawns during word.]]  
+
+835.02 836.25 A: ((oh well I))  
+
+835.27 836.71 B: [crash] He was up in ((the)) tree.  
+
+836.75 837.82 A: uh-huh. So that's what  
+
+837.30 838.11 B: In a blind.  
+
+838.36 839.77 A: That's what they have to do.  
+
+838.62 839.10 B: [squeaking]  
+
+840.09 840.56 B: %hm.  
+
+840.84 844.51 A: Anyway. So it's oh &Amy it is so beautiful here.  
+
+844.51 845.66 B: I'll bet.  
+
+845.50 846.79 A: oh my gosh.  
+
+846.94 850.05 A: It is {breath} oh do you know what we did Wednesday?  
+
+850.13 853.70 A: Went to &Wisconsin with &Ann &Hanson. Or did I tell you that already?  
+
+850.68 851.23 B: %mm %mm.  
+
+853.61 853.96 B: No 
+
+854.60 855.07 A: Yes.  
+
+854.98 855.19 B: No 
+
+855.70 858.52 A: %uh y- her sister lives up in &Beaver &Dam.  
+
+859.00 860.09 B: oh.  
+
+859.21 864.26 A: And &Dotty, &Marianne and I had wanted to go to this quilt %uh store up there.  
+
+863.29 865.56 B: oh right. Yes. I remember.  
+
+865.35 867.13 A: Ye- her ((&Nancy's sis- %um))  
+
+867.35 869.47 A: she's on television she has a quilting show.  
+
+869.62 870.60 B: yeah, I've seen it.  
+
+870.38 874.89 A: So anyway so we went up there and then &Ann was able to visit with her sister.  
+
+875.39 877.17 A: And then we went to the quilt store.  
+
+877.79 879.57 A: So we had a really nice time.  
+
+878.88 879.17 B: [boom]  
+
+880.32 880.63 A: And  
+
+880.42 881.45 B: %hm. [crackle]  
+
+880.98 882.80 A: And of course &Ann enjoyed &Dotty.  
+
+883.01 883.69 A: And &Dotty  
+
+883.57 884.49 B: oh really.  
+
+884.52 886.60 A: yeah, yes she really enjoyed her.  
+
+886.48 887.22 B: {laugh}  
+
+887.22 888.86 A: So %um  
+
+889.98 890.56 A: Anyway  
+
+890.38 890.96 B: %mm.  
+
+890.71 893.33 A: They %uh so we did that Wednesday.  
+
+893.24 894.28 B: [hollow smacking sound] oh that's good.  
+
+894.08 896.62 A: yeah and Aunt &Mary &Lou %um (( ))  
+
+896.66 897.65 B: yeah how's she doing?  
+
+897.55 901.14 A: She's %um sh- u- I don't think she'll get any better.  
+
+901.61 903.62 A: You know. %um but she's doing  
+
+903.13 904.04 B: {lipsmack} is she getting worse?   
+
+904.74 907.15 A: %um very very slowly.  
+
+907.72 908.41 B: %mm [distortion].  
+
+907.46 911.70 A: But you know the doctor said she'd be should be thankful she's walking.  
+
+909.83 912.17 B: {breathing} mhm.  
+
+912.02 915.62 A: Really. %uh he said it's just a miracle she's walking because  
+
+915.71 920.22 A: %um most of the patients that get that (( )) are in a wheelchair.  
+
+920.99 921.63 A: So  
+
+921.28 921.51 B: %hm  
+
+921.76 925.09 A: So that's %uh really she should be thankful for that.  
+
+926.01 927.58 B: {breath} ((yeah)) [distortion]  
+
+926.08 926.40 A: So  
+
+926.65 931.54 A: what else to tell you. &Amy isn't this exciting we get to talk for a half hour?  
+
+931.29 932.55 B: I know.  
+
+932.08 933.29 A: I can't believe it.  
+
+933.29 935.66 B: [clacking] It's a lot of money.  
+
+933.55 934.19 A: {breath} W-  
+
+935.20 936.95 A: What time do you go to work tomorrow?  
+
+937.17 938.81 B: {breath} eight thirty.  
+
+938.62 939.45 A: At eight thirty.  
+
+939.64 940.19 B: mhm.  
+
+940.11 941.74 A: uh-huh. And then do you work eight hours?  
+
+942.55 943.04 B: No.  
+
+943.24 944.56 B: Well usually yeah.  
+
+945.05 945.53 A: oh  
+
+945.41 948.27 B: [banging] I either work {lipsmack} it's a weird schedule  
+
+948.80 950.21 B: for the next two weeks.  
+
+950.07 950.64 A: uh-huh.  
+
+950.64 954.57 B: [paper-shuffling] It's like I do four hours then four hours then  
+
+955.45 957.55 B: next day I'll do nine and a half  
+
+957.68 959.72 B: then eight then nine and a half  
+
+959.91 961.87 B: it's like over a twelve hour period.  
+
+961.87 963.06 A: uh-huh.  
+
+962.95 966.03 B: It's it's kind of confusing. And then a four hour shift on Saturday.  
+
+966.04 968.91 A: I see. {breath} e- how's the weather there?  
+
+967.21 967.91 B: [machinery sound] ((so))  
+
+968.92 973.46 B: {breath} It's still cold to me I don't know it's getting warmer I guess but  
+
+973.13 974.96 A: It is getting warmer.  
+
+973.64 974.16 B: {clears throat}  
+
+974.79 975.12 B: #yeah#  
+
+975.04 975.79 B2: ((#what are you# doing tomorrow?)) 
+
+976.03 978.67 B: It's going to be warm tomorrow I don't know what twenty-nine is but  
+
+979.13 979.66 A: uh-huh.  
+
+979.50 980.96 B: Guess it's warm. {laugh}  
+
+981.09 981.97 A: oh  
+
+982.06 983.56 A: Have you gone down by the ocean?  
+
+983.76 986.66 B: {breath} yeah we I well I told you we had breakfast on the beach that day.  
+
+986.83 987.23 A: Yes.  
+
+987.44 988.27 B: That was beautiful.  
+
+987.56 987.90 A: (( ))  
+
+988.40 989.30 A: oh I bet.  
+
+989.57 991.31 A: Just think you're by the &Indian &Ocean.  
+
+991.32 992.21 B: I know.  
+
+992.06 993.09 A: If it's it I  
+
+992.46 995.06 B: There's whales there's whales down here.  
+
+994.92 997.52 A: {gasp} There are. Do you are you able to see them?  
+
+996.32 997.87 B2: Hi mom bye mom.  
+
+998.29 999.73 B: //(( ))// What?  
+
+999.47 1001.06 A: a- are you able to see them?  
+
+1000.73 1000.92 B: [distortion]  
+
+1001.28 1006.02 B: No. I well we could we could just go like out watching. But we haven't had time.  
+
+1003.06 1003.49 A: uh-huh.  
+
+1004.14 1004.31 A: (( ))  
+
+1006.17 1008.12 A: No, I'm you must be busy working.  
+
+1008.06 1008.46 B: yeah. 
+
+1008.76 1011.73 A: oh but e- &Amy it's been eighty degrees here.  
+
+1012.03 1012.57 B: {gasp}  
+
+1012.95 1013.34 A: oh  
+
+1013.07 1014.08 B: oh my gosh [click]  
+
+1013.77 1015.56 A: It is so pretty.  
+
+1015.59 1016.67 B: I bet it's nice.  
+
+1016.50 1023.49 A: It it is. yeah, but it's supposed to get cold tomorrow. Or tonight it's supposed to there's a cold front coming down from &Canada.  
+
+1021.02 1021.93 B: oh really?  
+
+1023.66 1024.60 B: Really?  
+
+1024.44 1025.99 A: So it's going to be getting colder.  
+
+1026.62 1027.26 B: {breath}   
+
+1027.30 1028.39 A: So %um  
+
+1028.26 1028.47 B: [click]  
+
+1028.72 1032.41 A: And you know it that's kind of good. We've really had a hot summer.  
+
+1030.90 1031.24 B: yeah.  
+
+1032.26 1033.12 B: I know.  
+
+1032.92 1034.03 A: oh I {laugh}  
+
+1033.64 1034.26 B: ((been hot))  
+
+1034.31 1035.74 A: {breath} It was the hottest  
+
+1035.88 1040.38 A: oh do you know what I'm %uh been making sweatshirts and you %um  
+
+1040.62 1042.46 A: I ((I affuse)) %um %uh  
+
+1042.68 1044.61 A: doily on there a heart doily  
+
+1043.74 1044.19 B: {gasp}  
+
+1044.37 1045.45 B: Are you going to send me one?  
+
+1045.45 1049.46 A: And then I put the yoyo's around e- they are so pretty. 
+ 
+1049.94 1051.19 B: [noise] {sigh}  
+
+1050.24 1055.09 A: You %uh, they re- %uh so I was making one for &Corky. Her birthday was yesterday.  
+
+1053.76 1054.34 B: ((mhm))  
+
+1056.03 1058.57 A: So I'm %uh making one for her  
+
+1057.84 1058.41 B: oh.  
+
+1059.29 1059.60 B: Right.  
+
+1059.66 1062.32 A: It's (( )) you know she likes rose color.  
+
+1062.73 1065.99 A: So I found a sweatshirt on sale for five dollars.  
+
+1065.89 1066.61 B: oh cute.  
+
+1066.59 1069.98 A: I f- I found a but you wouldn't want a sweatshirt now, would you?  
+
+1069.92 1071.50 B: {breath} It's cold air.  
+
+1072.21 1072.75 A: (( ))  
+
+1072.45 1074.30 B: oh you don't have to make it now.  
+
+1074.43 1077.20 A: oh no but I bet in the evening it's %um  
+
+1076.58 1078.45 B: {breath} It's cold yep. {breath}  
+
+1078.11 1079.12 A: uh-huh. Like  
+
+1078.63 1082.80 B: It's cold during the day. I wore a t- I wore a turtleneck and sweater today.  
+
+1082.33 1083.39 A: oh really.  
+
+1083.25 1084.41 B: Pair of jeans. yep.  
+
+1084.30 1085.93 A: oh. {breath}  
+
+1085.32 1086.83 B: {lipsmack} it's cold.   
+
+1086.69 1090.65 A: uh-huh. oh my. Have you have you %um --  
+
+1087.28 1089.47 B: {lipsmack} {breath} %um  
+
+1091.82 1096.33 A: -- %uh e- looked into nursing at the hospitals or anything yet? No, %huh  
+
+1096.82 1098.30 B: {lipsmack} I can't mom  
+
+1098.18 1099.16 A: oh you can't yet.  
+
+1098.78 1102.15 B: How many times do I have to explain it to you. I can't do it without my license.  
+

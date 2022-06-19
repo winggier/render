@@ -2,6 +2,7 @@
 # import pandas as pd
 # import numpy as np
 from flask import Flask, request, make_response, redirect, render_template, url_for
+import os
 # import flask.cli
 # flask.cli.show_server_banner = lambda *args: None
 
@@ -70,6 +71,71 @@ entity = ['Covid, B', 'Covid is real for B', 'JA', 'JA → AM', 'C', '..']
 data.append(header)
 data.append(dialog)
 data.append(entity)
+
+path = "train/"
+# savepath = "/home/username/newfolder/" 
+# all_files = os.listdir(path)
+# print(all_files)
+dialogs = []
+print()
+
+for i in os.listdir(path):
+  if('txt' in i):
+    dialog = []
+    dialog.append(i[i.index('_')+1:i.index('.')])
+    # print(dialog[0])
+
+    f = open(path + i)
+    line = f.readline()
+    while(line):
+      line = line.rstrip('\n')
+      line = line.replace("'", '’')
+      line = line.replace('  ', '')
+
+      k = max(line.find('A:'), line.find('B:'))
+      if(k > 0):
+        dialog.append(line[k:])
+      line = f.readline()
+    f.close()
+    dialogs.append(dialog)
+
+print(len(dialogs))
+data = dialogs
+# print(dialogs[0])
+
+# f = open(path + os.listdir(path)[47])
+# i = os.listdir(path)[47]
+# print(i)
+# print(i[i.index('_')+1:i.index('.')])
+# line = f.readline()
+# i = 0
+# # print(i, line, end = '')
+# while(line):
+#   line = line.rstrip('\n')
+#   # ws = line.split(' ')
+#   i += 1
+#   if('A:' in line or 'B:' in line):
+#     # print(i, line)
+#     pass
+#   # print(ws)
+#   line = f.readline()
+
+# for i in os.listdir(path):
+#   f = open(path + i)
+#   while()
+# for dir,subdir,files in os.walk(path):
+  # print(dir, subdir, files)
+  # print(files)
+    # tfile = open(path+files)
+    # a = tfile.readline()
+    # print(a)
+    # outfile = open(savepath,'w')
+    # a = infile.readline().split('.')
+    # for k in range (0,len(a)):
+    #     print(a[0], file=outfile, end='')
+# tfile.close()
+# outfile.close
+
 
 if __name__ == "__main__": app.run(debug=True)
 
