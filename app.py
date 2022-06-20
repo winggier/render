@@ -78,8 +78,10 @@ path = "train/"
 # print(all_files)
 dialogs = []
 print()
+files = os.listdir(path)
+files.sort()
 
-for i in os.listdir(path):
+for i in files:
   if('txt' in i):
     dialog = []
     dialog.append(i[i.index('_')+1:i.index('.')])

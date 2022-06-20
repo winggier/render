@@ -37,7 +37,6 @@
     <li>PS (event may or may not have happened)</li>
 </div><br>
 
-
 <div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
     <li>JA (when an event has been just added to the CG)</li>
     <li>JA→IN</li>
@@ -75,11 +74,11 @@
         font-family: Verdana;
         color: grey;
         margin-left: 10px;
-        margin-bottom: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
         /* line-height: 300%; */
         /* padding-bottom: 10px; */
         font-weight: bold;
-        /* margin-bottom: 20px; */
         /* padding: 2px; */
         /* color: grey; */
         font-size: 200%;
@@ -152,12 +151,12 @@
     }
 
     .prev {
-        font-size: 70%;
+        /* font-size: 70%; */
         float: right;
     }
 
     .next {
-        font-size: 70%;
+        /* font-size: 70%; */
         float: right;
     }
 
@@ -166,8 +165,11 @@
     }
 
     .cc {
-
         text-align: center; 
+    }
+
+    .ccc0 {
+        color: lightgrey;
     }
 
     .foot {
@@ -175,7 +177,6 @@
         font-weight: bold;
         color: grey;
         /* color: lightpink; */
-
         float: right;
     }
 
@@ -195,12 +196,13 @@
     bel = ['', 'CT+', 'CT-', 'PS']
     cc = ['', 'JA', 'JA→IN', 'JA→RT', 'JA→AM', 'IN', 'IN→RT', 'IN→AM', 'RT', 'AM', 'AM→IN', 'AM→RT']
     why = ['', 'C', 'PS', 'WK']
-    ano = ['', '', '']
-    phase = 2;
-    ver = 0.12
-    dialog = updata[di].slice(1)
-    did = updata[di].slice(0, 1)
-    data = []
+    belb = ['', 'CT+', 'CT+→CT-', 'CT+→PS', 'CT-', 'CT-→CT+', 'CT-→PS', 'PS']
+    belc = ['→', '→CT+', '→CT-', '→PS']
+    // phase = 2;
+    // ver = 0.12
+    // dialog = updata[di].slice(1)
+    // did = updata[di].slice(0, 1)
+    // data = []
     reload(0)
 
     function reset() {
@@ -208,7 +210,7 @@
         data = []
         for(var i = 0; i < dialog.length; i++) {
             var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-                why:[], wip:[], com:[], er:[]})
+                ccc:[0, 0, 0, 0], why:[], wip:[], com:[], er:[]})
                 data.push(tuple)
             }
             bar()
@@ -234,10 +236,12 @@
         data = [];
         for(var i = 0; i < dialog.length; i++) {
             var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-                why:[], wip:[], com:[],  ty:[0, 1, 0]})
+                ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
             data.push(tuple)
         }
         // console.log(data)
+
+        phase = 2;
 
         header()
         process_table()
@@ -274,21 +278,40 @@
     }
 
     function header() {
-
-
-        html = `<span style='color:Darkred;' class='d'>#`+ did + `</span>`
+        html = `<span class='d'>#`+ did + `</span><span class='tab'></span>`
         if(!phase%3) html +=`<span style='color:Darkred;'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span class='phase2'>All</span><span class='tab'></span>@:` + annotator(0)
+            `<span class='phase2'>Full</span><span class='tab'></span>@:` + annotator(0)
         else if(phase%3 == 1) html +=`<span class='phase0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
-            `<span class='phase2'>All</span><span class='tab'></span>@:` + annotator(1)
+            `<span class='phase2'>Full</span><span class='tab'></span>@:` + annotator(1)
         else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span style='color:Darkred;'>All</span><span class='tab'></span>@:` + annotator(2)
+            `<span style='color:Darkred;'>Full</span><span class='tab'></span>@:` + annotator(2)
 
-        if(next) html += `<span class='next'>` + next + `&nbsp;></span>`
+        if(next) html += `<span class='next'>#` + next + `&nbsp;></span>`
         html += `<span class='tab' style='float:right'>&nbsp;</span>`
-        if(prev) html += `<span class='prev'><&nbsp;` + prev + `</span>`
+        if(prev) html += `<span class='prev'><&nbsp;#` + prev + `</span>`
         
         document.getElementById("header").innerHTML = html;
+
+        document.getElementById("header").querySelectorAll(".d").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => { 
+                var input = prompt('Please input dialog#');
+                var missed = 1
+                if(input) {
+                    for(var i = 0; i < updata.length; i++) {
+                        if(updata[i].slice(0, 1) == input) {
+                            missed = 0;
+                            di = i;
+                            console.log("reoload", i)
+                            reload(0);
+                            break;
+                        }
+                    }
+                    if(missed) alert("# not found");
+                }
+            });
+        });
 
         document.getElementById("header").querySelectorAll(".phase0").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
@@ -337,17 +360,13 @@
         document.getElementById("header").querySelectorAll(".prev").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
             word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
-            word.addEventListener("click", () => {
-                reload(-1)
-            });
+            word.addEventListener("click", () => {reload(-1);});
         });
 
         document.getElementById("header").querySelectorAll(".next").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
             word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
-            word.addEventListener("click", () => {
-                reload(1)
-            });
+            word.addEventListener("click", () => {reload(1);});
         });
 
     }
@@ -374,7 +393,7 @@
             else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
 
             html += stn(data[i].st, i);                 //sentance
-            html += "<td style='text-align:center;'>" + data[i].e1 + "</td>";      //entity1
+            html += "<td style='text-align:center;'>" + color(0, data[i].e1) + "</td>";      //entity1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
             // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
@@ -384,10 +403,28 @@
                 html += not(0, i);                          //event
                 html += not(1, i);                          //Pragmatics
                 if(ph == 2) {
-                    html += `<td class="cc" ty="0" li="${i}">` + bel[data[i].cc[0]%bel.length];         //BelA
-                    html += `</td><td class="cc" ty="1" li="${i}">` + bel[data[i].cc[1]%bel.length];    //BelB
-                    html += `</td><td class="cc" ty="2" li="${i}">` + cc[data[i].cc[2]%cc.length];      //CGA
-                    html += `</td><td class="cc" ty="3" li="${i}">` + cc[data[i].cc[3]%cc.length];      //CGB
+                    if(!bel[data[i].cc[0]%bel.length].length) {
+                        html += `<td class="cc" ty="0" li="${i}"><span>` + bel[data[i].cc[0]%bel.length];
+                    }
+                    else {
+                        if(data[i].cc[0]%bel.length == data[i].ccc[0]%belc.length) data[i].ccc[0] += 1;
+                        if(!(data[i].ccc[0]%belc.length)) {
+                            html += `<td style='text-align:center;'><span class="cc" ty="0" li="${i}" >` +
+                                bel[data[i].cc[0]%bel.length] + `</span><span class="ccc0" ty="0" li="${i}" >` +
+                                belc[data[i].ccc[0]%belc.length] + `</span>`;
+                            // console.log("CCC0")
+                        }
+                        else {
+                            html += `<td style='text-align:center;'><span class="cc" ty="0" li="${i}" >` +
+                                bel[data[i].cc[0]%bel.length] + `</span><span class="ccc" ty="0" li="${i}" >` +
+                                belc[data[i].ccc[0]%belc.length] + `</span>`;  
+                        }
+                        // console.log("CC!")
+                    }
+                    // html += `<td  class="cc" ty="0" li="${i}"><span>` + bel[data[i].cc[0]%bel.length];         //BelA
+                    html += `</td><td class="cc" ty="1" li="${i}">` + belb[data[i].cc[1]%belb.length];    //BelB
+                    html += `</td><td class="cc" ty="2" li="${i}">` + color(1, cc[data[i].cc[2]%cc.length], 2, i);      //CGA
+                    html += `</td><td class="cc" ty="3" li="${i}">` + color(1, cc[data[i].cc[3]%cc.length], 3, i);      //CGB
                     html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
                     html += not(2, i);                          //wip
                 }
@@ -398,6 +435,7 @@
             html += "</tr>";
         }
         html += "</table>";
+        // html = html.replace('JA', '<span style="color:red">JA</span>');
         document.getElementById("table").innerHTML = html;
 
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
@@ -439,9 +477,37 @@
             word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
             word.addEventListener("mouseout", () => {event.target.style.color = "black";});
             word.addEventListener("click", () => { 
+                console.log("cc click")
                 const type = event.target.getAttribute("ty");
                 const li = event.target.getAttribute("li");
+                console.log(li, type)
+
                 data[li].cc[type] += 1;
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".ccc").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("click", () => { 
+                console.log("ccc click")
+                const type = event.target.getAttribute("ty");
+                const li = event.target.getAttribute("li");
+                data[li].ccc[type] += 1;
+                process_table()
+            });
+        });
+
+
+        document.getElementById("table").querySelectorAll(".ccc0").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("click", () => { 
+                console.log("ccc click")
+                const type = event.target.getAttribute("ty");
+                const li = event.target.getAttribute("li");
+                data[li].ccc[type] += 1;
                 process_table()
             });
         });
@@ -610,6 +676,37 @@
                 return `<td class="edits" style='text-align:center;' li="${i}" ty="${type}">` + data[i].e2[0] + `</td>`
             }
         }
+    }
+
+    function color(type, v, a, b) {
+        html = ``
+        if(!type) {
+            for(var i = 0; i < v.length; i++) {
+                k = v[i].indexOf('=')
+                if(k > 0) 
+                    html += `<span style='color:blue'>`+ v[i].substring(0, k) +`</span>` +
+                    `<span>`+ v[i].substring(k) +`</span>`
+                else html += `<span style='color:blue'>`+ v[i] +`</span>`
+                if(i < v.length-1) html += `,`
+            }
+        }
+        if(type) {
+            if(v.length) {
+                // // console.log(v)
+                // k = v[i].indexOf('JA')
+                // j = v[i].indexOf('RT')
+                // if(v)
+                html += v
+                html = html.replace('JA', `<span style='color:green' ty="${a}" li="${b}">JA</span>`);
+                html = html.replace('RT', `<span style='color:red' ty="${a}" li="${b}">RT</span>`);
+
+                // html = html.replace('RT', `<span style='color:red'>RT</span>`);
+                // console.log(html)
+            }
+            // return html
+        }
+        return html
+
     }
 
 
