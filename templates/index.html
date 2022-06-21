@@ -105,7 +105,9 @@
     }
     
     td, th {
-        border: 1px solid #dddddd;
+        /* border: 1px solid #dddddd; */
+        border: 1px solid lightgrey;
+
         text-align: left;
         padding: 8px;
     }
@@ -202,7 +204,30 @@
     // ver = 0.12
     // dialog = updata[di].slice(1)
     // did = updata[di].slice(0, 1)
-    // data = []
+    pack = []
+    
+    for (var i = 0; i < updata.length; i++) {
+        did = updata[i].slice(0, 1)
+        dialog = updata[i].slice(1)
+        obj = []
+        for (var j = 0; j < dialog.length; j++) {
+            var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+                ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
+                obj.push(tuple)
+            }
+        data = []
+        data.push(did)
+        data.push(dialog)
+        data.push(obj)
+        // console.log(dialog)
+
+        pack.push(data)
+        }
+    
+    // console.log(pack[3][0])
+    // console.log(pack[3][1])
+    // console.log(pack[3][2])
+
     reload(0)
 
     function reset() {
@@ -212,15 +237,16 @@
             var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
                 ccc:[0, 0, 0, 0], why:[], wip:[], com:[], er:[]})
                 data.push(tuple)
-            }
-            bar()
-            process_table()
         }
+        bar()
+        process_table()
+    }
         
     function reload(v) {
         di += v
-        dialog = updata[di].slice(1)
         did = updata[di].slice(0, 1)
+        dialog = updata[di].slice(1)
+
         prev = 0
         next = 0
         if(0 < di && di < (updata.length-1)) {
@@ -230,19 +256,17 @@
         else if(!di && updata.length >1) next = updata[di+1].slice(0, 1)
         else prev = updata[di-1].slice(0, 1)
         // console.log(prev, di, next)
-        console.log(dialog)
+        // console.log(dialog)
 
-
-        data = [];
-        for(var i = 0; i < dialog.length; i++) {
-            var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-                ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
-            data.push(tuple)
-        }
+        // data = [];
+        // for(var i = 0; i < dialog.length; i++) {
+        //     var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+        //         ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
+        //     data.push(tuple)
+        // }
         // console.log(data)
 
         phase = 2;
-
         header()
         process_table()
     }
@@ -278,6 +302,12 @@
     }
 
     function header() {
+        did = pack[di][0]
+        dialog = pack[di][1]
+        data = pack[di][2]
+
+        console.log(did)
+
         html = `<span class='d'>#`+ did + `</span><span class='tab'></span>`
         if(!phase%3) html +=`<span style='color:Darkred;'> Entities</span><span class='phase1'> Events </span>` + 
             `<span class='phase2'>Full</span><span class='tab'></span>@:` + annotator(0)
@@ -286,9 +316,13 @@
         else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
             `<span style='color:Darkred;'>Full</span><span class='tab'></span>@:` + annotator(2)
 
-        if(next) html += `<span class='next'>#` + next + `&nbsp;></span>`
+        if(next) html += `<span class='next'>>></span>`
         html += `<span class='tab' style='float:right'>&nbsp;</span>`
-        if(prev) html += `<span class='prev'><&nbsp;#` + prev + `</span>`
+        if(prev) html += `<span class='prev'><<</span>`
+
+        // if(next) html += `<span class='next'>#` + next + `&nbsp;></span>`
+        // html += `<span class='tab' style='float:right'>&nbsp;</span>`
+        // if(prev) html += `<span class='prev'><&nbsp;#` + prev + `</span>`
         
         document.getElementById("header").innerHTML = html;
 
@@ -304,6 +338,8 @@
                             missed = 0;
                             di = i;
                             console.log("reoload", i)
+                            // header()
+                            // process_table()
                             reload(0);
                             break;
                         }
@@ -373,7 +409,11 @@
 
 // main table
     function process_table() {
-        ph = phase        
+        ph = phase
+        did = pack[di][0]
+        dialog = pack[di][1]
+        data = pack[di][2]
+
         html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
         html += "<tr style='font-weight:bold; background-color:Grey'>";
 
@@ -393,7 +433,7 @@
             else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
 
             html += stn(data[i].st, i);                 //sentance
-            html += "<td style='text-align:center;'>" + color(0, data[i].e1) + "</td>";      //entity1
+            html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //entity1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
             // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
@@ -450,7 +490,9 @@
 
             word.addEventListener("mouseout", () => { 
                 const t = event.target;
-                t.style.color = "black";
+                const type = event.target.getAttribute("ty");
+                if(type) t.style.color = "blue";
+                else t.style.color = "black";
                 // t.style.fontWeight = "normal";
                 // document.getElementById("msg").innerText = "";
             });
@@ -458,6 +500,7 @@
             word.addEventListener("click", () => { 
                 const w = refine(event.target.innerText);
                 const li = event.target.getAttribute("li");
+                console.log(li)
 
                 if(data[li].er.includes(w)) {
                     data[li].e1.splice(data[li].er.indexOf(w), 1)
@@ -474,8 +517,21 @@
         });
 
         document.getElementById("table").querySelectorAll(".cc").forEach(word => {
+            // const tar = event.target;
             word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("mouseout", () => {
+                const w = event.target.outerText
+                // console.log(event.target.outerText)
+                if(w == 'JA') event.target.style.color = "Green";
+                else if(w == 'RT') event.target.style.color = "Red";
+                else  event.target.style.color = "black";
+            });
+            // word.addEventListener("mouseover", () => {event.target.style.backgroundColor = "lightgrey";});
+            // word.addEventListener("mouseout", () => {
+            //     const li = event.target.getAttribute("li");
+            //     if(li%2) event.target.style.backgroundColor = "rgb(238, 230, 203)";
+            //     else event.target.style.backgroundColor = "#dddddd";
+            // });
             word.addEventListener("click", () => { 
                 console.log("cc click")
                 const type = event.target.getAttribute("ty");
@@ -612,6 +668,7 @@
         // return `<td style='padding:4px;' class="text">` 
         //     + line.split(" ").map(word => 
         //         `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
+        
         if(!phase) w = 45
         else if(phase == 1) w = 30
         else w = 25
@@ -684,9 +741,9 @@
             for(var i = 0; i < v.length; i++) {
                 k = v[i].indexOf('=')
                 if(k > 0) 
-                    html += `<span style='color:blue'>`+ v[i].substring(0, k) +`</span>` +
+                    html += `<span class="word" style='color:blue' ty="${a}" li="${b}" >`+ v[i].substring(0, k) +`</span>` +
                     `<span>`+ v[i].substring(k) +`</span>`
-                else html += `<span style='color:blue'>`+ v[i] +`</span>`
+                else html += `<span class="word" style='color:blue' ty="${a}" li="${b}">`+ v[i] +`</span>`
                 if(i < v.length-1) html += `,`
             }
         }
@@ -709,10 +766,9 @@
 
     }
 
-
     // bar()
-    header()
-    process_table()
+    // header()
+    // process_table()
     // dialog_table()
 
 </script>
