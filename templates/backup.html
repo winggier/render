@@ -314,5 +314,77 @@
 
     }
 
+    function reset() {
+        console.log('RESET click')
+        data = []
+        for(var i = 0; i < dialog.length; i++) {
+            var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
+                ccc:[0, 0, 0, 0], why:[], wip:[], com:[], er:[]})
+                data.push(tuple)
+        }
+        bar()
+        process_table()
+    }
+
+    //Initialization of object to save
+    var objectToSave={first:'string', second: function(){}};
+    //Start of saving method
+    var textToSave='';//String to be saved
+    var count=0;
+    for(var i in objectToSave){
+    //Adding every key name + type + text value to string
+    textToSave+=objectToSave[i].constructor.name+' '+ Object.keys(objectToSave)[count]+' = '+objectToSave[i]+'\n';
+    count++;
+    }
+    //Saving string to file using html clicking trick
+    var hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+    hiddenElement.target = '_blank';
+    hiddenElement.download = 'myFile.txt';
+    hiddenElement.click();
+
+    function annotator(p) {
+        return nm
+        return `John`
+        if(!ano[p].length) return `<span class="aa" p="${p}">+</span>`
+        else return ano[p]
+    }
+
+    dialog = ['B: I see.', 
+        'A: {laugh} I think. {laugh}. No I have to come back because I don’t think all my stuff will fit in, in our vehicles. So I have to come back. But, yeah. (( ))'
+        , 'B: %huh.', 'A: it’s a lot of airport shenanigans.',
+        'A: I was really upset.',
+        'B: I didn’t know.',
+        'A: %huh? ',
+        'B: I didn’t know. ',
+        'A: yeah, %uh {breath}',
+        'B: It’s not my fault.',
+        'A: {laugh}',
+        'B: It’s going to be awful.',
+        'A: What?',
+        'B: It’s going to be awful this trip home.',
+        'A: Why?',
+        'B: Because I’m leaving here at',
+        'A: uh-huh.',
+        'B: six in the evening,',
+        'A: uh-huh. ',
+        'B: getting to &San &Francisco at %uh, eleven in the morning,',
+        'A: uh-huh.',
+        'B: and then hanging around the airport until kid &Ted gets out of work (( )) [distortion]',
+        'A: Wait a minute. The same morning isn’t it?',
+        'B: yeah.',
+        'A: {laugh} uh-huh.',
+        'B: earlier (( )) [distortion]',
+        'A: Hang around the airport until when?',
+        'B: Hanging around the airport until &Ted gets out of work.',
+        'A: %um that’s awful.',
+        'B: Like six, six hours later and thenA: %mm [echo of other line]',
+        'A: I think you should just come here.',
+        'B: and then Sunday, so I will have slept on the plane.',
+        'A: mhm.',
+        'B: The only sleep I’ll have gotten is on the plane.']
+
+    
 </script>
+
 

@@ -2,22 +2,18 @@
 <meta charset="utf-8">
 
 <html style="background-color:rgb(238, 230, 203);">
-
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="/styles.css" /> -->
+    <!-- <link rel="stylesheet" href="/styles.css"></link> -->
+    <!-- <link type="text/css" rel="stylesheet" href="http://fakedomain.com/smilemachine/html.css" /> -->
+</head>
 
 <!-- <h1>CG Annotation<span class = 'ano'>updated on May 10, 2022</span></h1> -->
 
 <div class="header" id="header"></div>
-
-
-<!-- <div id="dialog"></div><br> -->
-<!-- <h3 style="font-family:Verdana; padding:2px; text-align:center;">Annotations</h3> -->
-<div id="table"></div>
-
-<!-- <br><h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:Grey">Dialogs</h3>
-<ul id="tt"></ul><br>
-<div id="msg"></div> -->
-
-<br><h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:grey">Info</h3>
+<div id="table"></div><br>
+<h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:grey">Info</h3>
 
 <div class="info" contenteditable="true" >Click row # to select/highlight row</div><br>
 
@@ -59,130 +55,7 @@
     <li>C (context present in the dialog)</li>
     <li>PS (specific lexical item: word/phrase/expression)</li>
     <li>WK (world knowledge)</li>
-</div><br>
-
-
-<style>
-    h1 {
-        font-family: Verdana;
-        padding: 2px;
-        color: grey;
-        font-size: 400%;
-    }
-
-    .header {
-        font-family: Verdana;
-        color: grey;
-        margin-left: 10px;
-        margin-top: 15px;
-        margin-bottom: 15px;
-        /* line-height: 300%; */
-        /* padding-bottom: 10px; */
-        font-weight: bold;
-        /* padding: 2px; */
-        /* color: grey; */
-        font-size: 200%;
-    }
-
-    .info {
-        font-family: Verdana;
-        color: dimgrey;
-        margin-left: 20px;
-        line-height: 125%;
-        /* padding-bottom: 10px; */
-        /* font-weight: bold; */
-        /* margin-bottom: 20px; */
-        /* padding: 2px; */
-        /* color: grey; */
-        /* font-size: 400%; */
-    }
-
-
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-    
-    td, th {
-        /* border: 1px solid #dddddd; */
-        border: 1px solid lightgrey;
-
-        text-align: left;
-        padding: 8px;
-    }
-    
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-
-    h1 {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    li {
-        font-family: Verdana, sans-serif;
-        font-size: 90%;
-        margin-left: 20px;
-        font-weight: normal;
-        /* padding: 2px; */
-        /* border-collapse: collapse; */
-        /* width: 100%; */
-    }
-
-    .tab {
-        display: inline-block;
-        margin-left: 40px;
-    }
-
-    .aa {
-        font-family: Verdana, sans-serif;
-        font-weight: bold;
-        color: grey;
-        text-align: center;
-    }
-
-    .add {
-        font-family: Verdana, sans-serif;
-        font-weight: bold;
-        font-size: 120%;
-        color: lightgrey;
-        text-align: center; 
-    }
-
-    .prev {
-        /* font-size: 70%; */
-        float: right;
-    }
-
-    .next {
-        /* font-size: 70%; */
-        float: right;
-    }
-
-    .num {
-        color: grey;
-    }
-
-    .cc {
-        text-align: center; 
-    }
-
-    .ccc0 {
-        color: lightgrey;
-    }
-
-    .foot {
-        font-family: Verdana, sans-serif;
-        font-weight: bold;
-        color: grey;
-        /* color: lightpink; */
-        float: right;
-    }
-
-    </style>
+</div>
 
 
 <script>
@@ -191,15 +64,18 @@
     // console.log(text)
     // header = updata[0]
     di = 3
-    hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
-    hd1 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
-    hd2 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+    // hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
+    hd0 = ['#', 'Sentence', 'Entity', 'Comment']
+    hd1 = ['#', 'Sentence', 'Entity', 'Event', 'Pragmatics', 'Comment']
+    hd2 = ['#', 'Sentence', 'Entity', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
     'CG(A)', 'CG(B)', 'Why', 'Why in prose', 'Comment']
     bel = ['', 'CT+', 'CT-', 'PS']
     cc = ['', 'JA', 'JA→IN', 'JA→RT', 'JA→AM', 'IN', 'IN→RT', 'IN→AM', 'RT', 'AM', 'AM→IN', 'AM→RT']
-    why = ['', 'C', 'PS', 'WK']
+    why = ['', 'C', 'WK', 'LI']
     belb = ['', 'CT+', 'CT+→CT-', 'CT+→PS', 'CT-', 'CT-→CT+', 'CT-→PS', 'PS']
     belc = ['→', '→CT+', '→CT-', '→PS']
+    edr = 0;
+    max = 11;
     // phase = 2;
     // ver = 0.12
     // dialog = updata[di].slice(1)
@@ -211,10 +87,13 @@
         dialog = updata[i].slice(1)
         obj = []
         for (var j = 0; j < dialog.length; j++) {
-            var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-                ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
-                obj.push(tuple)
-            }
+            //ty[0] 0:mian event 1:extra
+            //ty[1] #of row of sentence
+            //ty[2] 1:hightlight/selected
+            var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
+                cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0]})
+            obj.push(tuple)
+        }
         data = []
         data.push(did)
         data.push(dialog)
@@ -222,25 +101,16 @@
         // console.log(dialog)
 
         pack.push(data)
-        }
+    }
     
     // console.log(pack[3][0])
     // console.log(pack[3][1])
     // console.log(pack[3][2])
+    // var nm = prompt('User name?', 'Annotator');
+    nm = 'Annotator';
 
     reload(0)
 
-    function reset() {
-        console.log('RESET click')
-        data = []
-        for(var i = 0; i < dialog.length; i++) {
-            var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-                ccc:[0, 0, 0, 0], why:[], wip:[], com:[], er:[]})
-                data.push(tuple)
-        }
-        bar()
-        process_table()
-    }
         
     function reload(v) {
         di += v
@@ -266,7 +136,7 @@
         // }
         // console.log(data)
 
-        phase = 0;
+        phase = 2;
         header()
         process_table()
     }
@@ -295,26 +165,30 @@
         process_table()
     }
 
-    function annotator(p) {
-        return `John`
-        if(!ano[p].length) return `<span class="aa" p="${p}">+</span>`
-        else return ano[p]
+    function parent(index) {
+        if(data[index].st.length) return index
+        for(var i = index; i > 0; i--) {
+            if(!data[i].ty[0]) return i 
+        }
+        return 0
     }
+
+
 
     function header() {
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
 
-        console.log(did)
+        // console.log(did)
 
         html = `<span class='d'>#`+ did + `</span><span class='tab'></span>`
-        if(!phase%3) html +=`<span style='color:Darkred;'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span class='phase2'>Full</span><span class='tab'></span>@:` + annotator(0)
-        else if(phase%3 == 1) html +=`<span class='phase0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
-            `<span class='phase2'>Full</span><span class='tab'></span>@:` + annotator(1)
-        else html +=`<span class='phase0'> Entities</span><span class='phase1'> Events </span>` + 
-            `<span style='color:Darkred;'>Full</span><span class='tab'></span>@:` + annotator(2)
+        if(!phase) html +=`<span style='color:Darkred;'> Entities</span><span class='p' p='1'> Events </span>` + 
+            `<span class='p' p='2'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
+        else if(phase == 1) html +=`<span class='p' p='0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
+            `<span class='p' p='2'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
+        else html +=`<span class='p' p='0'> Entities</span><span class='p' p='1'> Events </span>` + 
+            `<span style='color:Darkred;'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
 
         if(next) html += `<span class='next'>>></span>`
         html += `<span class='tab' style='float:right'>&nbsp;</span>`
@@ -349,34 +223,12 @@
             });
         });
 
-        document.getElementById("header").querySelectorAll(".phase0").forEach(word => {
+        document.getElementById("header").querySelectorAll(".p").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
             word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
             word.addEventListener("click", () => { 
-                console.log("phase click", phase)
-                phase = 0
-                header()
-                process_table()
-            });
-        });
-
-        document.getElementById("header").querySelectorAll(".phase1").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
-            word.addEventListener("click", () => { 
-                console.log("phase click", phase)
-                phase = 1
-                header()
-                process_table()
-            });
-        });
-
-        document.getElementById("header").querySelectorAll(".phase2").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
-            word.addEventListener("click", () => { 
-                console.log("phase click", phase)
-                phase = 2
+                phase = parseInt(event.target.getAttribute("p"));
+                console.log(phase)
                 header()
                 process_table()
             });
@@ -405,11 +257,21 @@
             word.addEventListener("click", () => {reload(1);});
         });
 
+        document.getElementById("header").querySelectorAll(".at").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("click", () => {
+                var input = prompt('Annotator for current phase', nm);
+                if(input) nm = input
+                header()
+            });
+        });
+
     }
 
 // main table
     function process_table() {
-        ph = phase
+        ph = parseInt(phase)
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
@@ -423,8 +285,10 @@
 
         for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
         html += "</tr>";
+        
 
-        for (var i = 0; i < data.length; i++) {
+        rows = Math.min(max, data.length)
+        for (var i = 0; i < rows; i++) {
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
             // else html += "<tr><td>" + i + "</td>";
             if(data[i].ty[2]%2) 
@@ -433,11 +297,13 @@
             else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
 
             html += stn(data[i].st, i);                 //sentance
-            html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //entity1
+            if(data[i].ty[0] && data[i].ty[2]%2) 
+                html += `<td class="remove" style='text-align:center; color:lightgrey' li="${i}">x</td>`;
+            else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //entity1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
             // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
-            html += not(4, i); 
+            // html += not(4, i); 
 
             if(ph) {
                 html += not(0, i);                          //event
@@ -450,8 +316,9 @@
                         if(data[i].cc[0]%bel.length == data[i].ccc[0]%belc.length) data[i].ccc[0] += 1;
                         if(!(data[i].ccc[0]%belc.length)) {
                             html += `<td style='text-align:center;'><span class="cc" ty="0" li="${i}" >` +
-                                bel[data[i].cc[0]%bel.length] + `</span><span class="ccc0" ty="0" li="${i}" >` +
-                                belc[data[i].ccc[0]%belc.length] + `</span>`;
+                                bel[data[i].cc[0]%bel.length] + `</span>`
+                            if(edr > i) html += 
+                                `<span class="ccc0" ty="0" li="${i}" >` + belc[data[i].ccc[0]%belc.length] + `</span>`;
                             // console.log("CCC0")
                         }
                         else {
@@ -474,10 +341,14 @@
 
             html += "</tr>";
         }
-        html += "</table>";
-        // html = html.replace('JA', '<span style="color:red">JA</span>');
+        
+        html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
+
+        // html += `</table><p><span class="add" ty="5" >EXPAND</span><span class="foot" style='float:right'>SAVE</span></p>`;
         document.getElementById("table").innerHTML = html;
 
+
+        //click functions
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
             word.addEventListener("mouseover", () => {
                 const t = event.target;
@@ -555,7 +426,6 @@
             });
         });
 
-
         document.getElementById("table").querySelectorAll(".ccc0").forEach(word => {
             word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
             word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
@@ -574,7 +444,7 @@
             word.addEventListener("click", () => { 
                 const line = event.target.getAttribute("line");
                 const type = event.target.getAttribute("ty");
-                const li = event.target.getAttribute("li");
+                const li = parseInt(event.target.getAttribute("li"));
                 // console.log(li)
                 if(type == 0) {
                     var input = prompt('Please input event', line.substring(3));
@@ -586,13 +456,17 @@
                     else {
                         if(input) {
                             console.log(li)
-                            data[parseInt(li)].ty[1] += 1;
+                            data[parent(li)].ty[1] += 1;
+                            max += 1;
                             var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[],
-                                cc:[0, 0, 0, 0, 0], why:[], wip:[], com:[], ty:[1, parseInt(li), 0]})
+                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ty:[1, li, 0]})
                             // data.splice(parseInt(li) + 1, 0, tuple);
-                            data.splice(parseInt(li) + data[li].ty[1]-1, 0, tuple);
+                            data.splice(li+1, 0, tuple);
                         }
                     }
+                    edr = li;
+                    console.log("parent", parent(li))
+                    console.log("parent size:", data[parent(li)].ty[1])
                 }
 
                 if(type == 1) {
@@ -606,13 +480,14 @@
                 }
 
                 if(type == 3) {
-                    var input = prompt('Please input Pragmatics');
+                    var input = prompt('Comments?');
                     if(input) data[li].com.push(input);
                 }
                 if(type == 4) {
                     var input = prompt('Please input Entity(JA)', data[li].e1[0]);
                     if(input) data[li].e2.push(input);
                 }
+                if(type == 5) max += 10;
 
                 console.log(data)
                 process_table()
@@ -660,6 +535,32 @@
             });
         });
 
+        document.getElementById("table").querySelectorAll(".remove").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("click", () => { 
+                const li = parseInt(event.target.getAttribute("li"));
+                console.log("remove click", li)
+                data[parent(li)].ty[1] -= 1;
+                // for(var i = li; i > -1; i--) {
+                //     if(!data[i].ty[0]) {
+                //         console.log("reduce span >> ", i)
+                //         data[i].ty[1] -= 1;
+                //         break;
+                //     }
+                // }
+                data.splice(li, 1)
+                process_table()
+            });
+        });
+
+        document.getElementById("table").querySelectorAll(".foot").forEach(word => {
+            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("click", () => { 
+                save()
+            });
+        });
 
     }
 
@@ -671,31 +572,37 @@
         
         if(!phase) w = 45
         else if(phase == 1) w = 30
-        else w = 25
+        else w = 20
         if(!data[i].ty[0]) 
-        return `<td rowspan="` + data[i].ty[1] + `" style='padding:4px; width:` + w + `%' class="text">` 
-            + line.split(" ").map(word => 
-                `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
-            // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e1 + `</td>`
-            // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e2 + `</td>`
+            return `<td rowspan="` + data[i].ty[1] + `" style='padding:4px; width:` + w + `%' class="text">` 
+                + line.split(" ").map(word => 
+                    `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
+                // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e1 + `</td>`
+                // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e2 + `</td>`
             
         else return ``
 
     }
 
     function not(type, i) {
+        if(!phase) w = 45
+        else if(phase == 1) w = 30
+        else w = 15
         // console.log(data[i].ev)
         const line = data[i].st
         if(type == 0) {
-            if(!data[i].ev.length) {
-                // console.log("empty event")
-                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
-            }
-            else if(!data[i].st.length) {
-                return `<td class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</td>`
-            }
-            return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
+            // main empty event
+            if(!data[i].ev.length) 
+                return `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            
+            // last row
+            else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
+                console.log("last row")
+                return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
                 <span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
+            }
+
+            else return `<td class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</td>`
         }
 
         if(type == 1) {
@@ -766,9 +673,32 @@
 
     }
 
-    // bar()
-    // header()
-    // process_table()
-    // dialog_table()
+    function save() {
+        var obj=data;
+        let today = new Date().toISOString().replace('-', '').replace('-', '').slice(2, 8)
+        var filename = did + '_' + nm + '_' + today;
+        console.log(filename)
+
+        //Start of saving method
+        var textToSave='';
+        var count=0;
+        for(var i in obj){
+            if(i < max) {
+                for(var j in obj[i]) { textToSave += obj[i][j] + '\n'; }
+            }
+        }
+        // console.log(textToSave)
+
+        //Saving string to file using html clicking trick
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
+        // console.log(hiddenElement.href)
+        hiddenElement.target = '_blank';
+        hiddenElement.download = filename;
+        hiddenElement.click();
+    }
+
+
+
 
 </script>
