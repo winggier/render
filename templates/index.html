@@ -174,6 +174,12 @@
         return 0
     }
 
+    function stnm(w, line, i) {
+        if(data[i].er.includes(refine(w))) 
+            return `<span class="word" style='color:blue' line="${line}" li="${i}" ty="1">${w}</span>`
+        return `<span class="word" line="${line}" li="${i}">${w}</span>`
+    }
+
 
 
     function header() {
@@ -183,7 +189,7 @@
 
         // console.log(did)
 
-        html = `<span class='d'>#`+ did + `</span><span class='tab'></span>`
+        html = `<span class='d'>#` + did + `</span><span class='tab'></span>`
         if(!phase) html +=`<span style='color:Darkred;'> Entities</span><span class='p' p='1'> Events </span>` + 
             `<span class='p' p='2'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
         else if(phase == 1) html +=`<span class='p' p='0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
@@ -437,6 +443,7 @@
                 // console.log(event.target.outerText)
                 if(w == 'JA') event.target.style.color = "Green";
                 else if(w == 'RT') event.target.style.color = "Red";
+                else if(w == 'IN') event.target.style.color = "Blue";
                 else  event.target.style.color = "black";
                 document.getElementById("tips").innerText = ``;
             });
@@ -464,7 +471,12 @@
             });
             word.addEventListener("mouseout", () => {
                 document.getElementById("tips").innerText = ``;
-                event.target.style.color = "black";
+                const w = event.target.outerText
+                // console.log(event.target.outerText)
+                if(w == 'JA') event.target.style.color = "Green";
+                else if(w == 'RT') event.target.style.color = "Red";
+                else if(w == 'IN') event.target.style.color = "Blue";
+                else  event.target.style.color = "black";
             });
             word.addEventListener("click", () => { 
                 console.log("ccc click")
@@ -667,10 +679,7 @@
 
         if(!data[i].ty[0]) 
             return `<td rowspan="` + data[i].ty[1] + `" style='padding:4px; width:` + w + `%' class="text">` 
-                + line.split(" ").map(word => 
-                    `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
-                // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e1 + `</td>`
-                // + `<td rowspan="` + data[i].ty[1] + `>` + data[i].e2 + `</td>`
+                + line.split(" ").map(word => stnm(word, line, i)).join(" ") + `</td>`
             
         else return ``
 
@@ -825,6 +834,7 @@
                 // if(v)
                 html += v
                 html = html.replace('JA', `<span style='color:green' ty="${a}" li="${b}">JA</span>`);
+                html = html.replace('IN', `<span style='color:blue' ty="${a}" li="${b}">IN</span>`);
                 html = html.replace('RT', `<span style='color:red' ty="${a}" li="${b}">RT</span>`);
 
                 // html = html.replace('RT', `<span style='color:red'>RT</span>`);
