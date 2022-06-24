@@ -12,8 +12,10 @@
 <!-- <h1>CG Annotation<span class = 'ano'>updated on May 10, 2022</span></h1> -->
 
 <div class="header" id="header"></div>
-<div id="table"></div><br>
-<h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:grey">Info</h3>
+<div id="table"></div>
+<!-- <div id="tips"></div> -->
+
+<!-- <h3 style="font-family:Verdana; padding:5px; text-align:center; background-color:grey">Info</h3>
 
 <div class="info" contenteditable="true" >Click row # to select/highlight row</div><br>
 
@@ -52,10 +54,11 @@
 </div><br>
 
 <div class="info" contenteditable="true" >Why Tags Click Cycle:
-    <li>C (context present in the dialog)</li>
-    <li>PS (specific lexical item: word/phrase/expression)</li>
     <li>WK (world knowledge)</li>
-</div>
+    <li>C (context present in the dialog)</li>
+    <li>LI (specific lexical item: word/phrase/expression)</li>
+    
+</div> -->
 
 
 <script>
@@ -65,21 +68,18 @@
     // header = updata[0]
     di = 3
     // hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
-    hd0 = ['#', 'Sentence', 'Entity', 'Comment']
-    hd1 = ['#', 'Sentence', 'Entity', 'Event', 'Pragmatics', 'Comment']
-    hd2 = ['#', 'Sentence', 'Entity', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+    hd0 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Comment']
+    hd1 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
+    hd2 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
     'CG(A)', 'CG(B)', 'Why', 'Why in prose', 'Comment']
     bel = ['', 'CT+', 'CT-', 'PS']
-    cc = ['', 'JA', 'JA→IN', 'JA→RT', 'JA→AM', 'IN', 'IN→RT', 'IN→AM', 'RT', 'AM', 'AM→IN', 'AM→RT']
-    why = ['', 'C', 'WK', 'LI']
-    belb = ['', 'CT+', 'CT+→CT-', 'CT+→PS', 'CT-', 'CT-→CT+', 'CT-→PS', 'PS']
     belc = ['→', '→CT+', '→CT-', '→PS']
+    cg = ['', 'JA', 'IN','RT', 'AM']
+    cgc = ['→', '→JA', '→IN', '→RT', '→AM']
+    why = ['', 'WK', 'C', 'LI']
     edr = 0;
-    max = 11;
-    // phase = 2;
-    // ver = 0.12
-    // dialog = updata[di].slice(1)
-    // did = updata[di].slice(0, 1)
+    max = 12;
+    expand = 1;
     pack = []
     
     for (var i = 0; i < updata.length; i++) {
@@ -127,14 +127,6 @@
         else prev = updata[di-1].slice(0, 1)
         // console.log(prev, di, next)
         // console.log(dialog)
-
-        // data = [];
-        // for(var i = 0; i < dialog.length; i++) {
-        //     var tuple = Object.freeze({ st:dialog[i], e1:[], e2:[], er:[], ev:[], pr:[], cc:[0, 0, 0, 0, 0], 
-        //         ccc:[0, 0, 0, 0], why:[], wip:[], com:[],  ty:[0, 1, 0]})
-        //     data.push(tuple)
-        // }
-        // console.log(data)
 
         phase = 2;
         header()
@@ -201,8 +193,15 @@
         document.getElementById("header").innerHTML = html;
 
         document.getElementById("header").querySelectorAll(".d").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+                // document.getElementById("tips").innerText = `"'${event.target.innerText}' is this`;
+                document.getElementById("tips").innerText = `Enter dialog # and load`;
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
             word.addEventListener("click", () => { 
                 var input = prompt('Please input dialog#');
                 var missed = 1
@@ -224,8 +223,18 @@
         });
 
         document.getElementById("header").querySelectorAll(".p").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                p = parseInt(event.target.getAttribute("p"));
+                event.target.style.color = "DarkRed";
+                if(!p) document.getElementById("tips").innerText = `Show only entities`;
+                else if(p == 1) document.getElementById("tips").innerText = `Show entities, events and pragmatics`;
+                else document.getElementById("tips").innerText = `Show all tags`;
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+
+            });
             word.addEventListener("click", () => { 
                 phase = parseInt(event.target.getAttribute("p"));
                 console.log(phase)
@@ -246,20 +255,39 @@
         });
 
         document.getElementById("header").querySelectorAll(".prev").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+                document.getElementById("tips").innerText = `Load previous (#${prev}) dialog file `;
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
             word.addEventListener("click", () => {reload(-1);});
         });
 
         document.getElementById("header").querySelectorAll(".next").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+                document.getElementById("tips").innerText = `Load next (#${next}) dialog file`;
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
             word.addEventListener("click", () => {reload(1);});
         });
 
         document.getElementById("header").querySelectorAll(".at").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+                document.getElementById("tips").innerText = `Edit annotator's name`;
+
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
             word.addEventListener("click", () => {
                 var input = prompt('Annotator for current phase', nm);
                 if(input) nm = input
@@ -291,50 +319,28 @@
         for (var i = 0; i < rows; i++) {
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
             // else html += "<tr><td>" + i + "</td>";
-            if(data[i].ty[2]%2) 
-                html += `<tr style='background-color:lightpink'><td style='text-align:center;' class="num" li="${i}">`
-                    + i + `</td>`;
-            else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
+            if(i == rows-1) html += `<tr><td  class="add" style='color:grey' ty="5">↓</td>`;
+            else {
+                if(data[i].ty[2]%2) 
+                    html += `<tr style='background-color:lightpink'><td style='text-align:center;' class="num" li="${i}">`
+                        + i + `</td>`;
+                else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
+            }
 
             html += stn(data[i].st, i);                 //sentance
-            if(data[i].ty[0] && data[i].ty[2]%2) 
+
+            if(data[i].ty[0] && data[i].ty[2]%2)        // hightlight and remove
                 html += `<td class="remove" style='text-align:center; color:lightgrey' li="${i}">x</td>`;
             else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //entity1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
             // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
-            // html += not(4, i); 
+            html += not(4, i); 
 
             if(ph) {
                 html += not(0, i);                          //event
                 html += not(1, i);                          //Pragmatics
-                if(ph == 2) {
-                    if(!bel[data[i].cc[0]%bel.length].length) {
-                        html += `<td class="cc" ty="0" li="${i}"><span>` + bel[data[i].cc[0]%bel.length];
-                    }
-                    else {
-                        if(data[i].cc[0]%bel.length == data[i].ccc[0]%belc.length) data[i].ccc[0] += 1;
-                        if(!(data[i].ccc[0]%belc.length)) {
-                            html += `<td style='text-align:center;'><span class="cc" ty="0" li="${i}" >` +
-                                bel[data[i].cc[0]%bel.length] + `</span>`
-                            if(edr > i) html += 
-                                `<span class="ccc0" ty="0" li="${i}" >` + belc[data[i].ccc[0]%belc.length] + `</span>`;
-                            // console.log("CCC0")
-                        }
-                        else {
-                            html += `<td style='text-align:center;'><span class="cc" ty="0" li="${i}" >` +
-                                bel[data[i].cc[0]%bel.length] + `</span><span class="ccc" ty="0" li="${i}" >` +
-                                belc[data[i].ccc[0]%belc.length] + `</span>`;  
-                        }
-                        // console.log("CC!")
-                    }
-                    // html += `<td  class="cc" ty="0" li="${i}"><span>` + bel[data[i].cc[0]%bel.length];         //BelA
-                    html += `</td><td class="cc" ty="1" li="${i}">` + belb[data[i].cc[1]%belb.length];    //BelB
-                    html += `</td><td class="cc" ty="2" li="${i}">` + color(1, cc[data[i].cc[2]%cc.length], 2, i);      //CGA
-                    html += `</td><td class="cc" ty="3" li="${i}">` + color(1, cc[data[i].cc[3]%cc.length], 3, i);      //CGB
-                    html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
-                    html += not(2, i);                          //wip
-                }
+                if(ph == 2) html += not(5, i);              // all cc
             }
             html += not(3, i);                          //comment
             // html += "<td><input type='checkbox' ></td>";     //mark
@@ -342,9 +348,10 @@
             html += "</tr>";
         }
         
-        html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
+        // html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
 
-        // html += `</table><p><span class="add" ty="5" >EXPAND</span><span class="foot" style='float:right'>SAVE</span></p>`;
+        html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>`
+            // + `<span class="foot" style='float:right'>SAVE</span></p>`;
         document.getElementById("table").innerHTML = html;
 
 
@@ -352,18 +359,20 @@
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
             word.addEventListener("mouseover", () => {
                 const t = event.target;
+                const type = event.target.getAttribute("ty");
+                const e = event.target.getAttribute("e");
                 t.style.color = "Red";
-                // t.style.fontWeight = "bold";
-                // const pos = t.getAttribute("pos");
-                // const line = t.getAttribute("line");
-                // document.getElementById("msg").innerText = `"'${t.innerText}' is the (${pos}) word of "${line}"`;
+                if(type == 1) document.getElementById("tips").innerText = `Remove (${refine(t.innerText)}) from entity`;
+                else if(type == 2) document.getElementById("tips").innerText = `Edit (${e})'s value`;
+                else document.getElementById("tips").innerText = `+ (${refine(t.innerText)}) to entity`;
             });
 
             word.addEventListener("mouseout", () => { 
                 const t = event.target;
                 const type = event.target.getAttribute("ty");
-                if(type) t.style.color = "blue";
+                if(type == 1) t.style.color = "blue";
                 else t.style.color = "black";
+                document.getElementById("tips").innerText = ``;
                 // t.style.fontWeight = "normal";
                 // document.getElementById("msg").innerText = "";
             });
@@ -389,13 +398,38 @@
 
         document.getElementById("table").querySelectorAll(".cc").forEach(word => {
             // const tar = event.target;
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
+            word.addEventListener("mouseover", () => {
+                const ty = event.target.getAttribute("ty");
+                const w = event.target.outerText;
+                if(ty < 2) {
+                    if(!w) document.getElementById("tips").innerText = `Edit Believe value (null)`;
+                    else if(w == 'CT+') document.getElementById("tips").innerText = `(certain belief)`;
+                    else if(w == 'CT+') document.getElementById("tips").innerText = `(certain belief that not)`;
+                    else document.getElementById("tips").innerText = `(event may or may not have happened)`;
+
+                }
+                else if(ty < 4) {
+                    if(!w) document.getElementById("tips").innerText = `Edit Common Ground value (null)`;
+                    else if(w == 'JA') document.getElementById("tips").innerText = `(when an event has been just added to the CG)`;
+                    else if(w == 'IN') document.getElementById("tips").innerText = `(when an event already existed in the CG)`;
+                    else if(w == 'RT') document.getElementById("tips").innerText = `(when an event has been rejected from the CG)`
+                    else document.getElementById("tips").innerText = `(when it is impossible to determine the status)`;
+                }
+                else {
+                    if(!w) document.getElementById("tips").innerText = `Edit why value (null)`;
+                    else if(w == 'WK') document.getElementById("tips").innerText = `(world knowledge)`;
+                    else if(w == 'C') document.getElementById("tips").innerText = `(context present in the dialog)`;
+                    else document.getElementById("tips").innerText = `(specific lexical item (word, phrase, expression))`;
+                }
+                event.target.style.color = "Red";
+            });
             word.addEventListener("mouseout", () => {
                 const w = event.target.outerText
                 // console.log(event.target.outerText)
                 if(w == 'JA') event.target.style.color = "Green";
                 else if(w == 'RT') event.target.style.color = "Red";
                 else  event.target.style.color = "black";
+                document.getElementById("tips").innerText = ``;
             });
             // word.addEventListener("mouseover", () => {event.target.style.backgroundColor = "lightgrey";});
             // word.addEventListener("mouseout", () => {
@@ -415,8 +449,14 @@
         });
 
         document.getElementById("table").querySelectorAll(".ccc").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("mouseover", () => {
+                document.getElementById("tips").innerText = `New status`;
+                event.target.style.color = "Red";
+            });
+            word.addEventListener("mouseout", () => {
+                document.getElementById("tips").innerText = ``;
+                event.target.style.color = "black";
+            });
             word.addEventListener("click", () => { 
                 console.log("ccc click")
                 const type = event.target.getAttribute("ty");
@@ -427,8 +467,14 @@
         });
 
         document.getElementById("table").querySelectorAll(".ccc0").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("mouseover", () => {
+                document.getElementById("tips").innerText = `Status conversion`;
+                event.target.style.color = "Red";
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "lightgrey";
+                document.getElementById("tips").innerText = ``
+            });
             word.addEventListener("click", () => { 
                 console.log("ccc click")
                 const type = event.target.getAttribute("ty");
@@ -439,8 +485,24 @@
         });
 
         document.getElementById("table").querySelectorAll(".add").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("mouseover", () => {
+                const type = event.target.getAttribute("ty");
+                if(type == 0) document.getElementById("tips").innerText = `+ Event`;
+                else if(type == 1) document.getElementById("tips").innerText = `+ Pragmatic`;
+                else if(type == 2) document.getElementById("tips").innerText = `+ Why in prose`;
+                else if(type == 3) document.getElementById("tips").innerText = `+ Comments or remarks`;
+                else if(type == 4) document.getElementById("tips").innerText = `+ Entity(JA)`;
+                else if(type == 5) document.getElementById("tips").innerText = `Expand (${expand}) row(s)`;
+
+                event.target.style.color = "Red";
+
+            });
+            word.addEventListener("mouseout", () => {
+                const type = event.target.getAttribute("ty");
+                document.getElementById("tips").innerText = ``;
+                if(type == 5) event.target.style.color = "grey";
+                else event.target.style.color = "lightgrey";
+            });
             word.addEventListener("click", () => { 
                 const line = event.target.getAttribute("line");
                 const type = event.target.getAttribute("ty");
@@ -470,6 +532,7 @@
                 }
 
                 if(type == 1) {
+                    edr = li;
                     var input = prompt('Please input Pragmatics', line.substring(3));
                     if(input) data[li].pr.push(input);
                 }
@@ -487,16 +550,22 @@
                     var input = prompt('Please input Entity(JA)', data[li].e1[0]);
                     if(input) data[li].e2.push(input);
                 }
-                if(type == 5) max += 10;
+                if(type == 5) max += expand;
 
-                console.log(data)
+                // console.log(data)
                 process_table()
             });
         });
 
         document.getElementById("table").querySelectorAll(".edits").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "black";});
+            word.addEventListener("mouseover", () => {
+                document.getElementById("tips").innerText = `Edit current value`;
+                event.target.style.color = "Red";
+            });
+            word.addEventListener("mouseout", () => {
+                document.getElementById("tips").innerText = ``;
+                event.target.style.color = "black";
+            });
             word.addEventListener("click", () => { 
                 const type = event.target.getAttribute("ty");
                 const li = event.target.getAttribute("li");
@@ -526,8 +595,15 @@
         });
 
         document.getElementById("table").querySelectorAll(".num").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "grey";});
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "Red";
+                document.getElementById("tips").innerText = `Highlight current row`;
+
+            });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
             word.addEventListener("click", () => { 
                 const li = event.target.getAttribute("li");
                 data[li].ty[2] += 1;
@@ -536,8 +612,14 @@
         });
 
         document.getElementById("table").querySelectorAll(".remove").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
+            word.addEventListener("mouseover", () => {
+                document.getElementById("tips").innerText = `Remove current row(extra event row)`;
+                event.target.style.color = "Red";
+            });
+            word.addEventListener("mouseout", () => {
+                document.getElementById("tips").innerText = ``;
+                event.target.style.color = "lightgrey";
+            });
             word.addEventListener("click", () => { 
                 const li = parseInt(event.target.getAttribute("li"));
                 console.log("remove click", li)
@@ -572,7 +654,8 @@
         
         if(!phase) w = 45
         else if(phase == 1) w = 30
-        else w = 20
+        else w = 18
+
         if(!data[i].ty[0]) 
             return `<td rowspan="` + data[i].ty[1] + `" style='padding:4px; width:` + w + `%' class="text">` 
                 + line.split(" ").map(word => 
@@ -584,12 +667,13 @@
 
     }
 
+    // table notions
     function not(type, i) {
         if(!phase) w = 45
         else if(phase == 1) w = 30
         else w = 15
-        // console.log(data[i].ev)
-        const line = data[i].st
+        var line = data[i].st
+
         if(type == 0) {
             // main empty event
             if(!data[i].ev.length) 
@@ -640,6 +724,76 @@
                 return `<td class="edits" style='text-align:center;' li="${i}" ty="${type}">` + data[i].e2[0] + `</td>`
             }
         }
+        
+        if(type == 5) {
+            html = ``;
+
+            // believe
+            for(var j in '12') {
+                // first null
+                if(!bel[data[i].cc[j]%bel.length].length) html += `<td class="cc" ty="${j}" li="${i}"><span>`;
+                        
+                // first present
+                else {
+                    // avoid same value
+                    if(data[i].cc[j]%bel.length == data[i].ccc[j]%belc.length) data[i].ccc[j] += 1;
+    
+                    // 2nd null
+                    if(!(data[i].ccc[j]%belc.length)) {
+                        html += `<td style='text-align:center;'><span class="cc" ty="${j}" li="${i}" >` +
+                            bel[data[i].cc[j]%bel.length] + `</span>`
+                        if(edr > i) html += 
+                            `<span class="ccc0" ty="${j}" li="${i}" > ` + belc[0] + `</span>`;
+                        // console.log("CCC0")
+                    }
+    
+                    // 2nd present
+                    else {
+                        html += `<td style='text-align:center;'><span class="cc" ty="${j}" li="${i}" >` +
+                            bel[data[i].cc[j]%bel.length] + `</span><span class="ccc" ty="${j}" li="${i}" > ` +
+                            belc[data[i].ccc[j]%belc.length] + `</span>`;  
+                    }
+                }
+            }
+
+            // CG
+            for(var j in '34') {
+                raw = ``
+                j = parseInt(j) + 2;
+                // console.log(j)
+                // first null
+                if(!cg[data[i].cc[j]%cg.length].length) raw += `<td class="cc" ty="${j}" li="${i}"><span>`;
+                        
+                // first present
+                else {
+                    // avoid same value
+                    if(data[i].cc[j]%cg.length == data[i].ccc[j]%cgc.length) data[i].ccc[j] += 1;
+    
+                    // 2nd null
+                    if(!(data[i].ccc[j]%cgc.length)) {
+                        raw += `<td style='text-align:center;'><span class="cc" ty="${j}" li="${i}" >` +
+                            cg[data[i].cc[j]%cg.length] + `</span>`
+                        if(edr > i) raw += `<span class="ccc0" ty="${j}" li="${i}" > ` + cgc[0] + `</span>`;
+                        // console.log("CCC0")
+                    }
+    
+                    // 2nd present
+                    else {
+                        raw += `<td style='text-align:center;'><span class="cc" ty="${j}" li="${i}" >` +
+                            cg[data[i].cc[j]%cg.length] + `</span><span class="ccc" ty="${j}" li="${i}" > ` +
+                            cgc[data[i].ccc[j]%cgc.length] + `</span>`;  
+                    }
+
+                }
+
+                html += color(1, raw, j, i);
+            }
+
+            html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
+            html += not(2, i);                          //wip
+
+            return html
+        }
     }
 
     function color(type, v, a, b) {
@@ -649,7 +803,7 @@
                 k = v[i].indexOf('=')
                 if(k > 0) 
                     html += `<span class="word" style='color:blue' ty="${a}" li="${b}" >`+ v[i].substring(0, k) +`</span>` +
-                    `<span>`+ v[i].substring(k) +`</span>`
+                    `<span class="word" ty="2" e="${v[i].substring(0, k)}">`+ v[i].substring(k) +`</span>`
                 else html += `<span class="word" style='color:blue' ty="${a}" li="${b}">`+ v[i] +`</span>`
                 if(i < v.length-1) html += `,`
             }
@@ -681,7 +835,7 @@
 
         //Start of saving method
         var textToSave='';
-        var count=0;
+        
         for(var i in obj){
             if(i < max) {
                 for(var j in obj[i]) { textToSave += obj[i][j] + '\n'; }

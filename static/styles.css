@@ -67,6 +67,29 @@ li {
     /* width: 100%; */
 }
 
+#tips {
+    font-family: Verdana, sans-serif;
+    /* font-size: 100%; */
+    /* margin-left: 10px; */
+    font-weight: normal;
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 120%;
+    color: grey;
+}
+
+#i {
+    font-family: Verdana, sans-serif;
+
+    /* font-size: 100%; */
+    margin-left: 10px;
+    font-weight: bold;
+    font-size: 120%;
+    color: lightgrey;
+    /* color: lightpink; */
+}
+
+
 .tab {
     display: inline-block;
     margin-left: 40px;

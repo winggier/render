@@ -52,6 +52,8 @@ for i in files:
     line = f.readline()
     while(line):
       line = line.rstrip('\n')
+      line = line.replace(".", '. ')
+
       line = line.replace("'", '’')
       line = line.replace('  ', '')
 
