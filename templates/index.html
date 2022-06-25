@@ -144,6 +144,8 @@
 
     function refine(line) {
         return line .replace("’s", "")
+                    .replace("’ve", "")
+                    .replace("’m", "")
                     .replace("’re", "")
                     .replace("’ll", "")
                     .replace("n’t", "")
