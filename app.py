@@ -52,10 +52,9 @@ for i in files:
     line = f.readline()
     while(line):
       line = line.rstrip('\n')
-      line = line.replace(".", '. ')
-
+      line = line.replace('.', '. ')
       line = line.replace("'", '’')
-      line = line.replace('  ', '')
+      line = line.replace('  ', ' ')
 
       k = max(line.find('A:'), line.find('B:'))
       if(k > 0):
