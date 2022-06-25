@@ -89,7 +89,8 @@
     edr = 0;
     max = 12;
     expand = 1;
-    pack = []
+    pack = [];
+    cursor = '';
     
     for (var i = 0; i < updata.length; i++) {
         did = updata[i].slice(0, 1)
@@ -185,6 +186,7 @@
 
 
     function header() {
+        
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
@@ -316,6 +318,7 @@
 
 // main table
     function process_table() {
+        
         ph = parseInt(phase)
         did = pack[di][0]
         dialog = pack[di][1]
@@ -370,7 +373,7 @@
         html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>`
             // + `<span class="foot" style='float:right'>SAVE</span></p>`;
         document.getElementById("table").innerHTML = html;
-
+        document.getElementById("tips").innerText = cursor;
 
         //click functions
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
@@ -421,7 +424,7 @@
                 if(ty < 2) {
                     if(!w) document.getElementById("tips").innerText = `Edit Believe value (null)`;
                     else if(w == 'CT+') document.getElementById("tips").innerText = `(certain belief)`;
-                    else if(w == 'CT+') document.getElementById("tips").innerText = `(certain belief that not)`;
+                    else if(w == 'CT-') document.getElementById("tips").innerText = `(certain belief that not)`;
                     else document.getElementById("tips").innerText = `(event may or may not have happened)`;
 
                 }
@@ -429,7 +432,7 @@
                     if(!w) document.getElementById("tips").innerText = `Edit Common Ground value (null)`;
                     else if(w == 'JA') document.getElementById("tips").innerText = `(when an event has been just added to the CG)`;
                     else if(w == 'IN') document.getElementById("tips").innerText = `(when an event already existed in the CG)`;
-                    else if(w == 'RT') document.getElementById("tips").innerText = `(when an event has been rejected from the CG)`
+                    else if(w == 'RT') document.getElementById("tips").innerText = `(when an event has been rejected from the CG)`;
                     else document.getElementById("tips").innerText = `(when it is impossible to determine the status)`;
                 }
                 else {
@@ -460,8 +463,30 @@
                 const type = event.target.getAttribute("ty");
                 const li = event.target.getAttribute("li");
                 console.log(li, type)
-
                 data[li].cc[type] += 1;
+                if(type < 2) {
+                    const w = bel[data[li].cc[type]];
+                    if(!w) cursor = `Edit Believe value (null)`;
+                    else if(w == 'CT+') cursor = `(certain belief)`;
+                    else if(w == 'CT-') cursor = `(certain belief that not)`;
+                    else cursor = `(event may or may not have happened)`;
+                }
+                else if(type < 4) {
+                    const w = cg[data[li].cc[type]];
+                    if(!w) cursor = `Edit Common Ground value (null)`;
+                    else if(w == 'JA') cursor = `(when an event has been just added to the CG)`;
+                    else if(w == 'IN') cursor = `(when an event already existed in the CG)`;
+                    else if(w == 'RT') cursor = `(when an event has been rejected from the CG)`;
+                    else cursor = `(when it is impossible to determine the status)`;
+                }
+                else {
+                    const w = why[data[li].cc[type]];
+                    if(!w) cursor = `Edit why value (null)`;
+                    else if(w == 'CT+') cursor = `(world knowledge)`;
+                    else if(w == 'CT-') cursor = `(context present in the dialog)`;
+                    else cursor = `(specific lexical item (word, phrase, expression))`;
+                }
+
                 process_table()
             });
         });
@@ -666,6 +691,7 @@
                 save()
             });
         });
+
 
     }
 
