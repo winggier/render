@@ -629,8 +629,10 @@
                 event.target.style.color = "Red";
             });
             word.addEventListener("mouseout", () => {
+                const type = event.target.getAttribute("ty");
                 document.getElementById("tips").innerText = ``;
-                event.target.style.color = "black";
+                if(type == 4) event.target.style.color = "green";
+                else event.target.style.color = "black";
             });
             word.addEventListener("click", () => { 
                 const type = event.target.getAttribute("ty");
@@ -785,7 +787,8 @@
                 return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             }
             else {
-                return `<td class="edits" style='text-align:center;' li="${i}" ty="${type}">` + data[i].e2[0] + `</td>`
+                return `<td class="edits" style='text-align:center; color:green' li="${i}" ty="${type}">` +
+                    data[i].e2[0] + `</td>`
             }
         }
         
