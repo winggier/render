@@ -71,7 +71,7 @@
     function appendix() {
         html = `<table style='font-family:Verdana; padding:2px;'><tr style='font-weight:bold; background-color:Grey'>`;
         html += `<td style='text-align:center;'><span class='app' ph='0'>Hide</span><span class='app' ph='1'>Dialog</span>`;
-        html += `<span class='app' ph='2'>Info</span><span class='app' ph='3'>What's new</span></td></tr>`;
+        html += `<span class='app' ph='2'>Interactions</span><span class='app' ph='3'>What's new</span></td></tr>`;
 
         
         // html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
@@ -85,7 +85,7 @@
 
         if(!appp) html = html.replace('Hide', `<span style='color:darkred'; ph='0'>Hide</span>`);
         else if(appp == 1) html = html.replace('Dialog', `<span style='color:darkred'; ph='1'>Dialog</span>`);
-        else if(appp == 2) html = html.replace('Info', `<span style='color:darkred'; ph='2'>Info</span>`);
+        else if(appp == 2) html = html.replace('Interactions', `<span style='color:darkred'; ph='2'>Interactions</span>`);
         else html = html.replace(`What's new`, `<span style='color:darkred'; ph='3'>What's new</span>`);
 
         html += `</tr></table>`
