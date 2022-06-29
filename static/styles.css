@@ -39,6 +39,17 @@ table {
     width: 100%;
 }
 
+.app {
+    font-family: Verdana, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    /* background-color: grey; */
+
+}
+
 td, th {
     /* border: 1px solid #dddddd; */
     border: 1px solid lightgrey;

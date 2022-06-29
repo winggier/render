@@ -13,62 +13,7 @@
 
 <div class="header" id="header"></div>
 <div id="table"></div>
-<!-- <div id="tips"></div> -->
-
-<h3 style="font-family:Verdana; padding:2px; text-align:center; background-color:grey">Info</h3>
-
-<div class="info" contenteditable="true" >Click row # to select/highlight row</div><br>
-
-<div class="info" contenteditable="true" >Click the word in the sentences to add it to Entity
-    <li>Click it again to remove it from the Entity</li>
-</div><br>
-
-<div class="info" contenteditable="true" >Symbols used in dialogs (Symbols will be removed when words added to Entity)
-    <li>& – indicates an entity and NOT the ‘and’ conjunction; it’s how the authors of the corpus decided to mark</li>
-    <li>% – expressions denoting confirmation, confusion, perhaps even rejection; those are important for us</li>
-    <li>curly {} and square brackets[]– non-verbal expressions as interpreted by the authors; those would be much more useful when we start listening to the audio recordings</li>
-    <li>double parentheses (()) – the authors were unsure if those were the exact words of the speaker</li>
-</div><br>
-
-<div class="info" contenteditable="true" >Click "+" to add items to the corresponding tags
-    <li>Additional events will be added in a new row under the same sentence</li>
-    <li>There can be multiple entities and events under the same sentence</li>
-    <li>The same event can only be associated with at most one Pragmatics, one Why in prose, and one Comment</li>
-</div><br>
-
-<div class="info" contenteditable="true" >Belief Tags Click Cycle:
-    <li>Add events/pragmatics at next row to enable status conversion</li>
-    <li>CT+ (certain belief)</li>
-    <li>CT- (certain belief that not)</li>
-    <li>PS (event may or may not have happened)</li>
-</div><br>
-
-<div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
-    <li>Add events/pragmatics at next row to enable status conversion</li>
-    <li>JA (when an event has been just added to the CG)</li>
-    <li>JA→IN</li>
-    <li>JA→RT</li>
-    <li>JA→AM</li>
-
-    <li>IN (when an event already existed in the CG)</li>
-    <li>IN→RT</li>
-    <li>IN→AM</li>
-
-    <li>RT (when an event has been rejected from the CG)</li>
-
-    <li>AM (when it is impossible to determine the status)</li>
-    <li>AM→IN</li>
-    <li>AM→RT</li>
-
-</div><br>
-
-<div class="info" contenteditable="true" >Why Tags Click Cycle:
-    <li>WK (world knowledge)</li>
-    <li>C (context present in the dialog)</li>
-    <li>LI (specific lexical item: word/phrase/expression)</li>
-    
-</div>
-
+<div id="appendix"></div>
 
 <script>
     var text = 'grey'
@@ -91,6 +36,7 @@
     expand = 1;
     pack = [];
     cursor = '';
+    appp = 0;
     
     for (var i = 0; i < updata.length; i++) {
         did = updata[i].slice(0, 1)
@@ -121,6 +67,125 @@
 
     reload(0)
 
+
+    function appendix() {
+        html = `<table style='font-family:Verdana; padding:2px;'><tr style='font-weight:bold; background-color:Grey'>`;
+        html += `<td style='text-align:center;'><span class='app' ph='0'>Hide</span><span class='app' ph='1'>Dialog</span>`;
+        html += `<span class='app' ph='2'>Info</span><span class='app' ph='3'>What's new</span></td></tr>`;
+
+        
+        // html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
+        // html += "<tr style='font-weight:bold; background-color:Grey'>";
+
+        // if(!ph) hd = hd0
+        // else if(ph == 1) hd = hd1
+        // else hd = hd2
+        // for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
+
+
+        if(!appp) html = html.replace('Hide', `<span style='color:darkred'; ph='0'>Hide</span>`);
+        else if(appp == 1) html = html.replace('Dialog', `<span style='color:darkred'; ph='1'>Dialog</span>`);
+        else if(appp == 2) html = html.replace('Info', `<span style='color:darkred'; ph='2'>Info</span>`);
+        else html = html.replace(`What's new`, `<span style='color:darkred'; ph='3'>What's new</span>`);
+
+        html += `</tr></table>`
+        // Dialog
+        if(appp == 1) {
+            html += `<table>`
+
+            for (var i = 0; i < dialog.length; i++) {
+                html += `<tr><td style='text-align:center;'>` + i + `</td>`
+                html += `<td class='info'>` + dialog[i] + `</td></tr>`;
+                // if(dialog[i][0] == 'A') html += `<td class='info'>` + dialog[i] + `</td></tr>`;
+                // else html += `<td class='info' style='color:darkblue'>` + dialog[i] + `</td></tr>`;
+            }
+            
+        } 
+
+        // Info
+        else if(appp == 2) html += `<div class="info" contenteditable="true" >Click row # to select/highlight row</div><br>
+            <div class="info" contenteditable="true" >Click the word in the sentences to add it to Entity
+                <li>Click it again to remove it from the Entity</li>
+            </div><br>
+
+            <div class="info" contenteditable="true" >Symbols used in dialogs (Symbols will be removed when words added to Entity)
+                <li>& – indicates an entity and NOT the ‘and’ conjunction; it’s how the authors of the corpus decided to mark</li>
+                <li>% – expressions denoting confirmation, confusion, perhaps even rejection; those are important for us</li>
+                <li>curly {} and square brackets[]– non-verbal expressions as interpreted by the authors; those would be much more
+                     useful when we start listening to the audio recordings</li>
+                <li>double parentheses (()) – the authors were unsure if those were the exact words of the speaker</li>
+            </div><br>
+
+            <div class="info" contenteditable="true" >Click "+" to add items to the corresponding tags
+                <li>Additional events will be added in a new row under the same sentence</li>
+                <li>There can be multiple entities and events under the same sentence</li>
+                <li>The same event can only be associated with at most one Pragmatics, one Why in prose, and one Comment</li>
+            </div><br>
+
+            <div class="info" contenteditable="true" >Belief Tags Click Cycle:
+                <li>Add events/pragmatics at next row to enable status conversion</li>
+                <li>CT+ (certain belief)</li>
+                <li>CT- (certain belief that not)</li>
+                <li>PS (event may or may not have happened)</li>
+            </div><br>
+
+            <div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
+                <li>Add events/pragmatics at next row to enable status conversion</li>
+                <li>JA (when an event has been just added to the CG)</li>
+                <li>JA→IN</li>
+                <li>JA→RT</li>
+                <li>JA→AM</li>
+
+                <li>IN (when an event already existed in the CG)</li>
+                <li>IN→RT</li>
+                <li>IN→AM</li>
+
+                <li>RT (when an event has been rejected from the CG)</li>
+
+                <li>AM (when it is impossible to determine the status)</li>
+                <li>AM→IN</li>
+                <li>AM→RT</li>
+            </div><br>
+
+            <div class="info" contenteditable="true" >Why Tags Click Cycle:
+                <li>WK (world knowledge)</li>
+                <li>C (context present in the dialog)</li>
+                <li>LI (specific lexical item: word/phrase/expression)</li>
+            </div>`;
+
+        // news
+        else if(appp == 3) {
+            html += `<div class="info" contenteditable="true" >Jun 29:`;
+            html += `<li class='info'>Coloring entity in sentence</li>`;
+            html += `<li class='info'>Coloring entity(JA)</li>`;
+            html += `<li class='info'>Tips bug fix</li>`;
+            html += `<li class='info'>Add Full dialog, updatas notes</li>`;
+
+        }
+        else html += '';
+
+        // document.getElementById("tips").innerText = `(when an event has been just added to the CG)`;
+
+        document.getElementById("appendix").innerHTML = html;
+        
+
+        document.getElementById("appendix").querySelectorAll(".app").forEach(word => {
+
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+            });
+            word.addEventListener("mouseout", () => {
+                p = parseInt(event.target.getAttribute("ph"))
+                if(p == appp) event.target.style.color = "DarkRed";
+                else event.target.style.color = "black";
+            });
+            word.addEventListener("click", () => { 
+                appp = parseInt(event.target.getAttribute("ph"));
+                appendix()
+            });
+        });
+
+    }
         
     function reload(v) {
         di += v
@@ -374,6 +439,7 @@
             // + `<span class="foot" style='float:right'>SAVE</span></p>`;
         document.getElementById("table").innerHTML = html;
         document.getElementById("tips").innerText = cursor;
+        appendix();
 
         //click functions
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
@@ -500,8 +566,8 @@
                 else {
                     const w = why[data[li].cc[type]];
                     if(!w) cursor = `Edit why value (null)`;
-                    else if(w == 'CT+') cursor = `(world knowledge)`;
-                    else if(w == 'CT-') cursor = `(context present in the dialog)`;
+                    else if(w == 'WK') cursor = `(world knowledge)`;
+                    else if(w == 'C') cursor = `(context present in the dialog)`;
                     else cursor = `(specific lexical item (word, phrase, expression))`;
                 }
 
@@ -919,8 +985,6 @@
         hiddenElement.download = filename;
         hiddenElement.click();
     }
-
-
 
 
 </script>
