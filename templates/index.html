@@ -156,6 +156,7 @@
         // news
         else if(appp == 3) {
             html += `<div class="info" contenteditable="true" >Jun 29:`;
+            html += `<li class='info'>Editing entity value bugs fix</li>`;
             html += `<li class='info'>Coloring entity in sentence</li>`;
             html += `<li class='info'>Coloring entity(JA)</li>`;
             html += `<li class='info'>Tips bug fix</li>`;
@@ -468,18 +469,28 @@
                 const e = event.target.getAttribute("e");
                 const li = event.target.getAttribute("li");
                 const type = event.target.getAttribute("ty");
+                const index = data[li].er.indexOf(e)
 
-                console.log(li, type, e, w)
+                console.log("click", li, type, e, w, index)
 
                 // modifice previous
                 if(type == 2) {
-                    data[li].e1.splice(data[li].er.indexOf(e), 1)
+                    console.log("Before", li, type, e, w)
+                    // console.log(data[li].er, e, data[li].er.indexOf(e))
+                    // console.log(data[li].e1, w, data[li].e1.indexOf(w))
+                    
+
+                    data[li].e1.splice(index, 1)
+                    data[li].er.splice(index, 1)
                     var input = prompt('Please input new entity value');
                     if(input) data[li].e1.push(e + '=' + input)
-                    else data[li].e1.push(w)
-                    // console.log("Modified", li, type, e, w)
-                    // console.log(data[li].er)
-                    // console.log(data[li].e1)
+                    else data[li].e1.push(e)
+                    data[li].er.push(e)
+
+
+                    console.log("Modified", li, type, e, w)
+                    console.log(data[li].er)
+                    console.log(data[li].e1)
                 }
 
                 // sentance click
