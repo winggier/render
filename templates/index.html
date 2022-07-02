@@ -15,6 +15,7 @@
 <div id="table"></div>
 <div id="appendix"></div>
 
+
 <script>
     var text = 'grey'
     var updata = {{ data|tojson }}
@@ -32,7 +33,7 @@
     cgc = ['→', '→JA', '→IN', '→RT', '→AM']
     why = ['', 'WK', 'C', 'LI']
     edr = 0;
-    max = 12;
+    max = 3;
     expand = 1;
     pack = [];
     cursor = '';
@@ -71,7 +72,8 @@
     function appendix() {
         html = `<table style='font-family:Verdana; padding:2px;'><tr style='font-weight:bold; background-color:Grey'>`;
         html += `<td style='text-align:center;'><span class='app' ph='0'>Hide</span><span class='app' ph='1'>Dialog</span>`;
-        html += `<span class='app' ph='2'>Interactions</span><span class='app' ph='3'>What's new</span></td></tr>`;
+        html += `<span class='app' ph='2'>Interactions</span><span class='app' ph='3'>Setting</span>`;
+        html += `<span class='app' ph='4'>What's new</span></td></tr>`;
 
         
         // html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
@@ -86,6 +88,7 @@
         if(!appp) html = html.replace('Hide', `<span style='color:darkred'; ph='0'>Hide</span>`);
         else if(appp == 1) html = html.replace('Dialog', `<span style='color:darkred'; ph='1'>Dialog</span>`);
         else if(appp == 2) html = html.replace('Interactions', `<span style='color:darkred'; ph='2'>Interactions</span>`);
+        else if(appp == 3) html = html.replace('Setting', `<span style='color:darkred'; ph='2'>Setting</span>`);
         else html = html.replace(`What's new`, `<span style='color:darkred'; ph='3'>What's new</span>`);
 
         html += `</tr></table>`
@@ -153,8 +156,20 @@
                 <li>LI (specific lexical item: word/phrase/expression)</li>
             </div>`;
 
-        // news
         else if(appp == 3) {
+            html += `<div class="info" contenteditable="true" >Setting:`;
+            html += `<li class='info'>Font</li>`;
+            html += `<li class='info'>Width</li>`;
+            html += `<li class='info'>Expand rows</li>`;
+
+        }
+
+        // news
+        else if(appp == 4) {
+            html += `<div class="info" contenteditable="true" >Jul 2:`;
+            html += `<li class='info'>Local save and load function, there may be bugs, only for testing, 
+                Can only read the job of current dialog </li>`;
+            html += `<li class='info'>Extra events bugs fix</li>`;
             html += `<div class="info" contenteditable="true" >Jun 29:`;
             html += `<li class='info'>Editing entity value bugs fix</li>`;
             html += `<li class='info'>Coloring entity in sentence</li>`;
@@ -219,6 +234,18 @@
                     .replace(/[^\w\s\']|_/g, "")
                     .replace(/\s+/g, " ")
         // return line.replace(/[^\w\s\']|_/g, "").replace(/\s+/g, " ")
+    }
+
+    function cp(des, sor, spl) {
+        if(!sor.length) return
+        des.length = 0;
+        if(spl) {
+            if(spl == 1) {  // string
+                for(const element of sor.split(',')) des.push(element)
+            } 
+            else for(const element of sor.split(',')) des.push(parseInt(element))
+        } 
+        else des.push(sor)
     }
 
     function notation(type, index) {
@@ -382,7 +409,7 @@
 
     }
 
-// main table
+    // main table
     function process_table() {
         ph = parseInt(phase)
         did = pack[di][0]
@@ -436,8 +463,10 @@
         
         // html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
 
-        html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>`
-            // + `<span class="foot" style='float:right'>SAVE</span></p>`;
+        html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>
+            <span><label for="in" class="foot" ty='1'>LOAD</label><input type="file" id="in"/></span>
+            <span class="foot">SAVE</span></p>`;
+
         document.getElementById("table").innerHTML = html;
         document.getElementById("tips").innerText = cursor;
         appendix();
@@ -664,7 +693,7 @@
                             data[parent(li)].ty[1] += 1;
                             max += 1;
                             var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[],
-                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ty:[1, li, 0]})
+                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[1, li, 0]})
                             // data.splice(parseInt(li) + 1, 0, tuple);
                             data.splice(li+1, 0, tuple);
                         }
@@ -782,11 +811,153 @@
         });
 
         document.getElementById("table").querySelectorAll(".foot").forEach(word => {
-            word.addEventListener("mouseover", () => {event.target.style.color = "Red";});
-            word.addEventListener("mouseout", () => {event.target.style.color = "lightgrey";});
-            word.addEventListener("click", () => { 
-                save()
+            word.addEventListener("mouseover", () => {
+                const ty = parseInt(event.target.getAttribute("ty"));
+                if(ty) document.getElementById("tips").innerText = `Upload/import job`;
+                else document.getElementById("tips").innerText = `Save current job to local`;
+                event.target.style.color = "DarkRed";
             });
+            word.addEventListener("mouseout", () => {
+                event.target.style.color = "grey";
+                document.getElementById("tips").innerText = ``;
+            });
+            word.addEventListener("click", () => { 
+                const ty = parseInt(event.target.getAttribute("ty"));
+                console.log("foot click = ", ty);
+                if(!ty) save()
+                // if(ty) read()
+                // else save()
+            });
+        });
+
+        document.querySelector("#in").addEventListener('change', function() {
+            var all_files = this.files;
+            if(all_files.length == 0) { alert('Error : No file selected'); return;}
+
+            // first file selected by user
+            var file = all_files[0];
+
+            // Max 2 MB allowed
+            if(file.size > 2*1024*1024) { alert('Error : Exceeded size 2MB'); return;}
+            var reader = new FileReader();
+
+            // file reading finished successfully
+            reader.addEventListener('load', function(e) {
+
+                // var dd = e.target.file;
+                console.log(file.name)
+                k = file.name.indexOf('_')
+                if(k < 0) { alert('Error : Wrong File Name'); return;}
+
+                did = file.name.substring(0, k)
+                console.log(did)
+
+                // need implement to relocate to new did <<<<<<<<<<<<<<<<<
+
+                var text = e.target.result;
+                text = text.split('\n');
+                console.log(text);
+
+
+
+
+                // var missed = 1
+                // if(input) {
+                //     for(var i = 0; i < updata.length; i++) {
+                //         if(updata[i].slice(0, 1) == input) {
+                //             missed = 0;
+                //             di = i;
+                //             console.log("reoload", i)
+                //             // header()
+                //             // process_table()
+                //             reload(0);
+                //             break;
+                //         }
+                //     }
+                // if(missed) alert("# not found");
+
+
+
+                max = parseInt(text[0])
+                s = text.length -1
+                if((s-1)/12 != max) console.log("wrong file size", s, (s-1)%12, max)
+                else console.log("size okay", s, max)
+
+                // line = 1
+                for(var i = 0; i < max; i++) {
+                    if(data[i].st != text[i*12+1]) {
+                        console.log("!= to data[i]", data[i].st, text[i*12+1])
+                        if(text[i*12+1].length) {alert('Error : Bad dialogs'); return;}
+                        var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[], pr:[],
+                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0]})
+                            // data.splice(parseInt(li) + 1, 0, tuple);
+                        data.splice(i, 0, tuple);
+                        
+                    }
+
+                    else console.log("st equal")
+
+                    // data[i].e1.length = 0;
+                    // for (const element of text[i*12+2].split(',')) data[i].e1.push(element)
+                    
+                    cp(data[i].e1, text[i*12 +2], 1)
+                    cp(data[i].e2, text[i*12 +3], 0)
+                    cp(data[i].er, text[i*12 +4], 1)
+                    cp(data[i].ev, text[i*12 +5], 0)
+                    cp(data[i].pr, text[i*12 +6], 0)
+                    cp(data[i].why, text[i*12 +7], 0)
+                    cp(data[i].wip, text[i*12 +8], 0)
+                    cp(data[i].com, text[i*12 +9], 0)
+                    cp(data[i].cc, text[i*12 +10], 2)
+                    cp(data[i].ccc, text[i*12 +11], 2)
+                    cp(data[i].ty, text[i*12 +12], 2)
+
+
+
+                    // data[i].e2 = text[i*12+3]
+                    // data[i].er = text[i*12+4]
+                    // data[i].ev = text[i*12+5]
+                    // data[i].pr = text[i*12+6]
+                    // data[i].why = text[i*12+7]
+                    // data[i].wip = text[i*12+8]
+                    // data[i].com = text[i*12+9]
+                    // data[i].cc = text[i*12+10]
+                    // data[i].ccc = text[i*12+11]
+                    // data[i].ty = text[i*12+12]
+
+                    console.log("ty", data[i].ty)
+
+
+                    // did = updata[i].slice(0, 1)
+                    // dialog = updata[i].slice(1)
+                    // obj = []
+                    // for (var j = 0; j < dialog.length; j++) {
+                    //     //ty[0] 0:mian event 1:extra
+                    //     //ty[1] #of row of sentence
+                    //     //ty[2] 1:hightlight/selected
+                    //     var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
+                    //         cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0]})
+                    //     obj.push(tuple)
+                    // }
+                    // data = []
+                    // data.push(did)
+                    // data.push(dialog)
+                    // data.push(obj)
+                    // console.log(dialog)
+
+                    // pack.push(data)
+                }
+
+                process_table()
+
+                // process_table();
+            });
+
+            // file reading failed
+            reader.addEventListener('error', function() { alert('Error : Failed to read file');});
+
+            // read as text file
+            reader.readAsText(file);
         });
 
 
@@ -824,7 +995,7 @@
             
             // last row
             else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
-                console.log("last row")
+                console.log("last row", data[parent(i)].ty[1], parent(i), i)
                 return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
                 <span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
             }
@@ -979,7 +1150,7 @@
         console.log(filename)
 
         //Start of saving method
-        var textToSave='';
+        var textToSave = max + '\n';
         
         for(var i in obj){
             if(i < max) {
@@ -996,6 +1167,8 @@
         hiddenElement.download = filename;
         hiddenElement.click();
     }
+
+
 
 
 </script>

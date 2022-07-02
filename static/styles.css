@@ -147,7 +147,27 @@ li {
     font-family: Verdana, sans-serif;
     font-weight: bold;
     font-size: 120%;
-    color: lightgrey;
+    color: grey;
     /* color: lightpink; */
     float: right;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+
+#file-input-label {
+	width: 100px;
+	/* cursor: pointer; */
+	background-color: #336699;
+	color: white;
+	padding: 10px;
+	/* display: block; */
+	margin: 0 auto;
+    text-align: center;
+    float: right;
+}
+
+#in {
+	display: none;
 }
