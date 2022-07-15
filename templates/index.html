@@ -38,6 +38,8 @@
     pack = [];
     cursor = '';
     appp = 0;
+    prvmax = 0;
+    // tablet = 0;
     
     for (var i = 0; i < updata.length; i++) {
         did = updata[i].slice(0, 1)
@@ -73,8 +75,8 @@
         html = `<table style='font-family:Verdana; padding:2px;'><tr style='font-weight:bold; background-color:Grey'>`;
         html += `<td style='text-align:center;'><span class='app' ph='0'>Hide</span><span class='app' ph='1'>Dialog</span>`;
         html += `<span class='app' ph='2'>Interactions</span><span class='app' ph='3'>Setting</span>`;
-        html += `<span class='app' ph='4'>What's new</span></td></tr>`;
-
+        if(did == 4092) html += `<span class='app' ph='5' style='color:darkgreen';>Audio</span>`;
+        html += `<span class='app' ph='4'>What's new</span></td></tr></table>`;
         
         // html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
         // html += "<tr style='font-weight:bold; background-color:Grey'>";
@@ -84,14 +86,15 @@
         // else hd = hd2
         // for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
 
-
         if(!appp) html = html.replace('Hide', `<span style='color:darkred'; ph='0'>Hide</span>`);
         else if(appp == 1) html = html.replace('Dialog', `<span style='color:darkred'; ph='1'>Dialog</span>`);
         else if(appp == 2) html = html.replace('Interactions', `<span style='color:darkred'; ph='2'>Interactions</span>`);
-        else if(appp == 3) html = html.replace('Setting', `<span style='color:darkred'; ph='2'>Setting</span>`);
-        else html = html.replace(`What's new`, `<span style='color:darkred'; ph='3'>What's new</span>`);
+        else if(appp == 3) html = html.replace('Setting', `<span style='color:darkred'; ph='3'>Setting</span>`);
+        else if(appp == 4) html = html.replace(`What's new`, `<span style='color:darkred'; ph='4'>What's new</span>`);
+        else if(appp == 5) html = html.replace('Audio', `<span style='color:darkred'; ph='5'>Audio</span>`);
 
-        html += `</tr></table>`
+        // else html = html.replace(`What's new`, `<span style='color:darkred'; ph='3'>What's new</span>`);
+
         // Dialog
         if(appp == 1) {
             html += `<table>`
@@ -156,21 +159,31 @@
                 <li>LI (specific lexical item: word/phrase/expression)</li>
             </div>`;
 
+        // setting
         else if(appp == 3) {
-            html += `<div class="info" contenteditable="true" >Setting:`;
-            html += `<li class='info'>Font</li>`;
-            html += `<li class='info'>Width</li>`;
-            html += `<li class='info'>Expand rows</li>`;
-
+            html += `<br><table><tr><span class='sett'>Annotation table type:</span>`
+            if(max < 999) html += `<span class='set' t='1' style='color:darkred'>Limited</span><span class='set' `
+            else html += `<span class='set' t='1'>Limited</span><span class='set' style='color:darkred' `
+            html += `t='2'>Full</span></tr></table>`;
+            html += `<br><table><tr><span class='sett'>Table expand pre click:</span><span class='set' t='3'>` + expand 
+            html += `</span></tr></table>`
         }
 
-        // news
+        // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
-            html += `<div class="info" contenteditable="true" >Jul 2:`;
+            html += `<br><div class="info" contenteditable="true" >Jul 15:`;
+            html += `<li class='info'>Audio Playback function added to #4092</li>`;
+            html += `<li class='info'>Audio Player functionality and interface depends on system and browser</li>`;
+            html += `<li class='info'>Now can set the number of rows to be displayed(full or limited) and the expand number</li>`;
+            html += `<li class='info'>Header bugs fixed</li>`;
+            html += `<li class='info'>Entity tab can now add custom entities</li></div>`;
+
+            html += `<br><div class="info" contenteditable="true" >Jul 2:`;
             html += `<li class='info'>Local save and load function, there may be bugs, only for testing, 
                 Can only read the job of current dialog </li>`;
             html += `<li class='info'>Extra events bugs fix</li></div>`;
-            html += `<div class="info" contenteditable="true" >Jun 29:`;
+
+            html += `<br><div class="info" contenteditable="true" >Jun 29:`;
             html += `<li class='info'>Editing entity value bugs fix</li>`;
             html += `<li class='info'>Coloring entity in sentence</li>`;
             html += `<li class='info'>Coloring entity(JA)</li>`;
@@ -178,13 +191,24 @@
             html += `<li class='info'>Add Full dialog, updatas notes</li>`;
 
         }
-        else html += '';
+
+        //audio
+        else if(appp == 5) {
+            // html += `<audio controls><source src="{{ url_for('static', filename='4092.mp3') }}"></audio>`
+            html += `<figure><figcaption>Audio File: #4092</figcaption></figure>
+                <div class="audio">
+                <audio id="player" width="600" height="50" ontimeupdate="updateTime()" 
+                controls src="{{ url_for('static', filename='4092.mp3') }}">
+                            Your browser does not support the <code>audio</code> element.
+                </audio></div>`
+        }
+
+        else html += ``;
 
         // document.getElementById("tips").innerText = `(when an event has been just added to the CG)`;
 
         document.getElementById("appendix").innerHTML = html;
         
-
         document.getElementById("appendix").querySelectorAll(".app").forEach(word => {
 
             word.addEventListener("mouseover", () => {
@@ -193,6 +217,7 @@
             word.addEventListener("mouseout", () => {
                 p = parseInt(event.target.getAttribute("ph"))
                 if(p == appp) event.target.style.color = "DarkRed";
+                else if(p == 5) event.target.style.color = "darkgreen";
                 else event.target.style.color = "black";
             });
             word.addEventListener("click", () => { 
@@ -200,6 +225,36 @@
                 appendix()
             });
         });
+
+        document.getElementById("appendix").querySelectorAll(".set").forEach(word => {
+
+            word.addEventListener("mouseover", () => {
+                event.target.style.color = "DarkRed";
+            });
+            word.addEventListener("mouseout", () => {
+                t = parseInt(event.target.getAttribute("t"))
+                if(t == 1 && max < 999) event.target.style.color = "DarkRed";
+                else if(t == 2 && max > 999) event.target.style.color = "grey";
+                else event.target.style.color = "grey";
+            });
+            word.addEventListener("click", () => { 
+                t = parseInt(event.target.getAttribute("t"))
+                if(t == 1) max = prvmax;
+                else if(t == 2) {
+                    prvmax = max;
+                    max = 1000;
+                }
+                else if(t == 3){
+                    var input = prompt('Please input # of rows', expand);
+                    if (isNaN(input) && input.length) alert("Must input numbers");
+                    else expand = parseInt(input);
+                    console.log(input)
+                }
+                console.log(max, prvmax, expand)
+                appendix()
+                process_table()
+            });
+            });
 
     }
         
@@ -218,7 +273,7 @@
         else prev = updata[di-1].slice(0, 1)
         // console.log(prev, di, next)
         // console.log(dialog)
-
+        appp = 0;
         phase = 2;
         header()
         process_table()
@@ -279,7 +334,6 @@
 
 
     function header() {
-        
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
@@ -350,6 +404,9 @@
             word.addEventListener("click", () => { 
                 phase = parseInt(event.target.getAttribute("p"));
                 console.log(phase)
+                if(!phase) cursor = `Show only entities`;
+                else if(phase == 1) cursor = `Show entities, events and pragmatics`;
+                else cursor = `Show all tags`;
                 header()
                 process_table()
             });
@@ -444,7 +501,7 @@
 
             if(data[i].ty[0] && data[i].ty[2]%2)        // hightlight and remove in entity
                 html += `<td class="remove" style='text-align:center; color:lightgrey' li="${i}">x</td>`;
-            else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //entity1
+            else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //e1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
             // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
@@ -453,7 +510,7 @@
             if(ph) {
                 html += not(0, i);                          //event
                 html += not(1, i);                          //Pragmatics
-                if(ph == 2) html += not(5, i);              // all cc
+                if(ph == 2) html += not(5, i);              //cc, why&wip
             }
             html += not(3, i);                          //comment
             // html += "<td><input type='checkbox' ></td>";     //mark
@@ -665,6 +722,7 @@
                 else if(type == 3) document.getElementById("tips").innerText = `+ Comments or remarks`;
                 else if(type == 4) document.getElementById("tips").innerText = `+ Entity(JA)`;
                 else if(type == 5) document.getElementById("tips").innerText = `Expand (${expand}) row(s)`;
+                else if(type == 6) document.getElementById("tips").innerText = `+ Customized entity(IN)`;
 
                 event.target.style.color = "Red";
 
@@ -723,6 +781,21 @@
                     if(input) data[li].e2.push(input);
                 }
                 if(type == 5) max += expand;
+                if(type == 6) {
+                    // console.log("+ customized e1");
+                    var input = prompt('Please input entity');
+                    if(input) {
+                        var input2 = prompt('Please input entity value');
+                        if(input2) data[li].e1.push(input + '=' + input2)
+                        else data[li].e1.push(input)
+                        data[li].er.push(input)
+
+                        console.log(data[li].er)
+                        console.log(data[li].e1)
+
+                    } 
+                    
+                }
 
                 // console.log(data)
                 process_table()
@@ -859,8 +932,6 @@
                 console.log(text);
 
 
-
-
                 // var missed = 1
                 // if(input) {
                 //     for(var i = 0; i < updata.length; i++) {
@@ -912,18 +983,6 @@
                     cp(data[i].ccc, text[i*12 +11], 2)
                     cp(data[i].ty, text[i*12 +12], 2)
 
-
-
-                    // data[i].e2 = text[i*12+3]
-                    // data[i].er = text[i*12+4]
-                    // data[i].ev = text[i*12+5]
-                    // data[i].pr = text[i*12+6]
-                    // data[i].why = text[i*12+7]
-                    // data[i].wip = text[i*12+8]
-                    // data[i].com = text[i*12+9]
-                    // data[i].cc = text[i*12+10]
-                    // data[i].ccc = text[i*12+11]
-                    // data[i].ty = text[i*12+12]
 
                     console.log("ty", data[i].ty)
 
@@ -1122,6 +1181,7 @@
                 else html += `<span class="word" style='color:blue' ty="${a}" li="${b}">`+ v[i] +`</span>`
                 if(i < v.length-1) html += `,`
             }
+            html += `<span class="add" li="${b}" ty="6"> +</span>`
         }
         if(type) {
             if(v.length) {
@@ -1167,8 +1227,5 @@
         hiddenElement.download = filename;
         hiddenElement.click();
     }
-
-
-
 
 </script>
