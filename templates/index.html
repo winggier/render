@@ -176,6 +176,7 @@
             html += `<li class='info'>Audio Player functionality and interface depends on system and browser</li>`;
             html += `<li class='info'>Now can set the number of rows to be displayed(full or limited) and the expand number</li>`;
             html += `<li class='info'>Header bugs fixed</li>`;
+            html += `<li class='info'>Add remove in highlighted row‘ entity tab</li>`;
             html += `<li class='info'>Entity tab can now add custom entities</li></div>`;
 
             html += `<br><div class="info" contenteditable="true" >Jul 2:`;
@@ -500,7 +501,7 @@
             html += stn(data[i].st, i);                 //sentance
 
             if(data[i].ty[0] && data[i].ty[2]%2)        // hightlight and remove in entity
-                html += `<td class="remove" style='text-align:center; color:lightgrey' li="${i}">x</td>`;
+                html += `<td class="remove" style='text-align:center; color:lightgrey' li="${i}">REMOVE</td>`;
             else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //e1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
