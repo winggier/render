@@ -18,7 +18,8 @@
 
 <script>
     var text = 'grey'
-    var updata = {{ data|tojson }}
+    var updata = {{ data|tojson }}[0]
+    audios = {{ data|tojson }}[1]
     // console.log(text)
     // header = updata[0]
     di = 3
@@ -39,6 +40,8 @@
     cursor = '';
     appp = 0;
     prvmax = 0;
+    nm = 'Annotator';
+    // console.log(audios.includes('4092'))
     // tablet = 0;
     
     for (var i = 0; i < updata.length; i++) {
@@ -61,21 +64,26 @@
 
         pack.push(data)
     }
+
+    // var fs = require('fs');
+    // var files = fs.readdirSync('/assets/photos/');
     
     // console.log(pack[3][0])
     // console.log(pack[3][1])
     // console.log(pack[3][2])
     // var nm = prompt('User name?', 'Annotator');
-    nm = 'Annotator';
-
+    
     reload(0)
+    // did = did[0]
+    // console.log(did)
+    // console.log(audios.includes(did[0]))
 
 
     function appendix() {
         html = `<table style='font-family:Verdana; padding:2px;'><tr style='font-weight:bold; background-color:Grey'>`;
         html += `<td style='text-align:center;'><span class='app' ph='0'>Hide</span><span class='app' ph='1'>Dialog</span>`;
         html += `<span class='app' ph='2'>Interactions</span><span class='app' ph='3'>Setting</span>`;
-        if(did == 4092) html += `<span class='app' ph='5' style='color:darkgreen';>Audio</span>`;
+        if(audios.includes(did[0])) html += `<span class='app' ph='5' style='color:darkgreen';>Audio</span>`;
         html += `<span class='app' ph='4'>What's new</span></td></tr></table>`;
         
         // html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
@@ -171,6 +179,9 @@
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Jul 16:`;
+            html += `<li class='info'>Dialogs with audio(#4092, #4093, #4104) now show the green audio logo below</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Jul 15:`;
             html += `<li class='info'>Audio Playback function added to #4092</li>`;
             html += `<li class='info'>Audio Player functionality and interface depends on system and browser</li>`;
@@ -196,12 +207,16 @@
         //audio
         else if(appp == 5) {
             // html += `<audio controls><source src="{{ url_for('static', filename='4092.mp3') }}"></audio>`
-            html += `<figure><figcaption>Audio File: #4092</figcaption></figure>
-                <div class="audio">
+            d = "4092"
+            src = "{{ url_for('static', filename='4092.mp3') }}"
+            // src = "{{ url_for('static', filename=" + d + ") }}"
+            src = "/static/4092.mp3"
+            src = "/static/" + did[0] + ".mp3"
+            console.log(src)
+            html += `<figure><figcaption>Audio File: #` + did[0] + `</figcaption></figure><div class="audio">
                 <audio id="player" width="600" height="50" ontimeupdate="updateTime()" 
-                controls src="{{ url_for('static', filename='4092.mp3') }}">
-                            Your browser does not support the <code>audio</code> element.
-                </audio></div>`
+                controls src=` + "/static/" + did[0] + ".mp3" + `>
+                Your browser does not support the <code>audio</code> element.</audio></div>`
         }
 
         else html += ``;
@@ -261,7 +276,8 @@
         
     function reload(v) {
         di += v
-        did = updata[di].slice(0, 1)
+        // did = updata[di].slice(0, 1)
+        did = pack[di][0]
         dialog = updata[di].slice(1)
 
         prev = 0
