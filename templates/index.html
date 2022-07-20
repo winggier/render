@@ -3,10 +3,8 @@
 
 <html style="background-color:rgb(238, 230, 203);">
 <head>
+    <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- <link rel="stylesheet" type="text/css" href="/styles.css" /> -->
-    <!-- <link rel="stylesheet" href="/styles.css"></link> -->
-    <!-- <link type="text/css" rel="stylesheet" href="http://fakedomain.com/smilemachine/html.css" /> -->
 </head>
 
 <!-- <h1>CG Annotation<span class = 'ano'>updated on May 10, 2022</span></h1> -->
@@ -175,10 +173,16 @@
             html += `t='2'>Full</span></tr></table>`;
             html += `<br><table><tr><span class='sett'>Table expand pre click:</span><span class='set' t='3'>` + expand 
             html += `</span></tr></table>`
+            html += `<br><table><tr><span class='sett'>Export as:</span><span class='set' t='4'>.TSV</span></tr></table>`
         }
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Jul 20:`;
+            html += `<li class='info'>Annotator are now displayed correctly when load file</li>`;
+            html += `<li class='info'>Now each entity and + sign will be displayed on a new line</li>`;
+            html += `<li class='info'>Export as .TSV added to setting</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Jul 16:`;
             html += `<li class='info'>Dialogs with audio(#4092, #4093, #4104) now show the green audio logo below</li></div>`;
 
@@ -266,11 +270,69 @@
                     else expand = parseInt(input);
                     console.log(input)
                 }
+                // TSV
+                else if(t == 4){
+                    console.log("to TSV")
+                    var obj = data;
+                    let today = new Date().toISOString().replace('-', '').replace('-', '').slice(2, 8)
+                    var filename = did + '_' + nm + '_' + today + '.tsv';
+                    console.log(filename)
+                    text = '';
+
+                    for(var i in hd2){
+                        text += hd2[i] + '\t';
+                    }
+                    text = text.substring(0, text.length - 1);
+                    text += '\n';
+
+                    for(var i in obj){
+                        // st + e1 + e2
+                        if(i < max) {
+                            text += i + '\t' + obj[i].st + '\t';
+                            for(var j in obj[i].e1) text += obj[i].e1[j] + ',';
+                            text = text.substring(0, text.length - 1);
+                            text += '\t';
+                            for(var j in obj[i].e2) text += obj[i].e2[j] + ',';
+                            text = text.substring(0, text.length - 1);
+                            text += '\t';
+    
+                            text += obj[i].ev + '\t';
+                            text += obj[i].pr + '\t';
+
+                            text += bel[obj[i].cc[0]%bel.length];
+                            if(obj[i].ccc[0]) text += belc[obj[i].ccc[0]%belc.length];
+                            text += '\t';
+                            text += bel[obj[i].cc[1]%bel.length];
+                            if(obj[i].ccc[1]) text += belc[obj[i].ccc[1]%belc.length];
+                            text += '\t';
+                            text += cg[obj[i].cc[2]%cg.length];
+                            if(obj[i].ccc[2]) text += cgc[obj[i].ccc[2]%cgc.length];
+                            text += '\t';
+                            text += cg[obj[i].cc[3]%cg.length];
+                            if(obj[i].ccc[3]) text += cgc[obj[i].ccc[3]%cgc.length];
+                            text += '\t';
+                            text += why[obj[i].cc[4]%why.length];
+                            text += '\t';
+
+                            text += obj[i].wip + '\t';
+                            text += obj[i].com + '\n';
+                        }
+
+
+                    }
+                    console.log(text)
+
+                    var hiddenElement = document.createElement('a');
+                    hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
+                    hiddenElement.target = '_blank';
+                    hiddenElement.download = filename;
+                    hiddenElement.click();
+                }
                 console.log(max, prvmax, expand)
                 appendix()
                 process_table()
             });
-            });
+        });
 
     }
         
@@ -940,31 +1002,18 @@
                 if(k < 0) { alert('Error : Wrong File Name'); return;}
 
                 did = file.name.substring(0, k)
-                console.log(did)
+                rest = file.name.substring(k+1)
+                k = rest.indexOf('_')
+                if(k < 0) { alert('Error : Wrong File Name#2'); return;}
+                nm = rest.substring(0, k)
+                // nm = file.name.substring(k,)
+                console.log(did, nm)
 
                 // need implement to relocate to new did <<<<<<<<<<<<<<<<<
 
                 var text = e.target.result;
                 text = text.split('\n');
-                console.log(text);
-
-
-                // var missed = 1
-                // if(input) {
-                //     for(var i = 0; i < updata.length; i++) {
-                //         if(updata[i].slice(0, 1) == input) {
-                //             missed = 0;
-                //             di = i;
-                //             console.log("reoload", i)
-                //             // header()
-                //             // process_table()
-                //             reload(0);
-                //             break;
-                //         }
-                //     }
-                // if(missed) alert("# not found");
-
-
+                console.log("read:", text);
 
                 max = parseInt(text[0])
                 s = text.length -1
@@ -983,7 +1032,7 @@
                         
                     }
 
-                    else console.log("st equal")
+                    // else console.log("st check equal")
 
                     // data[i].e1.length = 0;
                     // for (const element of text[i*12+2].split(',')) data[i].e1.push(element)
@@ -1000,30 +1049,11 @@
                     cp(data[i].ccc, text[i*12 +11], 2)
                     cp(data[i].ty, text[i*12 +12], 2)
 
+                    // console.log("ty", data[i].ty)
 
-                    console.log("ty", data[i].ty)
-
-
-                    // did = updata[i].slice(0, 1)
-                    // dialog = updata[i].slice(1)
-                    // obj = []
-                    // for (var j = 0; j < dialog.length; j++) {
-                    //     //ty[0] 0:mian event 1:extra
-                    //     //ty[1] #of row of sentence
-                    //     //ty[2] 1:hightlight/selected
-                    //     var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
-                    //         cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0]})
-                    //     obj.push(tuple)
-                    // }
-                    // data = []
-                    // data.push(did)
-                    // data.push(dialog)
-                    // data.push(obj)
-                    // console.log(dialog)
-
-                    // pack.push(data)
                 }
 
+                header()
                 process_table()
 
                 // process_table();
@@ -1073,7 +1103,7 @@
             else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
                 console.log("last row", data[parent(i)].ty[1], parent(i), i)
                 return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
-                <span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
+                <br><span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
             }
 
             else return `<td class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</td>`
@@ -1189,6 +1219,7 @@
 
     function color(type, v, a, b) {
         html = ``
+        // entities
         if(!type) {
             for(var i = 0; i < v.length; i++) {
                 k = v[i].indexOf('=')
@@ -1196,9 +1227,10 @@
                     html += `<span class="word" style='color:blue' ty="${a}" li="${b}" >`+ v[i].substring(0, k) +`</span>` +
                     `<span class="word" ty="2" li="${b}" e="${v[i].substring(0, k)}">`+ v[i].substring(k) +`</span>`
                 else html += `<span class="word" style='color:blue' ty="${a}" li="${b}">`+ v[i] +`</span>`
-                if(i < v.length-1) html += `,`
+                html += `<br>`
+                // if(i < v.length-1) html += `\n`
             }
-            html += `<span class="add" li="${b}" ty="6"> +</span>`
+            html += `<span class="add" li="${b}" ty="6">+</span>`
         }
         if(type) {
             if(v.length) {
