@@ -11,7 +11,6 @@ figcaption {
     color: grey;
     /* font-size: 150%; */
     font-weight: bold;
-
     text-align: center;
 }
 
@@ -21,14 +20,15 @@ audio {
     align-items: center;  */
     border-radius: 5px;
     text-align: center;
-    width:50%; 
+    width:90%; 
     cursor:pointer;
+    /* display:table-cell; */
   }
 
-  .audio audio{
+.audio audio {
     margin: 0 auto;
     display: table;
-  }
+}
 
 .header {
     font-family: Verdana;
@@ -78,7 +78,6 @@ table {
 td, th {
     /* border: 1px solid #dddddd; */
     border: 1px solid lightgrey;
-
     text-align: left;
     padding: 8px;
 }
@@ -87,11 +86,11 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-h1 {
+/* h1 {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-}
+} */
 
 li {
     font-family: Verdana, sans-serif;
@@ -116,13 +115,25 @@ li {
 
 #i {
     font-family: Verdana, sans-serif;
-
     /* font-size: 100%; */
     margin-left: 10px;
     font-weight: bold;
     font-size: 120%;
     color: lightgrey;
     /* color: lightpink; */
+}
+
+#ctext {
+    font-family: Verdana, sans-serif;
+    /* margin-left: 50px; */
+    padding-left: 30px;
+    font-weight: bold;
+    font-size: 150%;
+    color: grey;
+    /* width: 20%; */
+    /* padding: 20px; */
+    /* display:table-cell; */
+    /* vertical-align:middle; */
 }
 
 
@@ -205,7 +216,6 @@ li {
 }
 
 
-
 #file-input-label {
 	width: 100px;
 	/* cursor: pointer; */
@@ -221,3 +231,5 @@ li {
 #in {
 	display: none;
 }
+
+

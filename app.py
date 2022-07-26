@@ -1,8 +1,9 @@
 # import json
 # import pandas as pd
 # import numpy as np
-from flask import Flask, request, make_response, redirect, render_template, url_for
 import os
+from flask import Flask, render_template
+from pydub import AudioSegment
 # import flask.cli
 # flask.cli.show_server_banner = lambda *args: None
 
@@ -20,8 +21,25 @@ def home(): return render_template("index.html", data = data)
 
 
 # <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# df = pd.read_csv('static/584.csv')
-# print(df.head())
+
+
+def to_clip(f, buf):
+  for i in clips:
+    if int(i[0]) == f: tar = i
+
+  # # path = "static/1006.wav"
+  # # path = "static/4092.wav"
+  path = "static/" + str(f) + ".mp3"
+  # print(path)
+  # print(tar)
+
+  sound = AudioSegment.from_mp3(path)
+
+  for idx, x in enumerate(tar[1:]):
+    outp = "./static/" + tar[0] + '_' + str(idx) + ".mp3"
+    outa = sound[x[0]-buf:x[1]+buf]
+    outa.export(outp, format="mp3")
+
 
 
 data = []
@@ -38,6 +56,7 @@ path = "train/"
 # all_files = os.listdir(path)
 # print(all_files)
 dialogs = []
+clips = []
 print()
 files = os.listdir(path)
 files.sort()
@@ -45,25 +64,49 @@ files.sort()
 for i in files:
   if('txt' in i):
     dialog = []
+    clip = []
+    head = 3000
+    tail = 0
+    c = 0
     dialog.append(i[i.index('_')+1:i.index('.')])
     # print(dialog[0])
+    clip.append(dialog[0])
 
     f = open(path + i)
     line = f.readline()
-    while(line):
-      line = line.rstrip('\n')
-      line = line.replace('.', '. ')
-      line = line.replace("'", '’')
-      line = line.replace('  ', ' ')
 
+    while(line):
       k = max(line.find('A:'), line.find('B:'))
-      if(k > 0):
+
+      # valid line
+      if(k > 0):        
+        tail = int(float(line.split(' ')[0])*1000)
+        # cut and add
+        if(not c%10):
+          clip.append([head, tail])
+          head = tail
+
+
+        # dialog
+        line = line.rstrip('\n')
+        line = line.replace('.', '. ')
+        line = line.replace("'", '’')
+        line = line.replace('  ', ' ')
+        # line = line.replace('  ', ' ')
+        k = max(line.find('A:'), line.find('B:'))
         dialog.append(line[k:])
+
+        c += 1
+  
       line = f.readline()
+
     f.close()
     dialogs.append(dialog)
 
-print(len(dialogs))
+    if(head != tail): clip.append([head, tail])
+    clips.append(clip)
+
+# print(len(dialogs))
 data.append(dialogs)
 # print(dialogs[0])
 
@@ -79,7 +122,11 @@ for i in files:
 
 data.append(audio)
 # print(audio)
+# to_clip(4104, 2500)
+
 
 if __name__ == "__main__": app.run(debug=True)
+
+
 
 

@@ -32,13 +32,14 @@
     cgc = ['→', '→JA', '→IN', '→RT', '→AM']
     why = ['', 'WK', 'C', 'LI']
     edr = 0;
-    max = 12;
+    max = 22;
     expand = 2;
     pack = [];
     cursor = '';
     appp = 0;
     prvmax = 0;
     nm = 'Annotator';
+    clips = 0;
     // console.log(audios.includes('4092'))
     // tablet = 0;
     
@@ -178,6 +179,12 @@
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Jul 26:`;
+            html += `<li class='info'>Split audio in groups of 10 sentences</li>`;
+            html += `<li class='info'>Multiple audio players may cause performance issues, especially for Safari, 
+                if you encounter this problem, please try different browser such as Firefox/Chrome and let me(Wing) know</li>`;
+            html += `<li class='info'>Removed the full-length audio player</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Jul 20:`;
             html += `<li class='info'>Annotator are now displayed correctly when load file</li>`;
             html += `<li class='info'>Now each entity and + sign will be displayed on a new line</li>`;
@@ -196,7 +203,7 @@
 
             html += `<br><div class="info" contenteditable="true" >Jul 2:`;
             html += `<li class='info'>Local save and load function, there may be bugs, only for testing, 
-                Can only read the job of current dialog </li>`;
+                Can only read the job of selected dialog </li>`;
             html += `<li class='info'>Extra events bugs fix</li></div>`;
 
             html += `<br><div class="info" contenteditable="true" >Jun 29:`;
@@ -212,9 +219,9 @@
         else if(appp == 5) {
             // html += `<audio controls><source src="{{ url_for('static', filename='4092.mp3') }}"></audio>`
             d = "4092"
-            src = "{{ url_for('static', filename='4092.mp3') }}"
+            // src = "{{ url_for('static', filename='4092.mp3') }}"
             // src = "{{ url_for('static', filename=" + d + ") }}"
-            src = "/static/4092.mp3"
+            // src = "/static/4092.mp3"
             src = "/static/" + did[0] + ".mp3"
             console.log(src)
             html += `<figure><figcaption>Audio File: #` + did[0] + `</figcaption></figure><div class="audio">
@@ -342,8 +349,9 @@
         did = pack[di][0]
         dialog = updata[di].slice(1)
 
-        prev = 0
-        next = 0
+        prev = 0;
+        next = 0;
+        clips = 0;
         if(0 < di && di < (updata.length-1)) {
             prev = updata[di-1].slice(0, 1)
             next = updata[di+1].slice(0, 1)
@@ -409,8 +417,6 @@
             return `<span class="word" style='color:blue' line="${line}" li="${i}" ty="1">${w}</span>`
         return `<span class="word" line="${line}" li="${i}">${w}</span>`
     }
-
-
 
     function header() {
         did = pack[di][0]
@@ -551,6 +557,9 @@
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
+        senc = 0;
+        if(audios.includes(did[0])) clips = 1;
+        console.log("clips:", clips)
 
         html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
         html += "<tr style='font-weight:bold; background-color:Grey'>";
@@ -561,12 +570,18 @@
 
         for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
         html += "</tr>";
-        
+
+        // intro clips
+        if(clips) html += audio_clips(0);
 
         rows = Math.min(max, data.length)
         for (var i = 0; i < rows; i++) {
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
             // else html += "<tr><td>" + i + "</td>";
+            
+            // clips
+            if(!(senc%10) & clips) html += audio_clips(senc/10 +1)
+
             if(i == rows-1) html += `<tr><td  class="add" style='color:grey' ty="5">↓</td>`;
 
             else {
@@ -595,6 +610,8 @@
             // html += "<td><input type='checkbox' ></td>";     //mark
 
             html += "</tr>";
+
+            if(!data[i].ty[0]) senc++;
         }
         
         // html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
@@ -1275,6 +1292,14 @@
         hiddenElement.target = '_blank';
         hiddenElement.download = filename;
         hiddenElement.click();
+    }
+
+    function audio_clips(i) { 
+        if(!i) txt = 'Intro';
+        else txt = 'Clip #' + i;      
+        return `<tr><td colspan="2" id="ctext">` + txt + `</td><td colspan="20"><audio id="player" preload="none"
+                controls src=` + `"/static/` + did + `_` + i + `.mp3"` + `>
+                Your browser does not support the <code>audio</code> element.</audio></td></tr>`
     }
 
 </script>
