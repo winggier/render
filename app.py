@@ -3,7 +3,7 @@
 # import numpy as np
 import os
 from flask import Flask, render_template
-# from pydub import AudioSegment
+from pydub import AudioSegment
 # import flask.cli
 # flask.cli.show_server_banner = lambda *args: None
 
@@ -117,10 +117,18 @@ files.sort()
 
 for i in files:
   if('mp3' in i):
-    audio.append(i.split('.')[0])
+    i = i.split('.')[0]
+    if('_' in i): i = i.split('_')[0]
+    audio.append(i)
 
-data.append(audio)
-# print(audio)
+data.append(list(set(audio)))
+# print(data[1])
+
+
+# fullmp3 = []
+# for i in audio:
+#   if(len(i) < 5): to_clip(int(i), 2500)
+
 # to_clip(4104, 2500)
 
 
