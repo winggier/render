@@ -212,7 +212,17 @@ li {
     float: left;
     margin-left: 30px;
     margin-right: 30px;
-    
+}
+
+.clinks {
+    font-family: Verdana, sans-serif;
+    /* font-weight: bold; */
+    font-size: 80%;
+    color: darkcyan;
+    /* color: lightpink; */
+    /* float: right; */
+    margin-left: 10px;
+    /* margin-right: 20px; */
 }
 
 

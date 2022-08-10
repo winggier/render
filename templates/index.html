@@ -21,25 +21,36 @@
     // console.log(text)
     // header = updata[0]
     di = 3
-    // hd0 = ['#', 'Sentence', 'Entity(IN)', 'Entity(JA)','Comment']
     hd0 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Comment']
     hd1 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
     hd2 = ['#', 'Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
-    'CG(A)', 'CG(B)', 'Why', 'Why in prose', 'Comment']
+    'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
+
+    hd0 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Comment']
+    hd1 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Comment']
+    hd2 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+    'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
+
     bel = ['', 'CT+', 'CT-', 'PS']
     belc = ['→', '→CT+', '→CT-', '→PS']
     cg = ['', 'JA', 'IN','RT', 'AM']
     cgc = ['→', '→JA', '→IN', '→RT', '→AM']
     why = ['', 'WK', 'C', 'LI']
-    edr = 0;
-    max = 22;
-    expand = 2;
-    pack = [];
-    cursor = '';
-    appp = 0;
-    prvmax = 0;
-    nm = 'Annotator';
-    clips = 0;
+
+
+    edr = 0;                // last edited line
+    max = 12;                // max line
+    expand = 2;             // click expand
+    pack = [];              // data pack for all dialogs
+    cursor = '';            // cursor tips msg
+    appp = 3;               // appendix seletion
+    prvmax = 0;             // previous max
+    nm = 'Annotator';       // annotator
+    clips = 0;              // contain clips
+    dids = [];              // did num array and index
+    eja = 1;                // JA mode
+    cgm = 1;                // CG mode
+    // num_role = 0;
     // console.log(audios.includes('4092'))
     // tablet = 0;
     
@@ -51,10 +62,14 @@
             //ty[0] 0:mian event 1:extra
             //ty[1] #of row of sentence
             //ty[2] 1:hightlight/selected
+            //ty[3] event #
+
             var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
-                cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0]})
+                cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0, j+1], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], 
+                eve:[[], [], [], []]})
             obj.push(tuple)
         }
+        dids.push(did.toString())
         data = []
         data.push(did)
         data.push(dialog)
@@ -107,7 +122,7 @@
             html += `<table>`
 
             for (var i = 0; i < dialog.length; i++) {
-                html += `<tr><td style='text-align:center;'>` + i + `</td>`
+                html += `<tr><td style='text-align:center;'>` + (i+1) + `</td>`
                 html += `<td class='info'>` + dialog[i] + `</td></tr>`;
                 // if(dialog[i][0] == 'A') html += `<td class='info'>` + dialog[i] + `</td></tr>`;
                 // else html += `<td class='info' style='color:darkblue'>` + dialog[i] + `</td></tr>`;
@@ -175,10 +190,35 @@
             html += `<br><table><tr><span class='sett'>Table expand pre click:</span><span class='set' t='3'>` + expand 
             html += `</span></tr></table>`
             html += `<br><table><tr><span class='sett'>Export as:</span><span class='set' t='4'>.TSV</span></tr></table>`
+            html += `<br><table><tr><span class='sett'>Entity(JA):</span><span class='set' t='5' `
+            if(eja) html += `style='color:darkred'>Compact</span><span class='set' t='6'>Expand</span></tr></table>`
+            else html += `>Compact</span><span class='set' t='6' style='color:darkred'>Expand</span></tr></table>`
+            html += `<br><table><tr><span class='sett'>CG Mode:</span><span class='set' t='7' `
+            if(cgm) html += `style='color:darkred'>Reference</span><span class='set' t='8'>Transition</span></tr></table>`
+            else html += `>Reference</span><span class='set' t='8' style='color:darkred'>Transition</span></tr></table>`
+
         }
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Aug 9:`;
+            html += `<li class='info'>Elements within the entity are now added to Entity(JA) on first click and 
+                removed on second click</li>`;
+            html += `<li class='info'>Entity(JA) tab adds Compact (default) and Expand options</li>`;
+            html += `<li class='info'>Bel and CG add Reference (default) and Transition options</li>`;
+            html += `<li class='info'># now indicates the event number instead of the previous line number, and 
+                has been moved to the left of the event tab</li>`;
+            html += `<li class='info'>Each time an event is added or removed, the corresponding # will change</li>`;
+            html += `<li class='info'>Event tab in reference mode will show the reference source if the corresponding 
+                event is referenced</li>`;
+            html += `<li class='info'>Bel and CG in reference mode, you can add/remove/modify the reference object 
+                (event number) after selected</li>`;
+            html += `<li class='info'>Bel, CG and comment now have a bold border between them</li>`;
+            html += `<li class='info'>Modify save and load function to support new reference and event number data, 
+                and compatible with the previous transition mode data</li>`;
+            html += `<li class='info'>Bug fix for loading transition mode data</li></div>`;
+
+
             html += `<br><div class="info" contenteditable="true" >Jul 28:`;
             html += `<li class='info'>20 audios clips (4065 - 4495) have been added</li>`;
             html += `<li class='info'>Some audios changed from mono to stereo</li></div>`;
@@ -200,7 +240,8 @@
             html += `<br><div class="info" contenteditable="true" >Jul 15:`;
             html += `<li class='info'>Audio Playback function added to #4092</li>`;
             html += `<li class='info'>Audio Player functionality and interface depends on system and browser</li>`;
-            html += `<li class='info'>Now can set the number of rows to be displayed(full or limited) and the expand number</li>`;
+            html += `<li class='info'>Now can set the number of rows to be displayed(full or limited) and the expand 
+                number</li>`;
             html += `<li class='info'>Header bugs fixed</li>`;
             html += `<li class='info'>Add remove in highlighted row‘ entity tab</li>`;
             html += `<li class='info'>Entity tab can now add custom entities</li></div>`;
@@ -266,6 +307,10 @@
                 t = parseInt(event.target.getAttribute("t"))
                 if(t == 1 && max < 999) event.target.style.color = "DarkRed";
                 else if(t == 2 && max > 999) event.target.style.color = "grey";
+                else if(t == 5 && eja) event.target.style.color = "DarkRed";
+                else if(t == 6 && !eja) event.target.style.color = "DarkRed";
+                else if(t == 7 && cgm) event.target.style.color = "DarkRed";
+                else if(t == 8 && !cgm) event.target.style.color = "DarkRed";
                 else event.target.style.color = "grey";
             });
             word.addEventListener("click", () => { 
@@ -328,10 +373,8 @@
                             text += obj[i].wip + '\t';
                             text += obj[i].com + '\n';
                         }
-
-
                     }
-                    console.log(text)
+                    // console.log(text)
 
                     var hiddenElement = document.createElement('a');
                     hiddenElement.href = 'data:attachment/text,' + encodeURI(text);
@@ -339,7 +382,12 @@
                     hiddenElement.download = filename;
                     hiddenElement.click();
                 }
-                console.log(max, prvmax, expand)
+
+                else if(t == 5) eja = 1;
+                else if(t == 6) eja = 0;
+                else if(t == 7) cgm = 1;
+                else if(t == 8) cgm = 0;        
+                console.log(".set(max,prmax,expand):", max, prvmax, expand)
                 appendix()
                 process_table()
             });
@@ -347,9 +395,10 @@
 
     }
         
-    function reload(v) {
+    function reload(v, load=1) {
         di += v
         // did = updata[di].slice(0, 1)
+        console.log(di, v)
         did = pack[di][0]
         dialog = updata[di].slice(1)
 
@@ -364,10 +413,15 @@
         else prev = updata[di-1].slice(0, 1)
         // console.log(prev, di, next)
         // console.log(dialog)
-        appp = 0;
+        // appp = 0;
         phase = 2;
-        header()
-        process_table()
+        dialog = pack[di][1]
+        data = pack[di][2]
+        console.log("reloaded to ", did)
+        if(load) {
+            header(); process_table();
+        }
+        
     }
 
     function refine(line) {
@@ -389,7 +443,44 @@
             if(spl == 1) {  // string
                 for(const element of sor.split(',')) des.push(element)
             } 
-            else for(const element of sor.split(',')) des.push(parseInt(element))
+            else if(spl == 2) { // int
+                for(const element of sor.split(',')) des.push(parseInt(element))
+            }
+            else if(spl == 3) { // cc2
+                for(const element of sor.split('^')) {
+                    cc = []
+                    i = []
+                    for(const item of element.split(',')) {
+                        i.push(Number(item))
+                        if(i.length == 2) {
+                            cc.push(i);
+                            i = [];
+                        }
+                        // console.log(item)
+                        // console.log(des[i])
+                        // des[i].push(parseInt(item))
+                    }
+                    des.push(cc)
+                }
+
+                for(const i in des) {
+                    if(!des[i].length) des[i].push([0, 0])
+                }
+            }
+            else if(spl == 4) { // eve
+                for(const element of sor.split('^')) {
+                    cc = []
+                    i = []
+                    for(const item of element.split(',')) {
+                        i.push(Number(item))
+                        if(i.length == 2) {
+                            cc.push(i);
+                            i = [];
+                        }
+                    }
+                    des.push(cc)
+                }
+            }
         } 
         else des.push(sor)
     }
@@ -420,6 +511,36 @@
         if(data[i].er.includes(refine(w))) 
             return `<span class="word" style='color:blue' line="${line}" li="${i}" ty="1">${w}</span>`
         return `<span class="word" line="${line}" li="${i}">${w}</span>`
+    }
+
+    function checkr(k) {
+        if(k == 0) return 0;
+        for (var i = 0; i < data.length; i++) {
+            // console.log("checkr: ", k, i, data[i].ty[3]);
+            if(data[i].ty[3] == k) return i
+        }
+        return -1;
+    }
+
+    function cccorr(v, t) {
+        if(t < 2) type = bel;
+        else type = cg;
+        if(!(v%type.length)) return 1;
+        else return 0;
+    }
+
+    function trim(text, mode) {
+        if(mode == 1) {
+            text = text.substring(0, text.length - 1);
+            text += '\t';
+            return text;
+        }
+        else if(mode == 2) {
+            text = text.substring(0, text.length - 1);
+            text += '\n';
+            return text;
+        }
+        else console.log("trim 0");
     }
 
     function header() {
@@ -492,7 +613,7 @@
             });
             word.addEventListener("click", () => { 
                 phase = parseInt(event.target.getAttribute("p"));
-                console.log(phase)
+                // console.log(phase)
                 if(!phase) cursor = `Show only entities`;
                 else if(phase == 1) cursor = `Show entities, events and pragmatics`;
                 else cursor = `Show all tags`;
@@ -557,13 +678,14 @@
 
     // main table
     function process_table() {
+        refresh = 0;
         ph = parseInt(phase)
         did = pack[di][0]
         dialog = pack[di][1]
         data = pack[di][2]
         senc = 0;
         if(audios.includes(did[0])) clips = 1;
-        console.log("clips:", clips)
+        // console.log("clips:", clips)
 
         html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
         html += "<tr style='font-weight:bold; background-color:Grey'>";
@@ -571,6 +693,14 @@
         if(!ph) hd = hd0
         else if(ph == 1) hd = hd1
         else hd = hd2
+
+        const index = hd.indexOf('Entity(JA)');
+        if(index > -1 && eja) { // only splice array when item is found
+            hd.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        else if(index == -1 && !eja) hd.splice(2, 0, 'Entity(JA)');
+        
+        // console.log(hd2)
 
         for (var i = 0; i < hd.length; i++) html += "<td style='text-align:center;'>" + hd[i] + "</td>"
         html += "</tr>";
@@ -580,20 +710,21 @@
 
         rows = Math.min(max, data.length)
         for (var i = 0; i < rows; i++) {
+            if(data[i].ty[0]) subnum += 1;
+            else subnum = 1;
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
             // else html += "<tr><td>" + i + "</td>";
             
             // clips
             if(!(senc%10) & clips) html += audio_clips(senc/10 +1)
 
-            if(i == rows-1) html += `<tr><td  class="add" style='color:grey' ty="5">↓</td>`;
-
+            // highlight
+            if(i == rows-1) html += `<tr>`;
             else {
-                if(data[i].ty[2]%2) 
-                    html += `<tr style='background-color:lightpink'><td style='text-align:center;' class="num" li="${i}">`
-                        + i + `</td>`;
-                else html += `<tr><td style='text-align:center; width:1%' class="num" li="${i}">` + i + `</td>`;
+                if(data[i].ty[2]%2) html += `<tr style='background-color:lightpink'>`;
+                else html += `<tr>`;
             }
+
 
             html += stn(data[i].st, i);                 //sentance
 
@@ -602,18 +733,84 @@
             else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //e1
             // html += "<td>" + data[i].e2 + "</td>";      //entity2
             // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
-            // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];    //e2
-            html += not(4, i); 
+            // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];
+            // e2
+            if(!eja) html += not(4, i); 
 
+            // #
+            if(i == rows-1) html += `<td class="add" style='color:grey' ty="5">↓</td>`;
+            else {
+                // current or next is extra event
+                if(data[i].ty[0] || data[i+1].ty[0]) {
+                    if(data[i].ty[0]) e = senc.toString() + '.' + subnum.toString();
+                    else e = (senc+1).toString() + '.' + subnum.toString();
+                }
+                // regular #
+                else e = (senc+1).toString();
+                e = parseFloat(e);
+
+                // ty3 updata
+                if(e != data[i].ty[3]) {
+                    
+                    console.log("ty[3]", data[i].ty[3], " changed to ", e);
+
+                    // change new ty3 in others' eve
+                    for (var j = 0; j < data[i].cc2.length; j++) {
+                        for (var k = 0; k < data[i].cc2[j].length; k++) {
+                            ri = checkr(data[i].cc2[j][k][1]);
+                            if(ri < 0) { alert('Error: Invalid event number(+ev1)'); return;}
+
+                            for (var l = 0; l < data[ri].eve[j].length; l++) {
+                                // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
+                                if(data[ri].eve[j][l][0] == data[i].ty[3]) {
+
+                                    data[ri].eve[j][l][0] = e;
+                                    console.log("after remote1 ", data[ri].eve[j][l]);
+                                    // this change after previous line print, then reload table again
+                                    // process_table()
+                                    refresh = 1;
+                                }
+                            }
+                        }
+                    }
+
+                    // change others reference(cc2) to new ty3
+                    for (var j = 0; j < data[i].eve.length; j++) {
+                        for (var k = 0; k < data[i].eve[j].length; k++) {
+                            ri = checkr(data[i].eve[j][k][0]);
+                            if(ri < 0) { alert('Error: Invalid event number(+ev2)'); return;}
+
+                            for (var l = 0; l < data[ri].cc2[j].length; l++) {
+                                // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
+                                if(data[ri].cc2[j][l][1] == data[i].ty[3]) {
+                                    data[ri].cc2[j][l][1] = e;
+                                    refresh = 1;
+
+                                }
+                                
+                            }
+                        }
+                    }
+
+                    data[i].ty[3] = e;
+                }
+                html += `<td style='text-align:center; width:1%' class="num" li="${i}">` + e + `</td>`;
+            }
+            
+            
             if(ph) {
                 html += not(0, i);                          //event
                 html += not(1, i);                          //Pragmatics
-                if(ph == 2) html += not(5, i);              //cc, why&wip
+                if(ph == 2) {                               //cc, why&wip
+                    if(cgm) html += not(6, i);
+                    else html += not(5, i);
+                }           
             }
-            html += not(3, i);                          //comment
+            html += not(3, i);                              //comment
             // html += "<td><input type='checkbox' ></td>";     //mark
 
             html += "</tr>";
+            
 
             if(!data[i].ty[0]) senc++;
         }
@@ -627,6 +824,8 @@
         document.getElementById("table").innerHTML = html;
         document.getElementById("tips").innerText = cursor;
         appendix();
+        if(refresh) process_table();
+        // console.log("table done");
 
         //click functions
         document.getElementById("table").querySelectorAll(".word").forEach(word => {
@@ -635,7 +834,7 @@
                 const type = event.target.getAttribute("ty");
                 const e = event.target.getAttribute("e");
                 t.style.color = "Red";
-                if(type == 1) document.getElementById("tips").innerText = `Remove (${refine(t.innerText)}) from entity`;
+                if(type == 1) document.getElementById("tips").innerText = `Add(JA) or Remove (${refine(t.innerText)})`;
                 else if(type == 2) document.getElementById("tips").innerText = `Edit (${e})'s value`;
                 else document.getElementById("tips").innerText = `+ (${refine(t.innerText)}) to entity`;
             });
@@ -655,24 +854,25 @@
                 const e = event.target.getAttribute("e");
                 const li = event.target.getAttribute("li");
                 const type = event.target.getAttribute("ty");
-                const index = data[li].er.indexOf(e)
+                const index = data[li].er.indexOf(e);
+                const e2index = data[li].e2.indexOf(w);
 
-                console.log("click", li, type, e, w, index)
+                // console.log("click:", li, type, e, w, index, e2index);
+
 
                 // modifice previous
                 if(type == 2) {
-                    console.log("Before", li, type, e, w)
+                    // console.log("type == 2");
+                    // console.log("Before", li, type, e, w, index)
                     // console.log(data[li].er, e, data[li].er.indexOf(e))
                     // console.log(data[li].e1, w, data[li].e1.indexOf(w))
                     
-
                     data[li].e1.splice(index, 1)
                     data[li].er.splice(index, 1)
                     var input = prompt('Please input new entity value');
                     if(input) data[li].e1.push(e + '=' + input)
                     else data[li].e1.push(e)
                     data[li].er.push(e)
-
 
                     console.log("Modified", li, type, e, w)
                     console.log(data[li].er)
@@ -681,18 +881,33 @@
 
                 // sentance click
                 else {
-                    if(data[li].er.includes(w)) {
-                        data[li].e1.splice(data[li].er.indexOf(w), 1)
-                        data[li].er.splice(data[li].er.indexOf(w), 1)
+                    // console.log("type != 2", type, index, e2index);
+                    if(e2index == -1 && index > -1) {
+                        console.log("in er but not in e2");
+                        data[li].e2.push(w);
                     }
-                    else{
-                        data[li].er.push(w)
-                        var input = prompt('Please input entity value');
-                        if(input) data[li].e1.push(w + '=' + input)
-                        else data[li].e1.push(w)
-                    } 
+                    else {
+                        if(data[li].er.includes(w)) {
+                            data[li].e1.splice(data[li].er.indexOf(w), 1)
+                            data[li].er.splice(data[li].er.indexOf(w), 1)
+                            if(e2index > -1) data[li].e2.splice(e2index, 1)
+                            // console.log(data[li].e1);
+                            // console.log(data[li].er);
+                            // console.log(data[li].e2);
+                        }
+                        else {
+                            data[li].er.push(w)
+                            var input = prompt('Please input entity value');
+                            if(input) data[li].e1.push(w + '=' + input)
+                            else data[li].e1.push(w)
+                            // console.log(data[li].e1);
+                            // console.log(data[li].er);
+                            // console.log(data[li].e2);
+                        } 
+                    }
 
                 }
+                // console.log("Af click:", li, type, e, w, index, e2index);
                 process_table()
             });
         });
@@ -740,32 +955,80 @@
             //     else event.target.style.backgroundColor = "#dddddd";
             // });
             word.addEventListener("click", () => { 
-                console.log("cc click")
+                // console.log("cc click")
                 const type = event.target.getAttribute("ty");
                 const li = event.target.getAttribute("li");
-                console.log(li, type)
-                data[li].cc[type] += 1;
-                if(type < 2) {
-                    const w = bel[data[li].cc[type]];
-                    if(!w) cursor = `Edit Believe value (null)`;
-                    else if(w == 'CT+') cursor = `(certain belief)`;
-                    else if(w == 'CT-') cursor = `(certain belief that not)`;
-                    else cursor = `(event may or may not have happened)`;
-                }
-                else if(type < 4) {
-                    const w = cg[data[li].cc[type]];
-                    if(!w) cursor = `Edit Common Ground value (null)`;
-                    else if(w == 'JA') cursor = `(when an event has been just added to the CG)`;
-                    else if(w == 'IN') cursor = `(when an event already existed in the CG)`;
-                    else if(w == 'RT') cursor = `(when an event has been rejected from the CG)`;
-                    else cursor = `(when it is impossible to determine the status)`;
+                const cgi = parseInt(event.target.getAttribute("cgi"));
+
+                // console.log(li, type, cg, data[li].cc2[cgi][0])
+                if(cgm) {
+                    // console.log("ty,li,cg", type, li, cgi);
+                    if(type == 4) {
+                        data[li].cc[type] += 1;
+                        const w = why[data[li].cc[type]%why.length];
+                        if(!w) cursor = `Edit why value (null)`;
+                        else if(w == 'WK') cursor = `(world knowledge)`;
+                        else if(w == 'C') cursor = `(context present in the dialog)`;
+                        else cursor = `(specific lexical item (word, phrase, expression))`;
+                    }
+
+                    else {
+                        data[li].cc2[type][cgi][0] += 1;
+                        if(cgi) data[li].cc2[type][cgi][0] += cccorr(data[li].cc2[type][cgi][0], type);
+                        if(type < 2) {
+                            const w = bel[data[li].cc2[type][cgi][0]%bel.length];
+                            // console.log("crs:", w, data[li].cc2[type][cg][0]);
+                            if(!w) cursor = `Edit Believe value (null)`;
+                            else if(w == 'CT+') cursor = `(certain belief)`;
+                            else if(w == 'CT-') cursor = `(certain belief that not)`;
+                            else cursor = `(event may or may not have happened)`;
+                        }
+                        else {
+                            const w = cg[data[li].cc2[type][cgi][0]%cg.length];
+                            console.log("crs:", w, data[li].cc2[type][cgi][0]);
+                            if(!w) cursor = `Edit Common Ground value (null)`;
+                            else if(w == 'JA') cursor = `(when an event has been just added to the CG)`;
+                            else if(w == 'IN') cursor = `(when an event already existed in the CG)`;
+                            else if(w == 'RT') cursor = `(when an event has been rejected from the CG)`;
+                            else cursor = `(when it is impossible to determine the status)`;
+                        }
+
+
+                        if(data[li].cc2[type][cgi][1]) {
+                            ri = checkr(data[li].cc2[type][cgi][1])
+                            if(ri < 0) { alert('Error: Invalid event number(cc)'); return;}
+                            // console.log(ri, data[ri].eve[type])
+                            for(var j = 0; j < data[ri].eve[type].length; j++) {
+                                if(data[ri].eve[type][j][0] == data[li].ty[3]) data[ri].eve[type][j][1] += 1;
+                                if(cgi) data[ri].eve[type][j][1] += cccorr( data[ri].eve[type][j][1], type);
+                            }
+                        }
+                    }
                 }
                 else {
-                    const w = why[data[li].cc[type]];
-                    if(!w) cursor = `Edit why value (null)`;
-                    else if(w == 'WK') cursor = `(world knowledge)`;
-                    else if(w == 'C') cursor = `(context present in the dialog)`;
-                    else cursor = `(specific lexical item (word, phrase, expression))`;
+                    data[li].cc[type] += 1;
+                    if(type < 2) {
+                        const w = bel[data[li].cc[type]];
+                        if(!w) cursor = `Edit Believe value (null)`;
+                        else if(w == 'CT+') cursor = `(certain belief)`;
+                        else if(w == 'CT-') cursor = `(certain belief that not)`;
+                        else cursor = `(event may or may not have happened)`;
+                    }
+                    else if(type < 4) {
+                        const w = cg[data[li].cc[type]];
+                        if(!w) cursor = `Edit Common Ground value (null)`;
+                        else if(w == 'JA') cursor = `(when an event has been just added to the CG)`;
+                        else if(w == 'IN') cursor = `(when an event already existed in the CG)`;
+                        else if(w == 'RT') cursor = `(when an event has been rejected from the CG)`;
+                        else cursor = `(when it is impossible to determine the status)`;
+                    }
+                    else {
+                        const w = why[data[li].cc[type]];
+                        if(!w) cursor = `Edit why value (null)`;
+                        else if(w == 'WK') cursor = `(world knowledge)`;
+                        else if(w == 'C') cursor = `(context present in the dialog)`;
+                        else cursor = `(specific lexical item (word, phrase, expression))`;
+                    }
                 }
 
                 process_table()
@@ -843,22 +1106,23 @@
 
                     if(!data[li].ev.length) {
                         if(input) data[li].ev.push(input);
-                        console.log(data[li].ev)
+                        // console.log(data[li].ev)
                     }
                     else {
                         if(input) {
-                            console.log(li)
+                            // console.log(li)
                             data[parent(li)].ty[1] += 1;
                             max += 1;
-                            var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[],
-                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[1, li, 0]})
+                            // k = data[parent(li)].ty[3]
+                            var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[], why:[], wip:[], 
+                                com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[1, li, 0, 0],  
+                                cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
                             // data.splice(parseInt(li) + 1, 0, tuple);
                             data.splice(li+1, 0, tuple);
                         }
                     }
                     edr = li;
-                    console.log("parent", parent(li))
-                    console.log("parent size:", data[parent(li)].ty[1])
+                    // console.log("parent", parent(li), "parent size:", data[parent(li)].ty[1])
                 }
 
                 if(type == 1) {
@@ -878,23 +1142,75 @@
                 }
                 if(type == 4) {
                     var input = prompt('Please input Entity(JA)', data[li].e1[0]);
-                    if(input) data[li].e2.push(input);
+                    if(input) {
+                        if(input.includes('=')) {
+                            k = input.indexOf('=');
+                            w = input.substring(0, k);
+                            data[li].e2.push(data[li].er[data[li].er.indexOf(w)]);
+                            // data[li].er.push(input.substring(0, k))
+                        }
+                        else {
+                            k = data[li].er.indexOf(input);
+                            if(k == -1) alert("entity not found!")
+                            else data[li].e2.push(data[li].er[k]);
+                        }
+
+                    }
+                    
+                    // data[li].e2.push(input);
                 }
                 if(type == 5) max += expand;
                 if(type == 6) {
                     // console.log("+ customized e1");
                     var input = prompt('Please input entity');
                     if(input) {
-                        var input2 = prompt('Please input entity value');
-                        if(input2) data[li].e1.push(input + '=' + input2)
-                        else data[li].e1.push(input)
-                        data[li].er.push(input)
+                        if(input.includes('=')) {
+                            k = input.indexOf('=');
+                            // e = input.substring(0, k)
+                            // rest = input.substring(k+1)
+                            data[li].e1.push(input)
+                            data[li].er.push(input.substring(0, k))
+                        }
+
+                        else {
+                            var input2 = prompt('Please input entity value');
+                            if(input2) data[li].e1.push(input + '=' + input2)
+                            else data[li].e1.push(input)
+                            data[li].er.push(input)
+                        }
 
                         console.log(data[li].er)
                         console.log(data[li].e1)
 
                     } 
-                    
+                }
+
+                if(type == 7) {
+                    const ct = event.target.getAttribute("ct"); // cc type
+                    data[li].cc2[ct].push([1, 0]);
+                    console.log("adding cc2", data[li].cc2);
+                }
+
+                if(type == 8) {
+                    const ct = event.target.getAttribute("ct"); // cc type
+                    const cgi = event.target.getAttribute("cgi"); // cc item index
+                    if(data[li].cc2[ct][cgi][1] != data[li].ty[3]) {
+                        // console.log("remove != ty3");
+                        ri = checkr(data[li].cc2[ct][cgi][1]);
+                        if(ri > -1) {
+                            // console.log("ri ", ri, data[ri].eve[ct], data[li].cc2[ct][cgi]);
+                            for(var j = 0; j < data[ri].eve[ct].length; j++) {
+                                if(data[ri].eve[ct][j][0] == data[li].ty[3]) {
+                                    console.log("j ", j, data[ri].eve[ct], data[li].ty[3]);
+                                    data[ri].eve[ct].splice(j, 1)
+
+                                }
+                            }
+                        }
+
+                    }
+                    data[li].cc2[ct].splice(cgi, 1)
+                    // console.log("removed from cc2", data[li].cc2);
                 }
 
                 // console.log(data)
@@ -916,7 +1232,11 @@
             word.addEventListener("click", () => { 
                 const type = event.target.getAttribute("ty");
                 const li = event.target.getAttribute("li");
+                const ct = event.target.getAttribute("ct"); // cc type
+                const cgi = event.target.getAttribute("cgi"); // cc item index
+
                 var input = prompt('Please input new value', event.target.innerText);
+
                 if(type == 0) {
                     if(input) data[li].ev.splice(0, 1, input);
                     else data[li].ev.splice(0, 1)
@@ -934,9 +1254,71 @@
                     else data[li].com.splice(0, 1)
                 }
                 if(type == 4) {
-                    if(input) data[li].e2.splice(0, 1, input);
-                    else data[li].e2.splice(0, 1)
+                    console.log("Not edit at e2 anymore");
+                    
+                    // var input = prompt('Please input Entity(JA)', data[li].e1[0]);
+
+                    // if(input) {
+                    //     if(input.includes('=')) {
+                    //         k = input.indexOf('=');
+                    //         w = input.substring(0, k);
+                    //         console.log("edit:", k, w);
+                    //         data[li].e2.splice(0, 1, data[li].er[data[li].er.indexOf(w)]);
+                    //         // data[li].er.push(input.substring(0, k))
+                    //     }
+                    //     else {
+                    //         k = data[li].er.indexOf(input);
+                    //         if(k == -1) alert("entity not found!")
+                    //         else data[li].e2.splice(0, 1, data[li].er[k]);
+                    //     }
+
+                    // }
+                    // else data[li].e2.splice(0, 1);
+
+                    // if(input) data[li].e2.splice(0, 1, input);
+                    // else data[li].e2.splice(0, 1)
                 }
+                if(type == 5) {
+                    // console.log("edit refer#");
+                    if(input) {
+                        k = parseFloat(input);
+                        ri = checkr(k);
+                        // console.log(k, ri);
+                        if(ri > -1) {   // valid reference number
+                            if(ri >= li) { alert('Error: Event number must lees than current line(ed1)'); return;}
+
+                            // input != original value
+                            if(k != data[li].cc2[ct][cgi][1]) {
+                                ori = checkr(data[li].cc2[ct][cgi][1]);
+                                if(ori < 0) { alert('Error: Invalid original reference# (ed3)'); return;}
+
+                                console.log("Updata: ", data[li].cc2[ct][cgi][1], " to ", k)
+                                console.log("ori: ", data[ori].eve[ct]);
+                                // console.log("1:", data[0].eve);
+
+                                // change the original referencing eve(remove it)
+                                // if multiple cc2 item point to same ty3, all removed**
+                                for(var j = 0; j < data[ori].eve[ct].length; j++) {
+                                    // console.log("ck: ", data[ori].eve[ct][j][0], data[li].cc2[ct][cgi][1])
+                                    if(data[ori].eve[ct][j][0] == data[li].ty[3] && data[li].cc2[ct][cgi][1]) {
+                                        // console.log("removed: ", data[ori].eve[ct][j][0], data[li].cc2[ct][cgi][1])
+                                        data[ori].eve[ct].splice(j, 1);
+                                    }
+                                }
+                                if(k == data[li].ty[3]) data[li].cc2[ct][cgi][1] = 0;
+                                else data[li].cc2[ct][cgi][1] = k;
+
+                                // add eve to new
+                                if(k) data[ri].eve[ct].push([data[li].ty[3], data[li].cc2[ct][cgi][0]])
+                                console.log("org:", event.target.innerText, "referece# to ", k, data[ri].eve[ct]);
+                            }
+                        }
+                        else { alert('Error: Invalid event number(ed2)'); return;}
+                    }
+
+                }
+                // console.log("1+:", data[0].eve);
+
                 process_table()
             });
         });
@@ -969,15 +1351,44 @@
             });
             word.addEventListener("click", () => { 
                 const li = parseInt(event.target.getAttribute("li"));
-                console.log("remove click", li)
+                console.log("remove click", li);
                 data[parent(li)].ty[1] -= 1;
-                // for(var i = li; i > -1; i--) {
-                //     if(!data[i].ty[0]) {
-                //         console.log("reduce span >> ", i)
-                //         data[i].ty[1] -= 1;
-                //         break;
-                //     }
-                // }
+                d = data[li];
+
+                // remove cc2 links
+                for (var j = 0; j < d.cc2.length; j++) {
+                    for (var k = 0; k < d.cc2[j].length; k++) {
+                        ri = checkr(d.cc2[j][k][1]);
+                        if(ri < 0) { alert('Error: Invalid event number(rm1)'); return;}
+
+                        for (var l = 0; l < data[ri].eve[j].length; l++) {
+                            // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
+                            if(data[ri].eve[j][l][0] == d.ty[3]) {
+                                data[ri].eve[j].splice(l, 1);
+                                
+                            }
+                        }
+                    }
+                }
+
+                // remove eve links
+                for (var j = 0; j < d.eve.length; j++) {
+                    for (var k = 0; k < d.eve[j].length; k++) {
+                        ri = checkr(d.eve[j][k][0]);
+                        if(ri < 0) { alert('Error: Invalid event number(rm2)'); return;}
+
+                        for (var l = 0; l < data[ri].cc2[j].length; l++) {
+                            // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
+                            if(data[ri].cc2[j][l][1] == d.ty[3]) {
+                                data[ri].cc2[j].splice(l, 1);
+                                if(!(data[ri].cc2[j].length)) data[ri].cc2[j].push([0, 0])
+                            }
+                        }
+                    }
+                }                
+
+
+
                 data.splice(li, 1)
                 process_table()
             });
@@ -1003,6 +1414,7 @@
             });
         });
 
+        // load
         document.querySelector("#in").addEventListener('change', function() {
             var all_files = this.files;
             if(all_files.length == 0) { alert('Error : No file selected'); return;}
@@ -1022,62 +1434,131 @@
                 k = file.name.indexOf('_')
                 if(k < 0) { alert('Error : Wrong File Name'); return;}
 
-                did = file.name.substring(0, k)
-                rest = file.name.substring(k+1)
-                k = rest.indexOf('_')
+                
+                load_did = file.name.substring(0, k);
+                v = dids.indexOf(load_did) - dids.indexOf(did[0]);;
+                console.log("Did:", did[0], load_did, v);
+                reload(v, 0);
+                
+                rest = file.name.substring(k+1);
+                k = rest.indexOf('_');
                 if(k < 0) { alert('Error : Wrong File Name#2'); return;}
-                nm = rest.substring(0, k)
+                nm = rest.substring(0, k);
                 // nm = file.name.substring(k,)
-                console.log(did, nm)
-
-                // need implement to relocate to new did <<<<<<<<<<<<<<<<<
+                // console.log(did, nm);                
 
                 var text = e.target.result;
                 text = text.split('\n');
-                console.log("read:", text);
+                // console.log("read:", text);
 
-                max = parseInt(text[0])
-                s = text.length -1
-                if((s-1)/12 != max) console.log("wrong file size", s, (s-1)%12, max)
-                else console.log("size okay", s, max)
+                line = text[0].split(',');
+                // console.log(line)
+                if(line.length == 1) cgm = 0;
+                else cgm = 1;
+                if(cgm) text.splice(0, 1);
+                // console.log(text)
 
-                // line = 1
-                for(var i = 0; i < max; i++) {
-                    if(data[i].st != text[i*12+1]) {
-                        console.log("!= to data[i]", data[i].st, text[i*12+1])
-                        if(text[i*12+1].length) {alert('Error : Bad dialogs'); return;}
-                        var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[], pr:[],
-                                why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0]})
-                            // data.splice(parseInt(li) + 1, 0, tuple);
-                        data.splice(i, 0, tuple);
-                        
+                // Referencing
+                if(cgm) {
+                    max = parseInt(line[0]);
+                    eja = parseInt(line[1]);
+                    cgm = parseInt(line[2]);
+
+                    for(i in text) {
+                        line = text[i].split('\t');
+                        if(i == max) break;
+                        replace = 1;
+
+                        var tuple = Object({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
+                                com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0],  
+                                cc2:[[], [], [], []], eve:[[], [], [], []]})
+
+                        // extra event?
+                        if(data[i].st != line[0]) {
+                            console.log("Dialog != ", i, data[i].st, line[0])
+                            replace = 0;
+                        }
+
+                        // main event
+                        else tuple.st = data[i].st;
+
+                        data.splice(i, replace, tuple);
+                        // console.log(line);
+                        // console.log(data[i])
+                        cp(data[i].e1,  line[1], 1)
+                        cp(data[i].e2,  line[2], 0)
+                        cp(data[i].er,  line[3], 1)
+                        cp(data[i].ev,  line[4], 0)
+                        cp(data[i].pr,  line[5], 0)
+                        cp(data[i].why, line[6], 0)
+                        cp(data[i].wip, line[7], 0)
+                        cp(data[i].com, line[8], 0)
+                        cp(data[i].cc,  line[9], 2)
+                        cp(data[i].ccc, line[10], 2)
+                        cp(data[i].ty,  line[11], 2)
+
+                        cp(data[i].cc2, line[12], 3)
+                        cp(data[i].eve, line[13], 4)
+
+
+                        // console.log(line);
+                        // console.log(data[i]);
+
                     }
 
-                    // else console.log("st check equal")
+                    console.log("load done");
 
-                    // data[i].e1.length = 0;
-                    // for (const element of text[i*12+2].split(',')) data[i].e1.push(element)
-                    
-                    cp(data[i].e1, text[i*12 +2], 1)
-                    cp(data[i].e2, text[i*12 +3], 0)
-                    cp(data[i].er, text[i*12 +4], 1)
-                    cp(data[i].ev, text[i*12 +5], 0)
-                    cp(data[i].pr, text[i*12 +6], 0)
-                    cp(data[i].why, text[i*12 +7], 0)
-                    cp(data[i].wip, text[i*12 +8], 0)
-                    cp(data[i].com, text[i*12 +9], 0)
-                    cp(data[i].cc, text[i*12 +10], 2)
-                    cp(data[i].ccc, text[i*12 +11], 2)
-                    cp(data[i].ty, text[i*12 +12], 2)
 
-                    // console.log("ty", data[i].ty)
+                }
 
+                // Transition
+                else {
+                    max = parseInt(text[0]);
+                    console.log(max, text[0])
+                    edr = max;
+                    cgm = 0;
+                    s = text.length -1;
+                    if((s-1)/12 != max && !cgm) console.log("wrong file size(!cgm)", s, (s-1)%12, max);
+                    else console.log("size okay", s, max);
+    
+    
+                    // line = 1
+                    for(var i = 0; i < max; i++) {
+                        if(data[i].st != text[i*12+1]) {
+                            console.log("!= to data[i]", data[i].st, text[i*12+1])
+                            if(text[i*12+1].length) {alert('Error : Bad dialogs'); return;}
+                            var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
+                                com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0], 
+                                cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
+                                // data.splice(parseInt(li) + 1, 0, tuple);
+                            data.splice(i, 0, tuple);
+                            
+                        }
+    
+                        // else console.log("st check equal")
+                        // data[i].e1.length = 0;
+                        // for (const element of text[i*12+2].split(',')) data[i].e1.push(element)
+                        
+                        cp(data[i].e1, text[i*12 +2], 1)
+                        cp(data[i].e2, text[i*12 +3], 0)
+                        cp(data[i].er, text[i*12 +4], 1)
+                        cp(data[i].ev, text[i*12 +5], 0)
+                        cp(data[i].pr, text[i*12 +6], 0)
+                        cp(data[i].why, text[i*12 +7], 0)
+                        cp(data[i].wip, text[i*12 +8], 0)
+                        cp(data[i].com, text[i*12 +9], 0)
+                        cp(data[i].cc, text[i*12 +10], 2)
+                        cp(data[i].ccc, text[i*12 +11], 2)
+                        cp(data[i].ty, text[i*12 +12], 2)
+    
+                        // console.log("ty", data[i].ty)
+    
+                    }
                 }
 
                 header()
                 process_table()
 
-                // process_table();
             });
 
             // file reading failed
@@ -1087,8 +1568,8 @@
             reader.readAsText(file);
         });
 
-
     }
+
 
     function stn(line, i) {
         // console.log(data[i].ty)
@@ -1112,22 +1593,64 @@
     function not(type, i) {
         if(!phase) w = 45
         else if(phase == 1) w = 30
-        else w = 15
+        else w = 18
         var line = data[i].st
+        var d = data[i]
+        var dc2 = data[i].cc2
 
         if(type == 0) {
+            html = ``;
             // main empty event
             if(!data[i].ev.length) 
-                return `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
-            
+                html += `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+`
+                // html += `<td style='width:` + w + `%'><span class="add" line="${line}" li="${i}" ty="${type}" >+</span>`
+
             // last row
             else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
-                console.log("last row", data[parent(i)].ty[1], parent(i), i)
-                return `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
-                <br><span class="add" line="${line}" li="${i}" ty="${type}">+</span></td>`
+                // console.log("last row", data[parent(i)].ty[1], parent(i), i)
+                html += `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
+                    <span class="add" line="${line}" li="${i}" ty="${type}" style='float: right;'>+</span>`
             }
 
-            else return `<td class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</td>`
+            else html += `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] +`</span>`;
+
+            // cc links
+            if(cgm && data[i].ev.length) {
+                for(var j = 0; j < 4; j++) { // cc slot
+                    if(d.eve[j].length) {
+                        // console.log("not1_eve: ", i, j, d.eve[j])
+
+                        // slot name
+                        html += `<br><span class="clinks">` + hd2[j+5] + `:</span>`
+                        rs = ``
+
+                        // current cc
+                        for(var k = 0; k < dc2[j].length; k++) {
+                            ci = dc2[j][k][0]
+                            if(!dc2[j][k][1]) { // find self value in dc2[slot]
+                                if(j < 2) rs += bel[ci%bel.length];
+                                else rs += cg[ci%cg.length];
+                                break;
+                            }
+                        }
+                        html += `<span class="clinks">` + rs + `</span>`
+                        
+                        // referencing cc
+                        for(var k = 0; k < d.eve[j].length; k++) {
+                            ci = d.eve[j][k][1]
+                            rs = ``
+                            if(j < 2) rs += bel[ci%bel.length]
+                            else rs += cg[ci%cg.length];
+                            rs += `(` + d.eve[j][k][0] + `)`
+                            html += `<span class="clinks">` + rs + `</span>`
+                        }
+                    }
+                }
+
+            } 
+
+            return html + `</td>`;
+
         }
 
         if(type == 1) {
@@ -1141,10 +1664,11 @@
 
         if(type == 2) {
             if(!data[i].wip.length) {
-                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+                return `<td style='border-right:5px solid black;' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             }
             else {
-                return `<td class="edits" li="${i}" ty="${type}">` + data[i].wip[0] + `</td>`
+                return `<td style='border-right:5px solid black;' class="edits" li="${i}" ty="${type}">` + 
+                    data[i].wip[0] + `</td>`
             }
         }
 
@@ -1158,17 +1682,35 @@
         }
 
         if(type == 4) {
-            if(!data[i].e2.length) {
-                return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            // console.log("in not4");
+            html = `<td style='text-align:center; color:green'>`;
+            v = data[i].e2;
+            for(var e2i = 0; e2i < v.length; e2i++) {
+                html += `<span>` + v[e2i] + `</span><br>`
             }
-            else {
-                return `<td class="edits" style='text-align:center; color:green' li="${i}" ty="${type}">` +
-                    data[i].e2[0] + `</td>`
-            }
+            html += `</td>`;
+            return html;
+
+
+
+            // if(!data[i].e2.length) {
+            //     return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+            // }
+            // else {
+            //     html = `<td>`;
+            //     v = data[i].e2;
+            //     for(var e2i = 0; e2i < v.length; e2i++) {
+            //         html += `<span style='text-align:center; color:green' li="${i}" ty="${type}">`
+            //             + v[e2i]
+            //     }
+            //     return `<td class="edits" style='text-align:center; color:green' li="${i}" ty="${type}">` +
+            //         data[i].e2[0] + `</td>`
+            // }
         }
         
         if(type == 5) {
             html = ``;
+            // console.log("notation type 5")
 
             // believe
             for(var j in '12') {
@@ -1236,6 +1778,105 @@
 
             return html
         }
+
+        // cgm ccs
+        if(type == 6) {
+            html = ``;
+
+            // believe
+            for(var j in '12') {
+                // null
+                if(!(dc2[j][0][0]%bel.length) && j == 0) 
+                    html += `<td style='border-left:5px solid black;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+                
+                else if(!(dc2[j][0][0]%bel.length))
+                    html += `<td style='border-right:5px solid black;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+
+                // j:cc slot, k:item index
+                else {
+                    // console.log("in ccs j", j);
+                    for(var k = 0; k < dc2[j].length; k++) {
+                        // bel
+                        if(!k && j == 0) html += `<td style='text-align:center; border-left:5px solid black;'>
+                            <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                        else if(!k) html += `<td style='text-align:center; border-right:5px solid black;'>
+                            <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                        else html += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` +
+                            bel[dc2[j][k][0]%bel.length] + `</span>`;
+
+                        // != current event number and != 0 (shows referencing #)
+                        if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) {
+                            html += `<span class="edits" ty="5" ct="${j}" li="${i}" cgi="${k}"> ` + dc2[j][k][1] + `</span>`
+                        }
+                        // hightlingt then shows referencing number(ty3)
+                        else if(d.ty[2]%2) html += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
+                            d.ty[3] + `</span>`
+                        
+                        if(d.ty[2]%2) {
+                            if(k) html += `<span class="add" ty="8" ct ="${j}" li="${i}" cgi="${k}"> -</span>`
+                            else html += `<span class="add" ty="7" ct ="${j}" li="${i}"> +</span>`
+                        }
+
+                        html += `<br>`
+
+                    }
+                    html += `</td>`
+                    // console.log("out");
+
+                }
+            }
+
+            // CG
+            for(var j in '34') {
+                raw = ``
+                j = parseInt(j) + 2;
+                // null
+                if(!(dc2[j][0][0]%cg.length)) raw += `<td class="cc" ty="${j}" li="${i}" cgi="0">`;
+                // if(!(dc2[j][0][0]%cg.length) && j == 3) 
+                //     raw += `<td style='border-right:5px solid black;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+                
+                // else if(!(dc2[j][0][0]%cg.length)) raw += `<td class="cc" ty="${j}" li="${i}" cgi="0">`;
+
+                else {
+                    for(var k = 0; k < dc2[j].length; k++) {
+                        // cg
+                        if(!k) raw += `<td style='text-align:center;'>
+                            <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                        // if(!k && j == 3) raw += `<td style='text-align:center; border-right:5px solid black;'>
+                        //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                        // else if(!k) raw += `<td style='text-align:center;'>
+                            // <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                        else raw += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` +
+                            cg[dc2[j][k][0]%cg.length] + `</span>`;
+
+                        // != current event number and != 0 (shows referencing #)
+                        if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) {
+                            raw += `<span class="edits" ty="5" ct="${j}" li="${i}" cgi="${k}"> ` + dc2[j][k][1] + `</span>`
+                        }
+                        // hightlingt then shows referencing number(ty3)
+                        else if(d.ty[2]%2) raw += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
+                            d.ty[3] + `</span>`
+                        
+                        if(d.ty[2]%2) {
+                            if(k) raw += `<span class="add" ty="8" ct ="${j}" li="${i}" cgi="${k}"> -</span>`
+                            else raw += `<span class="add" ty="7" ct ="${j}" li="${i}"> +</span>`
+                        }
+                        raw += `<br>`
+                    }
+                    // raw += `</td>`
+                }
+
+                // coloring cc
+                html += color(2, raw, j, i) + `</td>`;
+                // html += raw;
+            }
+            
+            ww = 5
+            html += `<td style='width:` + ww + `%' class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
+            html += not(2, i);                          //wip
+
+            return html
+        }
     }
 
     function color(type, v, a, b) {
@@ -1244,22 +1885,29 @@
         if(!type) {
             for(var i = 0; i < v.length; i++) {
                 k = v[i].indexOf('=')
+                if(k > -1) w = v[i].substring(0, k);
+                else w = v[i];
+                // console.log("color:", w, k);
+                
+                if(data[b].e2.includes(w) && eja) html += `<span style='color:green'>(JA) </span>`;
+
                 if(k > 0) 
-                    html += `<span class="word" style='color:blue' ty="${a}" li="${b}" >`+ v[i].substring(0, k) +`</span>` +
-                    `<span class="word" ty="2" li="${b}" e="${v[i].substring(0, k)}">`+ v[i].substring(k) +`</span>`
-                else html += `<span class="word" style='color:blue' ty="${a}" li="${b}">`+ v[i] +`</span>`
-                html += `<br>`
+                    html += `<span class="word" style='color:blue' ty="${a}" li="${b}" e="${v[i].substring(0, k)}">`
+                        + v[i].substring(0, k) +`</span>` +
+                    `<span class="word" ty="2" li="${b}" e="${v[i].substring(0, k)}">`+ v[i].substring(k)
+                else html += `<span class="word" style='color:blue' ty="${a}" li="${b}" e="${v[i]}">`+ v[i]
+                html += `</span><br>`
                 // if(i < v.length-1) html += `\n`
             }
             html += `<span class="add" li="${b}" ty="6">+</span>`
         }
-        if(type) {
+        else if(type == 1) {
             if(v.length) {
                 // // console.log(v)
                 // k = v[i].indexOf('JA')
                 // j = v[i].indexOf('RT')
                 // if(v)
-                html += v
+                html += v;
                 html = html.replace('JA', `<span style='color:green' ty="${a}" li="${b}">JA</span>`);
                 html = html.replace('IN', `<span style='color:blue' ty="${a}" li="${b}">IN</span>`);
                 html = html.replace('RT', `<span style='color:red' ty="${a}" li="${b}">RT</span>`);
@@ -1268,6 +1916,16 @@
                 // console.log(html)
             }
             // return html
+        }
+
+        else {
+            if(v.length) {
+
+                html += v;
+                html = html.replace('>JA', ` style='color:green'>JA`);
+                html = html.replace('>IN', ` style='color:blue'>IN`);
+                html = html.replace('>RT', ` style='color:red' >RT`);
+            }
         }
         return html
 
@@ -1280,14 +1938,34 @@
         console.log(filename)
 
         //Start of saving method
-        var textToSave = max + '\n';
-        
-        for(var i in obj){
-            if(i < max) {
-                for(var j in obj[i]) { textToSave += obj[i][j] + '\n'; }
+        if(cgm) {
+            var textToSave = max + ',' + eja + ',' + cgm + '\n';
+            for(var i in obj) {
+                if(i < max) {
+                    for(var j in obj[i]) {
+                        // console.log(j, obj[i][j]);
+                        if(j == 'cc2' || j == 'eve') {
+                            for(var k in obj[i][j]) textToSave += obj[i][j][k] + '^';
+                            textToSave = trim(textToSave, 1);
+                        }
+                        else textToSave += obj[i][j] + '\t';
+                    }
+                }
+                textToSave = trim(textToSave, 2);
             }
         }
-        // console.log(textToSave)
+        
+        // transition mode
+        else {
+            var textToSave = max + '\n';
+            for(var i in obj) {
+                if(i < max) {
+                    for(var j in obj[i]) { textToSave += obj[i][j] + '\n'; }
+                }
+            }
+        }
+
+        console.log(textToSave)
 
         //Saving string to file using html clicking trick
         var hiddenElement = document.createElement('a');
@@ -1301,7 +1979,7 @@
     function audio_clips(i) { 
         if(!i) txt = 'Intro';
         else txt = 'Clip #' + i;      
-        return `<tr><td colspan="2" id="ctext">` + txt + `</td><td colspan="20"><audio id="player" preload="none"
+        return `<tr><td colspan="1" id="ctext">` + txt + `</td><td colspan="20"><audio id="player" preload="none"
                 controls src=` + `"/static/` + did + `_` + i + `.mp3"` + `>
                 Your browser does not support the <code>audio</code> element.</audio></td></tr>`
     }
