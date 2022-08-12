@@ -155,6 +155,7 @@ li {
     font-size: 120%;
     color: lightgrey;
     text-align: center; 
+    text-align: center;
 }
 
 .prev {
@@ -220,7 +221,7 @@ li {
     font-size: 80%;
     color: darkcyan;
     /* color: lightpink; */
-    /* float: right; */
+    float: left;
     margin-left: 10px;
     /* margin-right: 20px; */
 }

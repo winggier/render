@@ -50,6 +50,7 @@
     dids = [];              // did num array and index
     eja = 1;                // JA mode
     cgm = 1;                // CG mode
+    hrefer = 1;             // hide default reference #
     // num_role = 0;
     // console.log(audios.includes('4092'))
     // tablet = 0;
@@ -196,11 +197,17 @@
             html += `<br><table><tr><span class='sett'>CG Mode:</span><span class='set' t='7' `
             if(cgm) html += `style='color:darkred'>Reference</span><span class='set' t='8'>Transition</span></tr></table>`
             else html += `>Reference</span><span class='set' t='8' style='color:darkred'>Transition</span></tr></table>`
-
+            html += `<br><table><tr><span class='sett'>Default reference#</span><span class='set' t='9' `
+            if(hrefer) html += `style='color:darkred'>Hide</span><span class='set' t='10'>Show</span></tr></table>`
+            else html += `>Hide</span><span class='set' t='10' style='color:darkred'>Show</span></tr></table>`
         }
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Aug 12:`;
+            html += `<li class='info'>Adds default reference # Hide and Show options</li>`;
+            html += `<li class='info'>Several bug fixes and style changes</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Aug 9:`;
             html += `<li class='info'>Elements within the entity are now added to Entity(JA) on first click and 
                 removed on second click</li>`;
@@ -312,6 +319,8 @@
                 else if(t == 6 && !eja) event.target.style.color = "DarkRed";
                 else if(t == 7 && cgm) event.target.style.color = "DarkRed";
                 else if(t == 8 && !cgm) event.target.style.color = "DarkRed";
+                else if(t == 9 && hrefer) event.target.style.color = "DarkRed";
+                else if(t == 10 && !hrefer) event.target.style.color = "DarkRed";
                 else event.target.style.color = "grey";
             });
             word.addEventListener("click", () => { 
@@ -387,8 +396,10 @@
                 else if(t == 5) eja = 1;
                 else if(t == 6) eja = 0;
                 else if(t == 7) cgm = 1;
-                else if(t == 8) cgm = 0;        
-                console.log(".set(max,prmax,expand):", max, prvmax, expand)
+                else if(t == 8) cgm = 0;
+                else if(t == 9) hrefer = 1;
+                else if(t == 10) hrefer = 0;     
+                // console.log(".set(max,prmax,expand):", max, prvmax, expand)
                 appendix()
                 process_table()
             });
@@ -739,7 +750,7 @@
             if(!eja) html += not(4, i); 
 
             // #
-            if(i == rows-1) html += `<td class="add" style='color:grey' ty="5">↓</td>`;
+            if(i == rows-1) html += `<td class="add" style='color:grey; font-weight: bold;' ty="5">↓</td>`;
             else {
                 // current or next is extra event
                 if(data[i].ty[0] || data[i+1].ty[0]) {
@@ -795,7 +806,7 @@
 
                     data[i].ty[3] = e;
                 }
-                html += `<td style='text-align:center; width:1%' class="num" li="${i}">` + e + `</td>`;
+                html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
             }
             
             
@@ -1464,6 +1475,7 @@
                     max = parseInt(line[0]);
                     eja = parseInt(line[1]);
                     cgm = parseInt(line[2]);
+                    hrefer = parseInt(line[3]);
 
                     for(i in text) {
                         line = text[i].split('\t');
@@ -1603,8 +1615,9 @@
             html = ``;
             // main empty event
             if(!data[i].ev.length) 
-                html += `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+`
-                // html += `<td style='width:` + w + `%'><span class="add" line="${line}" li="${i}" ty="${type}" >+</span>`
+                // html += `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+`
+                html += `<td style='width:` + w + `%; text-align: center;'><span class="add" line="${line}" 
+                    li="${i}" ty="${type}" >+</span>`
 
             // last row
             else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
@@ -1616,13 +1629,13 @@
             else html += `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] +`</span>`;
 
             // cc links
-            if(cgm && data[i].ev.length) {
+            if(cgm) {
                 for(var j = 0; j < 4; j++) { // cc slot
                     if(d.eve[j].length) {
                         // console.log("not1_eve: ", i, j, d.eve[j])
 
                         // slot name
-                        html += `<br><span class="clinks">` + hd2[j+5] + `:</span>`
+                        html += `<br><span class="clinks">` + hd2[j+6-eja] + `:</span>`
                         rs = ``
 
                         // current cc
@@ -1639,10 +1652,10 @@
                         // referencing cc
                         for(var k = 0; k < d.eve[j].length; k++) {
                             ci = d.eve[j][k][1]
-                            rs = ``
+                            rs = `` + d.eve[j][k][0] + `:`
                             if(j < 2) rs += bel[ci%bel.length]
                             else rs += cg[ci%cg.length];
-                            rs += `(` + d.eve[j][k][0] + `)`
+                            // rs += `(` + d.eve[j][k][0] + `)`
                             html += `<span class="clinks">` + rs + `</span>`
                         }
                     }
@@ -1665,10 +1678,10 @@
 
         if(type == 2) {
             if(!data[i].wip.length) {
-                return `<td style='border-right:5px solid black;' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+                return `<td style='border-right:5px solid lightgrey;' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             }
             else {
-                return `<td style='border-right:5px solid black;' class="edits" li="${i}" ty="${type}">` + 
+                return `<td style='border-right:5px solid lightgrey;' class="edits" li="${i}" ty="${type}">` + 
                     data[i].wip[0] + `</td>`
             }
         }
@@ -1788,19 +1801,19 @@
             for(var j in '12') {
                 // null
                 if(!(dc2[j][0][0]%bel.length) && j == 0) 
-                    html += `<td style='border-left:5px solid black;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+                    html += `<td style='border-left:5px solid lightgrey;' class="cc" ty="${j}" li="${i}" cgi="0">`;
                 
                 else if(!(dc2[j][0][0]%bel.length))
-                    html += `<td style='border-right:5px solid black;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+                    html += `<td style='border-right:5px solid lightgrey;' class="cc" ty="${j}" li="${i}" cgi="0">`;
 
                 // j:cc slot, k:item index
                 else {
                     // console.log("in ccs j", j);
                     for(var k = 0; k < dc2[j].length; k++) {
                         // bel
-                        if(!k && j == 0) html += `<td style='text-align:center; border-left:5px solid black;'>
+                        if(!k && j == 0) html += `<td style='text-align:center; border-left:5px solid lightgrey;'>
                             <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
-                        else if(!k) html += `<td style='text-align:center; border-right:5px solid black;'>
+                        else if(!k) html += `<td style='text-align:center; border-right:5px solid lightgrey;'>
                             <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
                         else html += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` +
                             bel[dc2[j][k][0]%bel.length] + `</span>`;
@@ -1809,8 +1822,9 @@
                         if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) {
                             html += `<span class="edits" ty="5" ct="${j}" li="${i}" cgi="${k}"> ` + dc2[j][k][1] + `</span>`
                         }
+
                         // hightlingt then shows referencing number(ty3)
-                        else if(d.ty[2]%2) html += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
+                        else if(d.ty[2]%2 || !hrefer) html += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
                             d.ty[3] + `</span>`
                         
                         if(d.ty[2]%2) {
@@ -1855,7 +1869,7 @@
                             raw += `<span class="edits" ty="5" ct="${j}" li="${i}" cgi="${k}"> ` + dc2[j][k][1] + `</span>`
                         }
                         // hightlingt then shows referencing number(ty3)
-                        else if(d.ty[2]%2) raw += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
+                        else if(d.ty[2]%2 || !hrefer) raw += `<span class="edits" ty="5" ct ="${j}" li="${i}" cgi="${k}"> ` + 
                             d.ty[3] + `</span>`
                         
                         if(d.ty[2]%2) {
@@ -1940,7 +1954,7 @@
 
         //Start of saving method
         if(cgm) {
-            var textToSave = max + ',' + eja + ',' + cgm + '\n';
+            var textToSave = max + ',' + eja + ',' + cgm + ',' + hrefer + '\n';
             for(var i in obj) {
                 if(i < max) {
                     for(var j in obj[i]) {
