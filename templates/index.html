@@ -1614,10 +1614,13 @@
         if(type == 0) {
             html = ``;
             // main empty event
-            if(!data[i].ev.length) 
-                // html += `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+`
-                html += `<td style='width:` + w + `%; text-align: center;'><span class="add" line="${line}" 
-                    li="${i}" ty="${type}" >+</span>`
+            if(!data[i].ev.length)
+                // eve
+                if(cgm && (d.eve[0].length || d.eve[1].length || d.eve[2].length || d.eve[3].length)) 
+                    html += `<td style='width:` + w + `%; text-align: center;'><span class="add" line="${line}" 
+                        li="${i}" ty="${type}" >+</span>`
+                // not
+                else html += `<td style='width:` + w + `%' class="add" line="${line}" li="${i}" ty="${type}">+`
 
             // last row
             else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
