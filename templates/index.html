@@ -550,6 +550,16 @@
             // console.log("checkr: ", k, i, data[i].ty[3]);
             if(data[i].ty[3] == k) return i
         }
+        for (var i = 0; i < data.length; i++) {
+            nk = (k - 0.1).toFixed(2);
+            // if(k == 18.2) console.log("checkr: ", parseFloat(k), i, data[i].ty[3], nk);
+            
+            if(data[i].ty[3] == nk) {
+                console.log("speacial", data[i].ty[3], k, i);
+                return i+1
+            }
+            
+        }        
         return -1;
     }
 
@@ -770,6 +780,7 @@
 
         rows = Math.min(max, data.length)
         for (var i = 0; i < rows; i++) {
+            // console.log("ty3",data[i].ty[3]);
             if(data[i].ty[0]) subnum += 1;
             else subnum = 1;
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
@@ -823,6 +834,7 @@
                 if(e != data[i].ty[3]) {
                     
                     console.log("ty[3]", data[i].ty[3], " changed to ", e);
+                    data[i].ty[3] = e;
 
                     // change new ty3 in others' eve
                     for (var j = 0; j < data[i].cc2.length; j++) {
@@ -848,7 +860,16 @@
                     for (var j = 0; j < data[i].eve.length; j++) {
                         for (var k = 0; k < data[i].eve[j].length; k++) {
                             ri = checkr(data[i].eve[j][k][0]);
-                            if(ri < 0) { alert('Error: Invalid event number(+ev2)'); return;}
+                            if(ri < 0) { alert('Error: Invalid event number(+ev2)'); 
+                                
+                                console.log("ev2err", i, j, k); 
+                                console.log(data[i].eve)
+                                console.log(data[i].eve[j][k])
+                                console.log(data[i].eve[j][k][0])
+                                console.log(data[i].ty[3])
+                                console.log(data[i-1].ty[3])
+
+                                return;}
 
                             for (var l = 0; l < data[ri].cc2[j].length; l++) {
                                 // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
@@ -862,7 +883,7 @@
                         }
                     }
 
-                    data[i].ty[3] = e;
+                    // data[i].ty[3] = e;
                 }
                 html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
             }
@@ -1550,6 +1571,7 @@
 
                 // Referencing
                 if(cgm) {
+                    // first line
                     max = parseInt(line[0]);
                     eja = parseInt(line[1]);
                     cgm = parseInt(line[2]);
@@ -1574,7 +1596,7 @@
                         else tuple.st = data[i].st;
 
                         data.splice(i, replace, tuple);
-                        // console.log(line);
+                        console.log(line);
                         // console.log(data[i])
                         cp(data[i].e1,  line[1], 1)
                         cp(data[i].e2,  line[2], 0)
