@@ -83,7 +83,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #e7ded7;
 }
 
 /* h1 {
@@ -219,10 +219,11 @@ li {
 .clinks {
     font-family: Verdana, sans-serif;
     /* font-weight: bold; */
-    font-size: 80%;
+    font-size: 75%;
     color: darkcyan;
     /* color: lightpink; */
     float: left;
+    line-height: 100%;
     margin-left: 10px;
     /* margin-right: 20px; */
 }
@@ -254,6 +255,18 @@ li {
 
 #in {
 	display: none;
+}
+
+.sbufoot {
+    font-family: Verdana, sans-serif;
+    /* font-weight: bold; */
+    font-size: 75%;
+    color: darkcyan;
+    /* color: lightpink; */
+    text-align: center; 
+
+    float: center;
+    /* margin-right: 20px; */
 }
 
 
