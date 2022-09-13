@@ -31,6 +31,7 @@
     hd2 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
     'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
 
+    // bel = ['', 'CT+', 'CT-', 'PS', 'NB']
     bel = ['', 'CT+', 'CT-', 'PS']
     belc = ['→', '→CT+', '→CT-', '→PS']
     cg = ['', 'JA', 'IN','RT', 'AM']
@@ -39,7 +40,7 @@
 
 
     edr = 0;                // last edited line
-    max = 10;                // max line
+    max = 10;               // max line
     expand = 2;             // click expand
     pack = [];              // data pack for all dialogs
     cursor = '';            // cursor tips msg
@@ -158,6 +159,7 @@
                 <li>CT+ (certain belief)</li>
                 <li>CT- (certain belief that not)</li>
                 <li>PS (event may or may not have happened)</li>
+                <li>NB (no believe)</li>
             </div><br>
 
             <div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
@@ -781,6 +783,9 @@
         rows = Math.min(max, data.length)
         for (var i = 0; i < rows; i++) {
             // console.log("ty3",data[i].ty[3]);
+            // if(i<2) console.log(i, data[i].eve)
+
+
             if(data[i].ty[0]) subnum += 1;
             else subnum = 1;
             // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
@@ -1020,6 +1025,8 @@
                     if(!w) document.getElementById("tips").innerText = `Edit Believe value (null)`;
                     else if(w == 'CT+') document.getElementById("tips").innerText = `(certain belief)`;
                     else if(w == 'CT-') document.getElementById("tips").innerText = `(certain belief that not)`;
+                    else if(w == 'NB') document.getElementById("tips").innerText = `(no belief)`;
+
                     else document.getElementById("tips").innerText = `(event may or may not have happened)`;
 
                 }
@@ -1080,6 +1087,8 @@
                             if(!w) cursor = `Edit Believe value (null)`;
                             else if(w == 'CT+') cursor = `(certain belief)`;
                             else if(w == 'CT-') cursor = `(certain belief that not)`;
+                            else if(w == 'NB') cursor = `(no belief)`;
+
                             else cursor = `(event may or may not have happened)`;
                         }
                         else {
@@ -1388,7 +1397,7 @@
                     if(input) {
                         k = parseFloat(input);
                         ri = checkr(k);
-                        // console.log("input:", k, "line", ri, "li", li);
+                        console.log("input:", k, "line", ri, "li", li);
                         if(ri > -1) {   // valid reference number
                             // if(ri >= li) { alert('Error: Event number must lees than current line(ed1)'); return;}
                             if(ri > li) { alert('Error: Input must be less or equal to event# (ed1)'); return;}
@@ -1417,7 +1426,7 @@
 
                                 // add eve to new
                                 // console.log("check add eve to new ref", k, "line", ri)
-                                if(k && ri) {
+                                if(k && (ri > -1)) {
                                     // console.log("add eve to new ref", k, "line", ri)
                                     data[ri].eve[ct].push([data[li].ty[3], data[li].cc2[ct][cgi][0]])
                                 }
@@ -1579,7 +1588,7 @@
 
                     for(i in text) {
                         line = text[i].split('\t');
-                        if(i == max) break;
+                        if((i == max) || (i == data.length)) break;
                         replace = 1;
 
                         var tuple = Object({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
@@ -1587,6 +1596,7 @@
                                 cc2:[[], [], [], []], eve:[[], [], [], []]})
 
                         // extra event?
+                        console.log(i, max, data.length)
                         if(data[i].st != line[0]) {
                             // console.log("Dialog != ", i, data[i].st, line[0])
                             replace = 0;
@@ -1596,7 +1606,7 @@
                         else tuple.st = data[i].st;
 
                         data.splice(i, replace, tuple);
-                        console.log(line);
+                        // console.log(line);
                         // console.log(data[i])
                         cp(data[i].e1,  line[1], 1)
                         cp(data[i].e2,  line[2], 0)
@@ -1787,21 +1797,23 @@
         }
 
         if(type == 1) {
+            pw = 16
             if(!data[i].pr.length) {
                 return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             }
             else {
-                return `<td class="edits" li="${i}" ty="${type}">` + data[i].pr[0] + `</td>`
+                return `<td style='width:` + pw + `%' class="edits" li="${i}" ty="${type}">` + data[i].pr[0] + `</td>`
             }
         }
 
         if(type == 2) {
+            wipw = 16
             if(!data[i].wip.length) {
-                if(hcom) return `<td class="add" line="${line}" li="${i}" ty="${type}">+</td>`
+                if(hcom) return `<td style='width:` + wipw + `%' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
                 return `<td style='border-right:5px solid lightgrey;' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             }
             else {
-                if(hcom) return `<td class="edits" li="${i}" ty="${type}">` + data[i].wip[0] + `</td>`
+                if(hcom) return `<td style='width:` + wipw + `%' class="edits" li="${i}" ty="${type}">` + data[i].wip[0] + `</td>`
                 return `<td style='border-right:5px solid lightgrey;' class="edits" li="${i}" ty="${type}">` + 
                     data[i].wip[0] + `</td>`
             }
