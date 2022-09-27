@@ -36,8 +36,8 @@
 
     bcgtab = ['Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)']
 
-    // bel = ['', 'CT+', 'CT-', 'PS', 'NB']
-    bel = ['', 'CT+', 'CT-', 'PS']
+    bel = ['', 'CT+', 'CT-', 'PS', 'NB']
+    // bel = ['', 'CT+', 'CT-', 'PS']
     belc = ['→', '→CT+', '→CT-', '→PS']
     cg = ['', 'JA', 'IN','RT', 'AM']
     cgc = ['→', '→JA', '→IN', '→RT', '→AM']
@@ -164,7 +164,7 @@
                 <li>CT+ (certain belief)</li>
                 <li>CT- (certain belief that not)</li>
                 <li>PS (event may or may not have happened)</li>
-                <li>NB (no believe)</li>
+                <li>NB (no belief)</li>
             </div><br>
 
             <div class="info" contenteditable="true" >Common Ground Tags Click Cycle:
@@ -216,6 +216,9 @@
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Sep 27:`;
+            html += `<li class='info'>NB (for no belief) added to Bel tab</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Sep 11:`;
             html += `<li class='info'>Several bug fixes and table style changes</li></div>`;
 
@@ -1286,12 +1289,10 @@
                 if(type == 5) max += expand;
                 if(type == 6) {
                     // console.log("+ customized e1");
-                    var input = prompt('Please input entity');
+                    var input = prompt('Please input entity name');
                     if(input) {
                         if(input.includes('=')) {
                             k = input.indexOf('=');
-                            // e = input.substring(0, k)
-                            // rest = input.substring(k+1)
                             data[li].e1.push(input)
                             data[li].er.push(input.substring(0, k))
                         }
@@ -2007,9 +2008,8 @@
                 // null
                 if(!(dc2[j][0][0]%cg.length)) {
                     if(red(i, j, 1)) {
-                        console.log("red", i, j);
+                        // console.log("red", i, j);
                         raw += `<td style='background-color:lightpink;' class="cc" ty="${j}" li="${i}" cgi="0">`;
-
                     }
                     else raw += `<td class="cc" ty="${j}" li="${i}" cgi="0">`;
                 }
