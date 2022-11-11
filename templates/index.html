@@ -33,6 +33,8 @@
     hd1 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Comment']
     hd2 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
     'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
+    hd_tsv = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Bel(A)R', 'Bel(B)R','CG(A)R','CG(B)R',
+    'Pragmatics', 'Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
 
     bcgtab = ['Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)']
 
@@ -216,6 +218,10 @@
 
         // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
         else if(appp == 4) {
+            html += `<br><div class="info" contenteditable="true" >Nov 11:`;
+            html += `<li class='info'>Export tsv works on reference mode now</li>`
+            html += `<li class='info'>Fix a load file issus</li></div>`;
+
             html += `<br><div class="info" contenteditable="true" >Sep 27:`;
             html += `<li class='info'>NB (for no belief) added to Bel tab</li></div>`;
 
@@ -375,45 +381,172 @@
                     console.log(filename)
                     text = '';
 
-                    for(var i in hd2){
-                        text += hd2[i] + '\t';
-                    }
-                    text = text.substring(0, text.length - 1);
-                    text += '\n';
-
-                    for(var i in obj){
-                        // st + e1 + e2
-                        if(i < max) {
-                            text += i + '\t' + obj[i].st + '\t';
-                            for(var j in obj[i].e1) text += obj[i].e1[j] + ',';
-                            text = text.substring(0, text.length - 1);
-                            text += '\t';
-                            for(var j in obj[i].e2) text += obj[i].e2[j] + ',';
-                            text = text.substring(0, text.length - 1);
-                            text += '\t';
-    
-                            text += obj[i].ev + '\t';
-                            text += obj[i].pr + '\t';
-
-                            text += bel[obj[i].cc[0]%bel.length];
-                            if(obj[i].ccc[0]) text += belc[obj[i].ccc[0]%belc.length];
-                            text += '\t';
-                            text += bel[obj[i].cc[1]%bel.length];
-                            if(obj[i].ccc[1]) text += belc[obj[i].ccc[1]%belc.length];
-                            text += '\t';
-                            text += cg[obj[i].cc[2]%cg.length];
-                            if(obj[i].ccc[2]) text += cgc[obj[i].ccc[2]%cgc.length];
-                            text += '\t';
-                            text += cg[obj[i].cc[3]%cg.length];
-                            if(obj[i].ccc[3]) text += cgc[obj[i].ccc[3]%cgc.length];
-                            text += '\t';
-                            text += why[obj[i].cc[4]%why.length];
-                            text += '\t';
-
-                            text += obj[i].wip + '\t';
-                            text += obj[i].com + '\n';
+                    if(cgm) {
+                        // title
+                        for(var i in hd_tsv){
+                            text += hd_tsv[i] + '\t';
                         }
+                        text = text.substring(0, text.length - 1);
+                        text += '\n';
+
+                        // annotations
+                        for(var i in obj){
+                            // st + e1 + e2
+                            if(i < max) {
+                                text += obj[i].st + '\t';
+
+                                if(obj[i].e1.length) {
+                                    for(var j in obj[i].e1) text += obj[i].e1[j] + ',';
+                                    text = text.substring(0, text.length - 1);
+                                }
+                                text += '\t';
+
+                                if(obj[i].e2.length) {
+                                    for(var j in obj[i].e2) text += obj[i].e2[j] + ',';
+                                    text = text.substring(0, text.length - 1);
+                                }
+                                text += '\t' + obj[i].ty[3] + '\t';        
+                                text += obj[i].ev + '\t';
+
+                                // belA r
+                                if(obj[i].eve[0]) {
+                                    for(var j in obj[i].eve[0]) {
+                                        text += ' → ' + obj[i].eve[0][j][0] + ' ' + bel[obj[i].eve[0][j][1]%bel.length];
+                                    }
+                                }
+                                text += '\t';
+
+                                // belB r
+                                if(obj[i].eve[1]) {
+                                    for(var j in obj[i].eve[1]) {
+                                        text += ' → ' + obj[i].eve[1][j][0] + ' ' + bel[obj[i].eve[1][j][1]%bel.length];
+                                    }
+                                }
+                                text += '\t';
+
+                                // CGA r
+                                if(obj[i].eve[2]) {
+                                    for(var j in obj[i].eve[2]) {
+                                        text += ' → ' + obj[i].eve[2][j][0] + ' ' + cg[obj[i].eve[2][j][1]%cg.length];
+                                    }
+                                }
+                                text += '\t';
+
+                                // CGB r
+                                if(obj[i].eve[3]) {
+                                    for(var j in obj[i].eve[3]) {
+                                        text += ' → ' + obj[i].eve[3][j][0] + ' ' + bel[obj[i].eve[3][j][1]%bel.length];
+                                    }
+                                }
+                                text += '\t';
+
+                                text += obj[i].pr + '\t';
+
+
+                                for(var j in obj[i].cc2[0]) {
+                                    if(obj[i].cc2[0][j][0]) {
+                                        text += bel[obj[i].cc2[0][j][0]%bel.length] + ' ';
+                                        if(obj[i].cc2[0][j][1]) text += obj[i].cc2[0][j][1] + ',';
+                                        else text += obj[i].ty[3] + ',';
+                                    }
+                                    else text += ','
+                                }
+                                text = text.substring(0, text.length - 1);
+                                text += '\t';
+
+                                for(var j in obj[i].cc2[1]) {
+                                    if(obj[i].cc2[1][j][0]) {
+                                        text += bel[obj[i].cc2[1][j][0]%bel.length] + ' ';
+                                        if(obj[i].cc2[1][j][1]) text += obj[i].cc2[1][j][1] + ',';
+                                        else text += obj[i].ty[3] + ',';
+                                    }
+                                    else text += ','
+                                }
+                                text = text.substring(0, text.length - 1);
+                                text += '\t';
+
+                                for(var j in obj[i].cc2[2]) {
+                                    if(obj[i].cc2[2][j][0]) {
+                                        text += cg[obj[i].cc2[2][j][0]%cg.length] + ' ';
+                                        if(obj[i].cc2[2][j][1]) text += obj[i].cc2[2][j][1] + ',';
+                                        else text += obj[i].ty[3] + ',';
+                                    }
+                                    else text += ','
+                                }
+                                text = text.substring(0, text.length - 1);
+                                text += '\t';
+
+                                for(var j in obj[i].cc2[3]) {
+                                    if(obj[i].cc2[3][j][0]) {
+                                        text += cg[obj[i].cc2[3][j][0]%cg.length] + ' ';
+                                        if(obj[i].cc2[3][j][1]) text += obj[i].cc2[3][j][1] + ',';
+                                        else text += obj[i].ty[3] + ',';
+                                    }
+                                    else text += ','
+                                }
+                                text = text.substring(0, text.length - 1);
+                                text += '\t';
+
+
+                                text += why[obj[i].cc[4]%why.length];
+                                text += '\t';
+
+                                text += obj[i].wip + '\t';
+                                text += obj[i].com + '\n';
+                            }
+                        }
+
+
+
                     }
+
+                    else { // old or transition mode
+                            for(var i in hd2){
+                            text += hd2[i] + '\t';
+                        }
+                        text = text.substring(0, text.length - 1);
+                        text += '\n';
+
+                        for(var i in obj){
+                            // st + e1 + e2
+                            if(i < max) {
+                                text += i + '\t' + obj[i].st + '\t';
+                                for(var j in obj[i].e1) text += obj[i].e1[j] + ',';
+                                text = text.substring(0, text.length - 1);
+                                text += '\t';
+
+                                if(obj[i].e2.length) {
+                                    for(var j in obj[i].e2) text += obj[i].e2[j] + ',';
+                                    text = text.substring(0, text.length - 1);
+                                }
+                                text += '\t';
+        
+                                text += obj[i].ev + '\t';
+                                text += obj[i].pr + '\t';
+
+                                text += bel[obj[i].cc[0]%bel.length];
+                                if(obj[i].ccc[0]) text += belc[obj[i].ccc[0]%belc.length];
+                                text += '\t';
+                                text += bel[obj[i].cc[1]%bel.length];
+                                if(obj[i].ccc[1]) text += belc[obj[i].ccc[1]%belc.length];
+                                text += '\t';
+                                text += cg[obj[i].cc[2]%cg.length];
+                                if(obj[i].ccc[2]) text += cgc[obj[i].ccc[2]%cgc.length];
+                                text += '\t';
+                                text += cg[obj[i].cc[3]%cg.length];
+                                if(obj[i].ccc[3]) text += cgc[obj[i].ccc[3]%cgc.length];
+                                text += '\t';
+
+
+                                text += why[obj[i].cc[4]%why.length];
+                                text += '\t';
+
+                                text += obj[i].wip + '\t';
+                                text += obj[i].com + '\n';
+                            }
+                        }
+                    } 
+                    
                     // console.log(text)
 
                     var hiddenElement = document.createElement('a');
@@ -568,11 +701,22 @@
             // if(k == 18.2) console.log("checkr: ", parseFloat(k), i, data[i].ty[3], nk);
             
             if(data[i].ty[3] == nk) {
-                console.log("speacial", data[i].ty[3], k, i);
+                console.log("speacial (-0.1)", data[i].ty[3], k, i);
                 return i+1
             }
             
-        }        
+        }
+        
+        for (var i = 0; i < data.length; i++) {
+            nk = (k + 0.1).toFixed(2);
+            
+            if(data[i].ty[3] == nk) {
+                console.log("speacial (+0.1)", data[i].ty[3], k, i);
+                return i
+            }
+            
+        }  
+
         return -1;
     }
 
@@ -854,21 +998,24 @@
                 // ty3 updata
                 if(e != data[i].ty[3]) {
                     
-                    console.log("ty[3]", data[i].ty[3], " changed to ", e);
+                    // console.log("ty[3]", data[i].ty[3], " changed to ", e);
                     data[i].ty[3] = e;
 
                     // change new ty3 in others' eve
                     for (var j = 0; j < data[i].cc2.length; j++) {
                         for (var k = 0; k < data[i].cc2[j].length; k++) {
                             ri = checkr(data[i].cc2[j][k][1]);
-                            if(ri < 0) { alert('Error: Invalid event number(+ev1)'); return;}
+                            if(ri < 0) { 
+                                console.log("Invalid event number", i, j, k, data[i].cc2[j][k][1], data[i]);
+                                alert('Error: Invalid event number(+ev1)'); return;
+                            }
 
                             for (var l = 0; l < data[ri].eve[j].length; l++) {
                                 // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
                                 if(data[ri].eve[j][l][0] == data[i].ty[3]) {
 
                                     data[ri].eve[j][l][0] = e;
-                                    console.log("after remote1 ", data[ri].eve[j][l]);
+                                    // console.log("after remote1 ", data[ri].eve[j][l]);
                                     // this change after previous line print, then reload table again
                                     // process_table()
                                     refresh = 1;
@@ -1610,7 +1757,7 @@
                                 cc2:[[], [], [], []], eve:[[], [], [], []]})
 
                         // extra event?
-                        console.log(i, max, data.length)
+                        // console.log(i, max, data.length)
                         if(data[i].st != line[0]) {
                             // console.log("Dialog != ", i, data[i].st, line[0])
                             replace = 0;
@@ -1633,7 +1780,6 @@
                         cp(data[i].cc,  line[9], 2)
                         cp(data[i].ccc, line[10], 2)
                         cp(data[i].ty,  line[11], 2)
-
                         cp(data[i].cc2, line[12], 3)
                         cp(data[i].eve, line[13], 4)
 
