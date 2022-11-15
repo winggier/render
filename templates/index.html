@@ -756,6 +756,8 @@
 
         // 1: cclinks & empty cc
         if(r == 1) {
+            // disable at nov 14
+            return 0;
             // if(j>1) console.log(i, j, data[i].eve[j].length, dc2[j][0][0]%cg.length)
             if(data[i].eve[j].length && j < 2 && !(dc2[j][0][0]%bel.length)) return 1;
             if(data[i].eve[j].length && j > 1 && !(dc2[j][0][0]%cg.length)) return 1;
