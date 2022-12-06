@@ -614,7 +614,9 @@
     }
 
     function cp(des, sor, spl) {
-        if(!sor.length) return
+        if(!sor.length) {
+            return
+        }
         des.length = 0;
         if(spl) {
             if(spl == 1) {  // string
@@ -696,26 +698,26 @@
             // console.log("checkr: ", k, i, data[i].ty[3]);
             if(data[i].ty[3] == k) return i
         }
-        for (var i = 0; i < data.length; i++) {
-            nk = (k - 0.1).toFixed(2);
-            // if(k == 18.2) console.log("checkr: ", parseFloat(k), i, data[i].ty[3], nk);
+        // for (var i = 0; i < data.length; i++) {
+        //     nk = (k - 0.1).toFixed(2);
+        //     // if(k == 18.2) console.log("checkr: ", parseFloat(k), i, data[i].ty[3], nk);
             
-            if(data[i].ty[3] == nk) {
-                console.log("speacial (-0.1)", data[i].ty[3], k, i);
-                return i+1
-            }
+        //     if(data[i].ty[3] == nk) {
+        //         console.log("speacial (-0.1)", data[i].ty[3], k, i);
+        //         return i+1
+        //     }
             
-        }
+        // }
         
-        for (var i = 0; i < data.length; i++) {
-            nk = (k + 0.1).toFixed(2);
+        // for (var i = 0; i < data.length; i++) {
+        //     nk = (k + 0.1).toFixed(2);
             
-            if(data[i].ty[3] == nk) {
-                console.log("speacial (+0.1)", data[i].ty[3], k, i);
-                return i
-            }
+        //     if(data[i].ty[3] == nk) {
+        //         console.log("speacial (+0.1)", data[i].ty[3], k, i);
+        //         return i
+        //     }
             
-        }  
+        // }  
 
         return -1;
     }
@@ -750,8 +752,10 @@
         // 0: CT- & RT
         if(!r) {
             if((bel[dc2[j-2][0][0]%bel.length] == 'CT-' && cg[dc2[j][0][0]%cg.length] != 'RT') &&
-                (dc2[j][0][1] == dc2[j-2][0][1]))
-                return 1;
+                (dc2[j][0][1] == dc2[j-2][0][1])) {
+                    // console.log(i, '0: CT- & RT');
+                    return 1;
+                }
         }
 
         // 1: cclinks & empty cc
@@ -1009,7 +1013,9 @@
                             ri = checkr(data[i].cc2[j][k][1]);
                             if(ri < 0) { 
                                 console.log("Invalid event number", i, j, k, data[i].cc2[j][k][1], data[i]);
-                                alert('Error: Invalid event number(+ev1)'); return;
+                                // alert('Error: Invalid event number(+ev1)');
+                                break;
+                                return;
                             }
 
                             for (var l = 0; l < data[ri].eve[j].length; l++) {
@@ -1030,15 +1036,22 @@
                     for (var j = 0; j < data[i].eve.length; j++) {
                         for (var k = 0; k < data[i].eve[j].length; k++) {
                             ri = checkr(data[i].eve[j][k][0]);
-                            if(ri < 0) { alert('Error: Invalid event number(+ev2)'); 
+                            // if(data[i].eve[j][k][0] == 91.2) {
+                            //     console.log('912 ri:',ri);
+                            //     console.log(data[116]);
+                            //     console.log(data[135]);
+
+                            // }
+                            if(ri < 0) { 
+                                // alert('Error: Invalid event number(+ev2)'); 
                                 
-                                console.log("ev2err", i, j, k); 
+                                console.log("ev2err in change others (cc2) to new ty3", i, j, k); 
                                 console.log(data[i].eve)
                                 console.log(data[i].eve[j][k])
                                 console.log(data[i].eve[j][k][0])
                                 console.log(data[i].ty[3])
                                 console.log(data[i-1].ty[3])
-
+                                break;
                                 return;}
 
                             for (var l = 0; l < data[ri].cc2[j].length; l++) {
@@ -1715,7 +1728,9 @@
                 // var dd = e.target.file;
                 console.log(file.name)
                 k = file.name.indexOf('_')
-                if(k < 0) { alert('Error : Wrong File Name'); return;}
+                // if(k < 0) { alert('Error : Wrong File Name'); return;}
+                if(k < 0) { alert('Error : Wrong File Name');}
+
 
                 
                 load_did = file.name.substring(0, k);
@@ -1769,7 +1784,7 @@
                         else tuple.st = data[i].st;
 
                         data.splice(i, replace, tuple);
-                        // console.log(line);
+                        console.log(i, line);
                         // console.log(data[i])
                         cp(data[i].e1,  line[1], 1)
                         cp(data[i].e2,  line[2], 0)
