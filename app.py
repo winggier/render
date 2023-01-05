@@ -1,11 +1,5 @@
-# import json
-# import pandas as pd
-# import numpy as np
 import os
 from flask import Flask, render_template
-# from pydub import AudioSegment
-# import flask.cli
-# flask.cli.show_server_banner = lambda *args: None
 
 app = Flask(__name__, static_folder='./static')
 
@@ -40,15 +34,9 @@ def home(): return render_template("index.html", data = data)
 #     outa.export(outp, format="mp3")
 
 
-
 data = []
 header = ['Sentence', 'Entity', 'Event', 'CG: A', 'CG: B', 'Why?', 'Pragmatics']
 # dialog = ['A: The kid sister thing?', "B: %huh?", 'A: The kid sister thing?', 'B: Well no.']
-# dialog = ['A: Covid is real.', 'B: No it’s hoax.', 'A: Oh, you’re right!']
-
-# data.append(header)
-# data.append(dialog)
-# data.append(entity)
 
 path = "train/"
 # savepath = "/home/username/newfolder/" 
@@ -110,9 +98,7 @@ data.append(dialogs)
 # print(dialogs[0])
 
 audio = []
-path = "static/"
-
-files = os.listdir(path)
+files = os.listdir("static/")
 files.sort()
 
 for i in files:
@@ -123,7 +109,6 @@ for i in files:
 
 data.append(list(set(audio)))
 # print(data[1])
-
 
 # fullmp3 = []
 # for i in audio:
@@ -138,7 +123,4 @@ data.append(list(set(audio)))
 
 # to_clip(4490, 2500)
 
-
 if __name__ == "__main__": app.run(debug=True)
-
-

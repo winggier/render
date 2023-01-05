@@ -1,4 +1,3 @@
-<script>
     var text = 'grey'
     var updata = {{ data|tojson }}
 
@@ -391,169 +390,168 @@
     // ver = 0.12
     // dialog = updata[di].slice(1)
     // did = updata[di].slice(0, 1)
-</script>
 
-<!-- <input type="file" id="file-input" />
-<button id="read-button">Read File</button>
-<pre id="file-contents"></pre>
+// <!-- <input type="file" id="file-input" />
+// <button id="read-button">Read File</button>
+// <pre id="file-contents"></pre>
 
-<script>
-	document.querySelector("#read-button").addEventListener('click', function() {
-		let file = document.querySelector("#file-input").files[0];
-		let reader = new FileReader();
-		reader.addEventListener('load', function(e) {
-	    		let text = e.target.result;
-	    		document.querySelector("#file-contents").textContent = text;
-		});
-		reader.readAsText(file);
-	});
-</script> -->
-
-
-
-<!-- 
-# f = open(path + os.listdir(path)[47])
-# i = os.listdir(path)[47]
-# print(i)
-# print(i[i.index('_')+1:i.index('.')])
-# line = f.readline()
-# i = 0
-# # print(i, line, end = '')
-# while(line):
-#   line = line.rstrip('\n')
-#   # ws = line.split(' ')
-#   i += 1
-#   if('A:' in line or 'B:' in line):
-#     # print(i, line)
-#     pass
-#   # print(ws)
-#   line = f.readline()
-
-# for i in os.listdir(path):
-#   f = open(path + i)
-#   while()
-# for dir,subdir,files in os.walk(path):
-  # print(dir, subdir, files)
-  # print(files)
-    # tfile = open(path+files)
-    # a = tfile.readline()
-    # print(a)
-    # outfile = open(savepath,'w')
-    # a = infile.readline().split('.')
-    # for k in range (0,len(a)):
-    #     print(a[0], file=outfile, end='')
-# tfile.close()
-# outfile.close -->
-
-<!-- # /Users/wing/Library/Caches/pip/wheels/30/33/46/5ab7eca55b9490dddbf3441c68a29535996270ef1ce8b9b6d7
-
-# export PATH="/Users/wing/Library/Caches/pip/wheels/30/33/46/5ab7eca55b9490dddbf3441c68a29535996270ef1ce8b9b6d7:$PATH"
-
-# import os; print(os.environ["PATH"].split(os.pathsep)) -->
+// <script>
+// 	document.querySelector("#read-button").addEventListener('click', function() {
+// 		let file = document.querySelector("#file-input").files[0];
+// 		let reader = new FileReader();
+// 		reader.addEventListener('load', function(e) {
+// 	    		let text = e.target.result;
+// 	    		document.querySelector("#file-contents").textContent = text;
+// 		});
+// 		reader.readAsText(file);
+// 	});
+// </script> -->
 
 
 
-<!-- # ------------------------------------------
+// <!-- 
+// # f = open(path + os.listdir(path)[47])
+// # i = os.listdir(path)[47]
+// # print(i)
+// # print(i[i.index('_')+1:i.index('.')])
+// # line = f.readline()
+// # i = 0
+// # # print(i, line, end = '')
+// # while(line):
+// #   line = line.rstrip('\n')
+// #   # ws = line.split(' ')
+// #   i += 1
+// #   if('A:' in line or 'B:' in line):
+// #     # print(i, line)
+// #     pass
+// #   # print(ws)
+// #   line = f.readline()
 
-# import speech_recognition as sr
+// # for i in os.listdir(path):
+// #   f = open(path + i)
+// #   while()
+// # for dir,subdir,files in os.walk(path):
+//   # print(dir, subdir, files)
+//   # print(files)
+//     # tfile = open(path+files)
+//     # a = tfile.readline()
+//     # print(a)
+//     # outfile = open(savepath,'w')
+//     # a = infile.readline().split('.')
+//     # for k in range (0,len(a)):
+//     #     print(a[0], file=outfile, end='')
+// # tfile.close()
+// # outfile.close -->
 
-# filename = "static/1002.wav"
+// <!-- # /Users/wing/Library/Caches/pip/wheels/30/33/46/5ab7eca55b9490dddbf3441c68a29535996270ef1ce8b9b6d7
 
-# r = sr.Recognizer()
-# # open the file
-# with sr.AudioFile(filename) as source:
-#     # listen for the data (load audio to memory)
-#     audio_data = r.record(source)
-#     # recognize (convert from speech to text)
-#     text = r.recognize_google(audio_data)
-#     print(text)
+// # export PATH="/Users/wing/Library/Caches/pip/wheels/30/33/46/5ab7eca55b9490dddbf3441c68a29535996270ef1ce8b9b6d7:$PATH"
 
-
-# ------------------------------------------
-
-# importing libraries 
-# import speech_recognition as sr 
-# import os 
-# from pydub import AudioSegment
-# from pydub.silence import split_on_silence
-
-# # create a speech recognition object
-# r = sr.Recognizer()
-
-# # a function that splits the audio file into chunks
-# # and applies speech recognition
-# def get_large_audio_transcription(path):
-#     """
-#     Splitting the large audio file into chunks
-#     and apply speech recognition on each of these chunks
-#     """
-#     # open the audio file using pydub
-#     sound = AudioSegment.from_file(path)  
-#     # split audio sound where silence is 700 miliseconds or more and get chunks
-#     chunks = split_on_silence(sound,
-#         # experiment with this value for your target audio file
-#         min_silence_len = 1500,
-#         # adjust this per requirement
-#         silence_thresh = sound.dBFS-14,
-#         # keep the silence for 1 second, adjustable as well
-#         keep_silence=500,
-#     )
-#     folder_name = "audio-chunks"
-#     # create a directory to store the audio chunks
-#     if not os.path.isdir(folder_name):
-#         os.mkdir(folder_name)
-#     whole_text = ""
-#     # process each chunk 
-#     for i, audio_chunk in enumerate(chunks, start=1):
-#         # export audio chunk and save it in
-#         # the `folder_name` directory.
-#         chunk_filename = os.path.join(folder_name, f"chunk{i}.wav")
-#         audio_chunk.export(chunk_filename, format="wav")
-#         # recognize the chunk
-#         with sr.AudioFile(chunk_filename) as source:
-#             audio_listened = r.record(source)
-#             # try converting it to text
-#             try:
-#                 text = r.recognize_google(audio_listened)
-#             except sr.UnknownValueError as e:
-#                 print("Error:", str(e))
-#             else:
-#                 text = f"{text.capitalize()}. "
-#                 print(chunk_filename, ":", text)
-#                 whole_text += text
-#     # return the text for all chunks detected
-#     return whole_text 
-
-
-# path = "static/1006.wav"
-# path = "static/4092.wav"
-path = "static/4092.mp3"
-
-# len() and slicing are in milliseconds
-# halfway_point = len(sound) / 2
-# second_half = sound[halfway_point:]
-# # print(halfway_point/60)
-# new = sound[:2000]
-# new.export("1.mp3", format="mp3")
-
-# 4092: 40" ~ 670"(11'10") total 630" to 311 line
+// # import os; print(os.environ["PATH"].split(os.pathsep)) -->
 
 
 
-# Concatenation is just adding
-# second_half_3_times = second_half + second_half + second_half
+// <!-- # ------------------------------------------
 
-# writing mp3 files is a one liner
-# second_half_3_times.export("/path/to/new/file.mp3", format="mp3")
+// # import speech_recognition as sr
 
--->
+// # filename = "static/1002.wav"
 
-<!--  
-1. + in entity
-2. referencing # in prag
-3. = formating in the entity column
-4. bug in clip4 formatting in erica's job
-5. wip default to the previous one
-6. CT- then add RT to CGA
-7. # before sentance
-    + -->
+// # r = sr.Recognizer()
+// # # open the file
+// # with sr.AudioFile(filename) as source:
+// #     # listen for the data (load audio to memory)
+// #     audio_data = r.record(source)
+// #     # recognize (convert from speech to text)
+// #     text = r.recognize_google(audio_data)
+// #     print(text)
+
+
+// # ------------------------------------------
+
+// # importing libraries 
+// # import speech_recognition as sr 
+// # import os 
+// # from pydub import AudioSegment
+// # from pydub.silence import split_on_silence
+
+// # # create a speech recognition object
+// # r = sr.Recognizer()
+
+// # # a function that splits the audio file into chunks
+// # # and applies speech recognition
+// # def get_large_audio_transcription(path):
+// #     """
+// #     Splitting the large audio file into chunks
+// #     and apply speech recognition on each of these chunks
+// #     """
+// #     # open the audio file using pydub
+// #     sound = AudioSegment.from_file(path)  
+// #     # split audio sound where silence is 700 miliseconds or more and get chunks
+// #     chunks = split_on_silence(sound,
+// #         # experiment with this value for your target audio file
+// #         min_silence_len = 1500,
+// #         # adjust this per requirement
+// #         silence_thresh = sound.dBFS-14,
+// #         # keep the silence for 1 second, adjustable as well
+// #         keep_silence=500,
+// #     )
+// #     folder_name = "audio-chunks"
+// #     # create a directory to store the audio chunks
+// #     if not os.path.isdir(folder_name):
+// #         os.mkdir(folder_name)
+// #     whole_text = ""
+// #     # process each chunk 
+// #     for i, audio_chunk in enumerate(chunks, start=1):
+// #         # export audio chunk and save it in
+// #         # the `folder_name` directory.
+// #         chunk_filename = os.path.join(folder_name, f"chunk{i}.wav")
+// #         audio_chunk.export(chunk_filename, format="wav")
+// #         # recognize the chunk
+// #         with sr.AudioFile(chunk_filename) as source:
+// #             audio_listened = r.record(source)
+// #             # try converting it to text
+// #             try:
+// #                 text = r.recognize_google(audio_listened)
+// #             except sr.UnknownValueError as e:
+// #                 print("Error:", str(e))
+// #             else:
+// #                 text = f"{text.capitalize()}. "
+// #                 print(chunk_filename, ":", text)
+// #                 whole_text += text
+// #     # return the text for all chunks detected
+// #     return whole_text 
+
+
+// # path = "static/1006.wav"
+// # path = "static/4092.wav"
+// path = "static/4092.mp3"
+
+// # len() and slicing are in milliseconds
+// # halfway_point = len(sound) / 2
+// # second_half = sound[halfway_point:]
+// # # print(halfway_point/60)
+// # new = sound[:2000]
+// # new.export("1.mp3", format="mp3")
+
+// # 4092: 40" ~ 670"(11'10") total 630" to 311 line
+
+
+
+// # Concatenation is just adding
+// # second_half_3_times = second_half + second_half + second_half
+
+// # writing mp3 files is a one liner
+// # second_half_3_times.export("/path/to/new/file.mp3", format="mp3")
+
+// -->
+
+// <!--  
+// 1. + in entity
+// 2. referencing # in prag
+// 3. = formating in the entity column
+// 4. bug in clip4 formatting in erica's job
+// 5. wip default to the previous one
+// 6. CT- then add RT to CGA
+// 7. # before sentance
+//     + -->
