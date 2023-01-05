@@ -893,7 +893,6 @@ function process_table() {
                     cp(data[i].cc2, line[12], 3)
                     cp(data[i].eve, line[13], 4)
 
-
                     // console.log(line);
                     // console.log(data[i]);
 
