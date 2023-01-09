@@ -116,7 +116,7 @@ function audio_clips(i) {
     if(!i) txt = `<span class="clips" c="${i}">Intro</span>`;
     else txt = `<span class="clips" c="${i}">Clip #${i}</span>`;   
     return `<tr><td colspan="1" id="ctext">` + txt + `</td><td colspan="20" style='border-top:8px solid lightgrey;'>
-            <audio id="player" preload="none" controls src=` + `"/static/` + did + `_` + i + `.mp3"` + `>
+            <audio id="player" preload="none" controls src=` + `"/static/mp3/` + did + `_` + i + `.mp3"` + `>
             Your browser does not support the <code>audio</code> element.</audio></td></tr>`
 }
 
