@@ -108,11 +108,15 @@ function appendix() {
         html += `<br><table><tr><span class='sett'>Comment:</span><span class='set' t='11' `
         if(hcom) html += `style='color:darkred'>Hide</span><span class='set' t='12'>Show</span></tr></table>`
         else html += `>Hide</span><span class='set' t='12' style='color:darkred'>Show</span></tr></table>`
+        html += `<br><table><tr><span class='sett'>Auto-Save interval:</span><span class='set' t='13'>` + autoSave 
+        html += `</span></tr></table>`
     }
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
-        html += `<br><div class="info" contenteditable="true" >Jan 4:`;
+        html += `<br><div class="info" contenteditable="true" >Jan 9:`;
+        html += `<li class='info'>Deployed on render.com</li>`
+        html += `<li class='info'>Auto-save added</li>`
         html += `<li class='info'>JS page optimized</li></div>`;
 
         html += `<br><div class="info" contenteditable="true" >Nov 11:`;
@@ -201,8 +205,7 @@ function appendix() {
 
     //audio
     else if(appp == 5) {
-        // html += `<audio controls><source src="{{ url_for('static', filename='4092.mp3') }}"></audio>`
-        d = "4092"
+        // d = "4092"
         // src = "{{ url_for('static', filename='4092.mp3') }}"
         // src = "{{ url_for('static', filename=" + d + ") }}"
         // src = "/static/4092.mp3"
@@ -460,7 +463,13 @@ function appendix() {
             else if(t == 9) hrefer = 1;
             else if(t == 10) hrefer = 0;
             else if(t == 11) hcom = 1;
-            else if(t == 12) hcom = 0;    
+            else if(t == 12) hcom = 0;
+            else if(t == 13){
+                var input = prompt('Please input interval', autoSave);
+                if (isNaN(input) && input.length) alert("Must input numbers");
+                else autoSave = parseInt(input);
+                console.log('new interval:', input)
+            }               
             // console.log(".set(max,prmax,expand):", max, prvmax, expand)
             appendix()
             process_table()

@@ -55,7 +55,6 @@ function color(type, v, a, b) {
 
     else {
         if(v.length) {
-
             html += v;
             html = html.replace('>JA', ` style='color:green'>JA`);
             html = html.replace('>IN', ` style='color:blue'>IN`);
@@ -67,14 +66,15 @@ function color(type, v, a, b) {
 }
 
 function save() {
+    autoSaveCount = 0;
     var obj=data;
     let today = new Date().toISOString().replace('-', '').replace('-', '').slice(2, 8)
-    var filename = did + '_' + nm + '_' + today;
+    var filename = did + '_' + nm + '_' + today + '.cga';
     console.log(filename)
 
     //Start of saving method
     if(cgm) {
-        var textToSave = max + ',' + eja + ',' + cgm + ',' + hrefer + '\n';
+        var textToSave = max + ',' + eja + ',' + cgm + ',' + hrefer + ',' + focusClip + '\n';
         for(var i in obj) {
             if(i < max) {
                 for(var j in obj[i]) {
@@ -111,9 +111,10 @@ function save() {
     hiddenElement.click();
 }
 
-function audio_clips(i) { 
-    if(!i) txt = 'Intro';
-    else txt = 'Clip #' + i;      
+function audio_clips(i) {
+    // <span style='color:darkred'; ph='1'>Dialog</span> 
+    if(!i) txt = `<span class="clips" c="${i}">Intro</span>`;
+    else txt = `<span class="clips" c="${i}">Clip #${i}</span>`;   
     return `<tr><td colspan="1" id="ctext">` + txt + `</td><td colspan="20" style='border-top:8px solid lightgrey;'>
             <audio id="player" preload="none" controls src=` + `"/static/` + did + `_` + i + `.mp3"` + `>
             Your browser does not support the <code>audio</code> element.</audio></td></tr>`
@@ -219,24 +220,19 @@ function checkr(k) {
     // for (var i = 0; i < data.length; i++) {
     //     nk = (k - 0.1).toFixed(2);
     //     // if(k == 18.2) console.log("checkr: ", parseFloat(k), i, data[i].ty[3], nk);
-        
     //     if(data[i].ty[3] == nk) {
     //         console.log("speacial (-0.1)", data[i].ty[3], k, i);
     //         return i+1
     //     }
-        
     // }
     
     // for (var i = 0; i < data.length; i++) {
     //     nk = (k + 0.1).toFixed(2);
-        
     //     if(data[i].ty[3] == nk) {
     //         console.log("speacial (+0.1)", data[i].ty[3], k, i);
     //         return i
     //     }
-        
     // }  
-
     return -1;
 }
 

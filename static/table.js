@@ -1,5 +1,8 @@
 function process_table() {
     refresh = 0;
+    autoSaveCount++;
+    console.log('autoSaveCount', autoSaveCount);
+    if(autoSaveCount == autoSave) save();
     ph = parseInt(phase)
     did = pack[di][0]
     dialog = pack[di][1]
@@ -414,6 +417,7 @@ function process_table() {
         });
     });
 
+    // ccc
     document.getElementById("table").querySelectorAll(".ccc").forEach(word => {
         word.addEventListener("mouseover", () => {
             document.getElementById("tips").innerText = `New status`;
@@ -455,6 +459,7 @@ function process_table() {
         });
     });
 
+    // add
     document.getElementById("table").querySelectorAll(".add").forEach(word => {
         word.addEventListener("mouseover", () => {
             const type = event.target.getAttribute("ty");
@@ -598,6 +603,7 @@ function process_table() {
         });
     });
 
+    // edits
     document.getElementById("table").querySelectorAll(".edits").forEach(word => {
         word.addEventListener("mouseover", () => {
             document.getElementById("tips").innerText = `Edit current value`;
@@ -711,7 +717,8 @@ function process_table() {
             process_table()
         });
     });
-
+    
+    // num
     document.getElementById("table").querySelectorAll(".num").forEach(word => {
         word.addEventListener("mouseover", () => {
             event.target.style.color = "Red";
@@ -729,6 +736,7 @@ function process_table() {
         });
     });
 
+    // remive
     document.getElementById("table").querySelectorAll(".remove").forEach(word => {
         word.addEventListener("mouseover", () => {
             document.getElementById("tips").innerText = `Remove current row(extra event row)`;
@@ -783,6 +791,7 @@ function process_table() {
         });
     });
 
+    // foot
     document.getElementById("table").querySelectorAll(".foot").forEach(word => {
         word.addEventListener("mouseover", () => {
             const ty = parseInt(event.target.getAttribute("ty"));
@@ -798,8 +807,6 @@ function process_table() {
             const ty = parseInt(event.target.getAttribute("ty"));
             console.log("foot click = ", ty);
             if(!ty) save()
-            // if(ty) read()
-            // else save()
         });
     });
 
@@ -823,8 +830,6 @@ function process_table() {
             k = file.name.indexOf('_')
             // if(k < 0) { alert('Error : Wrong File Name'); return;}
             if(k < 0) { alert('Error : Wrong File Name');}
-
-
             
             load_did = file.name.substring(0, k);
             v = dids.indexOf(load_did) - dids.indexOf(did[0]);;
@@ -856,6 +861,10 @@ function process_table() {
                 eja = parseInt(line[1]);
                 cgm = parseInt(line[2]);
                 hrefer = parseInt(line[3]);
+                if(line.length > 4) {
+                    console.log('load first line:', line.length);
+                    focusClip = parseInt(line[4]);
+                }
 
                 for(i in text) {
                     line = text[i].split('\t');
@@ -940,9 +949,7 @@ function process_table() {
                     cp(data[i].cc, text[i*12 +10], 2)
                     cp(data[i].ccc, text[i*12 +11], 2)
                     cp(data[i].ty, text[i*12 +12], 2)
-
                     // console.log("ty", data[i].ty)
-
                 }
             }
             header()

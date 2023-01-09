@@ -11,8 +11,9 @@
 <div id="table"></div>
 <div id="append"></div>
 
-<br><br><br><br><p class="sbufoot">Department of Linguistics | Stony Brook University, Stony Brook, NY 11794-4376</p>
+<br><br><br><br><br><br><br><p class="sbufoot">Department of Linguistics | Stony Brook University, Stony Brook, NY 11794-4376</p>
 <p class="sbufoot">© 2022 Stony Brook University</p>
+
 
 <script type="text/javascript" src="{{ url_for('static', filename='helpers.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='header.js') }}"></script>
@@ -60,7 +61,9 @@ cgm = 1;                // CG mode
 hrefer = 0;             // hide default reference #
 hcom = 1;               // hide comment tab
 prev_wip = '';          // previous wip
-
+autoSave = 32;          // auto save per reload
+autoSaveCount = 0;      // auto Save reload Count
+focusClip = 1;          // focus clip
 
 for (var i = 0; i < updata.length; i++) {
     did = updata[i].slice(0, 1)
