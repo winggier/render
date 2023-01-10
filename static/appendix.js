@@ -118,7 +118,7 @@ function appendix() {
         html += `<li class='info'>Deployed on render.com</li>`
         html += `<li class='info'>Auto-save added</li>`
         html += `<li class='info'>Save format changed to .cga</li>`
-        html += `<li class='info'>JS page optimized</li></div>`;
+        html += `<li class='info'>JS pages optimized</li></div>`;
 
         html += `<br><div class="info" contenteditable="true" >Nov 11:`;
         html += `<li class='info'>Export tsv works on reference mode now</li>`
