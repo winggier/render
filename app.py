@@ -98,7 +98,7 @@ data.append(dialogs)
 # print(dialogs[0])
 
 audio = []
-files = os.listdir("static/")
+files = os.listdir("static/mp3/")
 files.sort()
 
 for i in files:

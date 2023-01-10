@@ -113,6 +113,7 @@ function save() {
 
 function audio_clips(i) {
     // <span style='color:darkred'; ph='1'>Dialog</span> 
+    // console.log('in clips', i);
     if(!i) txt = `<span class="clips" c="${i}">Intro</span>`;
     else txt = `<span class="clips" c="${i}">Clip #${i}</span>`;   
     return `<tr><td colspan="1" id="ctext">` + txt + `</td><td colspan="20" style='border-top:8px solid lightgrey;'>

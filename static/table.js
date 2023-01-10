@@ -54,6 +54,7 @@ function process_table() {
         // else html += "<tr><td>" + i + "</td>";
         
         // clips
+        // console.log(senc, clips, data[i].ty[0]);
         if(!(senc%10) & clips & !data[i].ty[0]) html += audio_clips(senc/10 +1)
 
         // highlight
