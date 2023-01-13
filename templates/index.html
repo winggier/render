@@ -30,14 +30,14 @@ var audios = {{ data|tojson }}[1]
 // console.log(pack[3][0])
 // var nm = prompt('User name?', 'Annotator');
 
-hd0 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Comment']
-hd1 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Comment']
-hd2 = ['Sentence', 'Entity', 'Entity(JA)', '#', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
-'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
+hd0 = ['Sentence', 'Entity', 'Entity(JA)', 'Comment']
+hd1 = ['Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
+hd2 = ['Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+'CG(A)', 'CG(B)', 'CG Why', 'Comment']
 hd_tsv = ['Sentence', 'Entity', 'Entity(JA)', 'Eno.', 'Event', 'Bel(A)R', 'Bel(B)R','CG(A)R','CG(B)R',
 'Pragmatics', 'Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)', 'Why(CG)', 'Why in prose', 'Comment']
 bcgtab = ['Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)']
-
+qs = ['Q', 'WhQ', 'YNQ', 'NegYNQ', 'SpecWhQ', 'RightTagQ', 'RhetQ', 'ElidQ']
 bel = ['', 'CT+', 'CT-', 'PS', 'NB']
 belc = ['→', '→CT+', '→CT-', '→PS']
 cg = ['', 'JA', 'IN','RT', 'AM']
@@ -48,7 +48,7 @@ di = 3
 text = 'grey'           // text color
 edr = 0;                // last edited line
 max = 10;               // max line
-expand = 2;             // click expand
+expand = 5;             // click expand
 pack = [];              // data pack for all dialogs
 cursor = '';            // cursor tips msg
 appp = 3;               // appendix seletion
@@ -64,6 +64,7 @@ prev_wip = '';          // previous wip
 autoSave = 32;          // auto save per reload
 autoSaveCount = 0;      // auto Save reload Count
 focusClip = 1;          // focus clip
+numRow = ''             // number row span
 
 for (var i = 0; i < updata.length; i++) {
     did = updata[i].slice(0, 1)
@@ -74,8 +75,9 @@ for (var i = 0; i < updata.length; i++) {
         //ty[1] #of row of sentence
         //ty[2] 1:hightlight/selected
         //ty[3] event #
+        //ty[4] Q
         var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
-            cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0, j+1], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], 
+            cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0, j+1, 0], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], 
             eve:[[], [], [], []]})
         obj.push(tuple)
     }

@@ -1,5 +1,4 @@
 
-
 function color(type, v, a, b) {
     html = ``
     // entities
@@ -181,22 +180,23 @@ function cp(des, sor, spl) {
             }
         }
     } 
+    // spl = 0
     else des.push(sor)
 }
 
-function notation(type, index) {
-    if(type == 0) {
-        var input = prompt('Please input event', data[index].st);
-        if(input) data[index].ev.push(input);
-        console.log(data[index].ev)
-    }
-    else if(type == 1) {
-        var input = prompt('Please input pragmatic', data[index].st);
-        if(input) data[index].pr.push(input)
-    }
-    // console.log(index)
-    process_table()
-}
+// function notation(type, index) {
+//     if(type == 0) {
+//         var input = prompt('Please input event', data[index].st);
+//         if(input) data[index].ev.push(input);
+//         console.log(data[index].ev)
+//     }
+//     else if(type == 1) {
+//         var input = prompt('Please input pragmatic', data[index].st);
+//         if(input) data[index].pr.push(input)
+//     }
+//     // console.log(index)
+//     process_table()
+// }
 
 function parent(index) {
     if(data[index].st.length) return index
@@ -313,7 +313,6 @@ function reload(v, load=1) {
     
 }
 
-
 function stn(line, i, st) {
     // console.log(data[i].ty)
     // return `<td style='padding:4px;' class="text">` 
@@ -336,41 +335,53 @@ function stn(line, i, st) {
 // table notions
 function not(type, i) {
     if(!phase) w = 45
-    else if(phase == 1) w = 30
-    else w = 18
+    else if(phase == 1) w = 35
+    else w = 28
     var line = data[i].st
     var d = data[i]
     var dc2 = data[i].cc2
 
+    // event
     if(type == 0) {
+        if(d.ty[4]%qs.length) q = `<span class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
+        else q = `<span style='font-size: 90%; color:lightgrey' class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
+
         html = ``;
         // main empty event
         if(!data[i].ev.length) {
-            html += `<td style='width:` + w + `%;`
+            //last empty
+            if (i == rows-1) {
+                // console.log('last empty');
+                html += `<td>` + numRow + `<span style='float: right;' class="add" line="${line}" li="${i}" ty="${type}">+</span>`
+            }
 
-            // extra event empty
-            if(data[i].ty[0]) html += ` background-color:lightpink; `;
-
-            // eve
-            if(cgm && (d.eve[0].length || d.eve[1].length || d.eve[2].length || d.eve[3].length)) 
-                html += ` text-align: center;'>
-                    <span class="add" line="${line}" li="${i}" ty="${type}" >+</span>`
-
-            else if(data[i].ty[2]%2 & data[i].ty[0]) html += `'>`
-
-            // not
-            else html += `' class="add" line="${line}" li="${i}" ty="${type}">+`
+            else {
+                html += `<td style='width:` + w + `%;`
+    
+                // extra event empty
+                if(data[i].ty[0]) html += ` background-color:lightpink; `;
+        
+                // eve
+                if(cgm && (d.eve[0].length || d.eve[1].length || d.eve[2].length || d.eve[3].length)) 
+                    html += ` text-align: center;'>
+                        <span class="add" line="${line}" li="${i}" ty="${type}" >+</span>`
+    
+                else if(data[i].ty[2]%2 & data[i].ty[0]) html += `'>`
+    
+                // not
+                else html += `' class="add" line="${line}" li="${i}" ty="${type}">+`
+            }
 
         }
         
         // last row
         else if((data[parent(i)].ty[1] -1) + parent(i) == i) {
             // console.log("last row", data[parent(i)].ty[1], parent(i), i)
-            html += `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
+            html += `<td>` + numRow + q + `<span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] + `</span>
                 <span class="add" line="${line}" li="${i}" ty="${type}" style='float: right;'>+</span>`
         }
 
-        else html += `<td><span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] +`</span>`;
+        else html += `<td>` + numRow + q + `<span class="edits" li="${i}" ty="${type}">` + data[i].ev[0] +`</span>`;
 
         // highlighted & not main + REMOVE
         if(data[i].ty[2]%2 & data[i].ty[0]) html += `<span class="remove" style='color:red' li="${i}"> REMOVE</span>`;
@@ -382,7 +393,7 @@ function not(type, i) {
                     // console.log("not1_eve: ", i, j, d.eve[j])
 
                     // slot name
-                    html += `<br><span class="clinks">` + hd2[j+6-eja] + `</span>`
+                    html += `<br><span class="clinks">` + hd2[j+5-eja] + `</span>`
                     rs = ``
 
                     // current cc
@@ -424,7 +435,7 @@ function not(type, i) {
     }
 
     if(type == 2) {
-        wipw = 16
+        wipw = 10
         if(!data[i].wip.length) {
             if(hcom) return `<td style='width:` + wipw + `%' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
             return `<td style='border-right:5px solid lightgrey;' class="add" line="${line}" li="${i}" ty="${type}">+</td>`
@@ -445,6 +456,7 @@ function not(type, i) {
         }
     }
 
+    // JA
     if(type == 4) {
         // console.log("in not4");
         if(!data[i].ty[0]) {
@@ -538,10 +550,29 @@ function not(type, i) {
             html += color(1, raw, j, i);
         }
 
-        html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
-        html += not(2, i);                          //wip
+        // html += `</td><td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
+        // html += not(2, i);                          //wip
+        // return html
 
-        return html
+        wipw = 8
+        whyIndex = data[i].cc[4]%why.length
+        // html += `<td style='width:` + ww + `%' class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
+        // html += not(2, i);                          //wip
+
+        if(whyIndex) html += `<td `
+        else  html += `<td class="cc" ty="4" li="${i}" `
+
+        if(hcom) html += `style='width:` + wipw + `%; text-align:center;'`
+        else html += `style='width:` + wipw + `%; text-align:center; border-right:5px solid lightgrey;'`
+
+        if(whyIndex) {
+            html += `><span class="cc" ty="4" li="${i}">` + why[whyIndex] + `</span>`;    //why
+            if(!data[i].wip.length) html += `<span class="add" line="${line}" li="${i}" ty="2"> +</span`
+            else html += `<span style='color:grey' class="edits" line="${line}" li="${i}" ty="2">` + data[i].wip[0] + `</span`
+        }
+
+        return html + `></td>`
+
     }
 
     // cgm ccs
@@ -656,11 +687,23 @@ function not(type, i) {
             // html += raw;
         }
         
-        ww = 5
+        wipw = 8
+        whyIndex = data[i].cc[4]%why.length
         // html += `<td style='width:` + ww + `%' class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
-        html += `<td class="cc" ty="4" li="${i}">` + why[data[i].cc[4]%why.length];    //why
-        html += not(2, i);                          //wip
-        return html
+        // html += not(2, i);                          //wip
+
+        if(whyIndex) html += `<td `
+        else  html += `<td class="cc" ty="4" li="${i}" `
+
+        if(hcom) html += `style='width:` + wipw + `%; text-align:center;'`
+        else html += `style='width:` + wipw + `%; text-align:center; border-right:5px solid lightgrey;'`
+
+        if(whyIndex) {
+            html += `><span class="cc" ty="4" li="${i}">` + why[whyIndex] + `</span>`;    //why
+            if(!data[i].wip.length) html += `<span class="add" line="${line}" li="${i}" ty="2"> +</span`
+            else html += `<span style='color:grey' class="edits" line="${line}" li="${i}" ty="2">` + data[i].wip[0] + `</span`
+        }
+
+        return html + `></td>`
     }
 }
-

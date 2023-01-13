@@ -85,6 +85,16 @@ function appendix() {
             <li>WK (world knowledge)</li>
             <li>C (context present in the dialog)</li>
             <li>LI (specific lexical item: word/phrase/expression)</li>
+        </div><br>
+        
+        <div class="info" contenteditable="true" >Types of questions Click Cycle:
+            <li>WhQ (Wh-question)</li>
+            <li>YNQ (Yes/No Question)</li>
+            <li>NegYNQ (Negated Yes/No Question)</li>
+            <li>SpecWhQ (Speculative self-answered wh-questions)</li>
+            <li>RightTagQ (Right?/Tag Questions)</li>
+            <li>RhetQ (Rhetorical Questions)</li>
+            <li>ElidQ (Elided Questions)</li>
         </div>`;
 
     // setting
@@ -99,6 +109,7 @@ function appendix() {
         html += `<br><table><tr><span class='sett'>Entity(JA):</span><span class='set' t='5' `
         if(eja) html += `style='color:darkred'>Compact</span><span class='set' t='6'>Expand</span></tr></table>`
         else html += `>Compact</span><span class='set' t='6' style='color:darkred'>Expand</span></tr></table>`
+        // Reference vs Transition
         html += `<br><table><tr><span class='sett'>CG Mode:</span><span class='set' t='7' `
         if(cgm) html += `style='color:darkred'>Reference</span><span class='set' t='8'>Transition</span></tr></table>`
         else html += `>Reference</span><span class='set' t='8' style='color:darkred'>Transition</span></tr></table>`
@@ -114,6 +125,12 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
+        html += `<br><div class="info" contenteditable="true" >Jan 12:`;
+        html += `<li class='info'>Types of questions added to event</li>`
+        html += `<li class='info'># merge into event</li>`
+        html += `<li class='info'>why in prose merge into why</li>`
+        html += `<li class='info'>CG mode selection remived</li></div>`;
+
         html += `<br><div class="info" contenteditable="true" >Jan 9:`;
         html += `<li class='info'>Deployed on render.com</li>`
         html += `<li class='info'>Auto-save added</li>`

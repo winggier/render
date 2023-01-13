@@ -73,13 +73,12 @@ function process_table() {
         // else html += `<td li="${i}" style='text-align:center;'>` + color(0, data[i].e1, 1, i) + `</td>`;      //e1
 
         // rowspan
+        ww = 10;
         if(!data[i].ty[0]) {
             if(!(data[i].e1.length)) html += `<td rowspan="` + data[i].ty[1] 
                 + `" style='text-align:center;'><span class="add" li="${i}" ty="6" >+</span></td>`
-            else html += `<td rowspan="` + data[i].ty[1] + `" li="${i}" >` + color(0, data[i].e1, 1, i) + `</td>`;
+            else html += `<td rowspan="` + data[i].ty[1] + `" style='width:` + ww + `%' li="${i}" >` + color(0, data[i].e1, 1, i) + `</td>`;
         }
-
-
         // html += "<td>" + data[i].e2 + "</td>";      //entity2
         // if(!data[i].e1.length) html += `</td><td class="cc" ty="5" li="${i}">`
         // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];
@@ -87,7 +86,10 @@ function process_table() {
         if(!eja) html += not(4, i); 
 
         // #
-        if(i == rows-1) html += `<td class="add" style='color:grey; font-weight: bold;' ty="5">↓</td>`;
+        if(i == rows-1) {
+            // html += `<td class="add" style='color:grey; font-weight: bold;' ty="5">↓</td>`;
+            numRow = `<span class="add" style='color:grey; font-weight: bold;' ty="5">↓</span>`
+        }
         else {
             // current or next is extra event
             if(data[i].ty[0] || data[i+1].ty[0]) {
@@ -112,7 +114,7 @@ function process_table() {
                             console.log("Invalid event number", i, j, k, data[i].cc2[j][k][1], data[i]);
                             // alert('Error: Invalid event number(+ev1)');
                             break;
-                            return;
+                            // return;
                         }
 
                         for (var l = 0; l < data[ri].eve[j].length; l++) {
@@ -149,45 +151,40 @@ function process_table() {
                             // console.log(data[i].ty[3])
                             // console.log(data[i-1].ty[3])
                             break;
-                            return;}
+                            // return;
+                        }
 
                         for (var l = 0; l < data[ri].cc2[j].length; l++) {
                             // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
                             if(data[ri].cc2[j][l][1] == data[i].ty[3]) {
                                 data[ri].cc2[j][l][1] = e;
                                 refresh = 1;
-
                             }
-                            
                         }
                     }
                 }
 
                 // data[i].ty[3] = e;
             }
-            html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
+            // html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
+            numRow = `<span class="num" li="${i}">` + e + ` </span>`
         }
-        
-        
+           
         if(ph) {
             html += not(0, i);                          //event
             html += not(1, i);                          //Pragmatics
             if(ph == 2) {                               //cc, why&wip
-                if(cgm) html += not(6, i);
+                if(cgm) html += not(6, i);              //default
                 else html += not(5, i);
             }           
         }
-        if(!hcom) html += not(3, i);                              //comment
+        if(!hcom) html += not(3, i);                        //comment
         // html += "<td><input type='checkbox' ></td>";     //mark
 
         html += "</tr>";
-        
-
         if(!data[i].ty[0]) senc++;
     }
     
-    // html += `</table><p><span class="add" ty="5" >&nbsp;EXPAND</span></p>`;
-
     html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>
         <span><label for="in" class="foot" ty='1'>LOAD</label><input type="file" id="in"/></span>
         <span class="foot">SAVE</span></p>`;
@@ -434,7 +431,6 @@ function process_table() {
             else  event.target.style.color = "black";
         });
         word.addEventListener("click", () => { 
-            console.log("ccc click")
             const type = event.target.getAttribute("ty");
             const li = event.target.getAttribute("li");
             data[li].ccc[type] += 1;
@@ -452,10 +448,39 @@ function process_table() {
             document.getElementById("tips").innerText = ``
         });
         word.addEventListener("click", () => { 
-            console.log("ccc click")
             const type = event.target.getAttribute("ty");
             const li = event.target.getAttribute("li");
             data[li].ccc[type] += 1;
+            process_table()
+        });
+    });
+
+    // Q
+    document.getElementById("table").querySelectorAll(".q").forEach(word => {
+        word.addEventListener("mouseover", () => {
+            const li = event.target.getAttribute("li");
+            qt = data[li].ty[4]%qs.length;
+            if(qt == 0) document.getElementById("tips").innerText = `Types of questions?`;
+            else if(qt == 1) document.getElementById("tips").innerText = `Wh-question`;
+            else if(qt == 2) document.getElementById("tips").innerText = `Yes/No Question`;
+            else if(qt == 3) document.getElementById("tips").innerText = `Negated Yes/No Question`;
+            else if(qt == 4) document.getElementById("tips").innerText = `Speculative self-answered wh-questions`;
+            else if(qt == 5) document.getElementById("tips").innerText = `Right?/Tag Questions`;
+            else if(qt == 6) document.getElementById("tips").innerText = `Rhetorical Questions`;
+            else if(qt == 7) document.getElementById("tips").innerText = `Elided Questions`;
+
+            event.target.style.color = "Red";
+        });
+        word.addEventListener("mouseout", () => {
+            document.getElementById("tips").innerText = ``;
+            const w = event.target.outerText
+            // console.log(event.target.outerText)
+            if(w == '[Q] ') event.target.style.color = "lightgrey";
+            else  event.target.style.color = "blue";
+        });
+        word.addEventListener("click", () => { 
+            const li = event.target.getAttribute("li");
+            data[li].ty[4] += 1;
             process_table()
         });
     });
@@ -479,6 +504,7 @@ function process_table() {
             const type = event.target.getAttribute("ty");
             document.getElementById("tips").innerText = ``;
             if(type == 5) event.target.style.color = "grey";
+            // else if(type == 2) event.target.style.color = "grey";
             else event.target.style.color = "lightgrey";
         });
         word.addEventListener("click", () => { 
@@ -500,7 +526,7 @@ function process_table() {
                         max += 1;
                         // k = data[parent(li)].ty[3]
                         var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[input], pr:[], why:[], wip:[], 
-                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[1, li, 0, 0],  
+                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[1, li, 0, 0, 0],  
                             cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
                         // data.splice(parseInt(li) + 1, 0, tuple);
                         data.splice(li+1, 0, tuple);
@@ -614,7 +640,9 @@ function process_table() {
             const type = event.target.getAttribute("ty");
             const li = event.target.getAttribute("li");
             document.getElementById("tips").innerText = ``;
+            
             if(type == 4) event.target.style.color = "green";
+            else if (type == 2) event.target.style.color = "grey"
             else if(type == 5 & event.target.innerText == data[li].ty[3]) 
                 event.target.style.color = "lightgrey";
             else event.target.style.color = "black";
@@ -873,13 +901,12 @@ function process_table() {
                     replace = 1;
 
                     var tuple = Object({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
-                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0],  
+                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0, 0],  
                             cc2:[[], [], [], []], eve:[[], [], [], []]})
 
-                    // extra event?
                     // console.log(i, max, data.length)
                     if(data[i].st != line[0]) {
-                        // console.log("Dialog != ", i, data[i].st, line[0])
+                        console.log("Dialog != ", i, data[i].st, line[0])
                         replace = 0;
                     }
 
@@ -902,10 +929,11 @@ function process_table() {
                     cp(data[i].ty,  line[11], 2)
                     cp(data[i].cc2, line[12], 3)
                     cp(data[i].eve, line[13], 4)
-
                     // console.log(line);
                     // console.log(data[i]);
 
+                    // ty[4](Q) fix in load
+                    if(data[i].ty.length == 4) data[i].ty.push(0);
                 }
 
                 console.log("load done");
