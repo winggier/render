@@ -701,9 +701,8 @@ function not(type, i) {
         if(whyIndex) {
             html += `><span class="cc" ty="4" li="${i}">` + why[whyIndex] + `</span>`;    //why
             if(!data[i].wip.length) html += `<span class="add" line="${line}" li="${i}" ty="2"> +</span`
-            else html += `<span style='color:grey' class="edits" line="${line}" li="${i}" ty="2">` + data[i].wip[0] + `</span`
+            else html += `<span style='color:grey' class="edits" line="${line}" li="${i}" ty="2"> ` + data[i].wip[0] + `</span`
         }
-
         return html + `></td>`
     }
 }

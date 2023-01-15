@@ -125,11 +125,11 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
-        html += `<br><div class="info" contenteditable="true" >Jan 12:`;
+        html += `<br><div class="info" contenteditable="true" >Jan 15:`;
         html += `<li class='info'>Types of questions added to event</li>`
-        html += `<li class='info'># merge into event</li>`
-        html += `<li class='info'>why in prose merge into why</li>`
-        html += `<li class='info'>CG mode selection remived</li></div>`;
+        html += `<li class='info'># merge into event tab</li>`
+        html += `<li class='info'>why in prose merge into why tab</li>`
+        html += `<li class='info'>CG mode selection removed</li></div>`;
 
         html += `<br><div class="info" contenteditable="true" >Jan 9:`;
         html += `<li class='info'>Deployed on render.com</li>`
