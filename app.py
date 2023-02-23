@@ -15,6 +15,7 @@ def home(): return render_template("index.html", data = data)
 
 
 # <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# from pydub import AudioSegment
 
 # def to_clip(f, buf):
 #   for i in clips:
@@ -33,6 +34,7 @@ def home(): return render_template("index.html", data = data)
 #     outa = sound[x[0]-buf:x[1]+buf]
 #     outa.export(outp, format="mp3")
 
+# <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 data = []
 header = ['Sentence', 'Entity', 'Event', 'CG: A', 'CG: B', 'Why?', 'Pragmatics']
@@ -97,6 +99,7 @@ for i in files:
 data.append(dialogs)
 # print(dialogs[0])
 
+
 audio = []
 files = os.listdir("static/mp3/")
 files.sort()
@@ -108,7 +111,8 @@ for i in files:
     audio.append(i)
 
 data.append(list(set(audio)))
-# print(data[1])
+# # print(data[1])
+# <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # fullmp3 = []
 # for i in audio:
@@ -119,8 +123,10 @@ data.append(list(set(audio)))
 #   if('mp3' in i):
 #     i = i.split('.')[0]
 #     if('_' not in i): to_clip(int(i), 2500)
-    # if('_' not in i): print(i)
+#     if('_' not in i): print(i)
 
 # to_clip(4490, 2500)
+# <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 if __name__ == "__main__": app.run(debug=True)

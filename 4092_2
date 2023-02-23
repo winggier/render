@@ -1,0 +1,11 @@
+10,1,1,0,1
+A: I just got back from the gym.  	back		back	22	I just got back from the gym.  				0,0,0,0,0	0,0,0,0	0,1,0,1,0	2,0^2,0^3,0^3,0	^^^
+B: oh good.  	good		good	oh good.  22	oh good.  				0,0,0,0,0	0,0,0,0	0,1,0,2,0	1,0^1,0^1,0^1,0	^^^
+A: uh-huh.  	A		A	uh-huh.  123	uh-huh.  				0,0,0,0,0	0,0,0,0	0,1,0,3,0	3,0^1,0^1,0^1,0	^^^
+B: How’s it going? 									0,0,0,0,0	0,0,0,0	0,1,0,4,0	0,0^0,0^0,0^0,0	^^^
+A: oh pretty well.  It was really crowded today.  									0,0,0,0,0	0,0,0,0	0,1,0,5,0	0,0^0,0^0,0^0,0	^^^
+B: yeah.  									0,0,0,0,0	0,0,0,0	0,1,0,6,0	0,0^0,0^0,0^0,0	^^^
+A: I kind of assumed everyone would be at the shore.  									0,0,0,0,0	0,0,0,0	0,1,0,7,0	0,0^0,0^0,0^0,0	^^^
+B: uh-huh.  									0,0,0,0,0	0,0,0,0	0,1,0,8,0	0,0^0,0^0,0^0,0	^^^
+A: I was wrong.  									0,0,0,0,0	0,0,0,0	0,1,0,9,0	0,0^0,0^0,0^0,0	^^^
+B: Well it’s the middle of the week or whatever so.  									0,0,0,0,0	0,0,0,0	0,1,0,10,0	0,0^0,0^0,0^0,0	^^^
