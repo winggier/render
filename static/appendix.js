@@ -125,6 +125,9 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
+        html += `<br><div class="info" contenteditable="true" >Feb 23:`;
+        html += `<li class='info'>Audios updated</li></div>`;
+
         html += `<br><div class="info" contenteditable="true" >Jan 15:`;
         html += `<li class='info'>Types of questions added to event</li>`
         html += `<li class='info'># merge into event tab</li>`
