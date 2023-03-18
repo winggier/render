@@ -7,10 +7,6 @@ function ctable() {
     html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
     console.log('ctable on', did, data.length, d2.length, d2f)
 
-    // load row
-    // html += `<tr><td colspan="` + cols/2 + `" class="cload"><label for="in">` + file1 + `</label><input type="file" id="in"/></td>`
-    // html += `<td colspan="` + cols/2 + `" class="cload"><label for="inc">` + file2 + `</label><input type="file" id="inc"/></td></tr>`
-
     // header row
     html += "<tr style='font-weight:bold; background-color:Grey'>";
         for (var i = 0; i < cols; i++) html += "<td style='text-align:center;'>" + hdc[i] + "</td>"
@@ -19,18 +15,11 @@ function ctable() {
     rows = Math.min(Math.max(max, max2), data.length)
     for (var i = 0; i < rows; i++) {
         // sentence row
-        if(!data[i].ty[0]) html += stn(data[i].st, i, data[i].ty[3], 1);
-
-        // Synchronization
-        if((data[i].ty[0] && !d2[i].ty[0]) || (!data[i].ty[0] && d2[i].ty[0])) {
-            var tuple = Object({st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], 
-                                ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0, 0],  cc2:[[], [], [], []], eve:[[], [], [], []]})
-            
-        }
+        if(!data[i].ty[0]) html += stn(data[i].st, i, data[i].ty[3], 1);  // stn with <tr> at the end
 
         // entity
         // html += `<tr><td rowspan="` + data[i].ty[1] + `">` + color(0, data[i].e1, 1, i, 1) + `</td></tr>`
-        html += `<tr><td>` + color(0, data[i].e1, 1, i, 1) + `</td>`
+        if(!data[i].ty[0]) html += `<td rowspan="` + data[i].ty[1] + `">` + color(0, data[i].e1, 1, i, 1) + `</td>`
 
         // #
         if(data[i].ty[0]) subnum += 1;
@@ -47,12 +36,12 @@ function ctable() {
             else subnum2 = 1;
             if(d2[i].ty[0] || (i < rows-1 && d2[i+1].ty[0])) e2 = d2[i].ty[3].toString() + '.' + subnum2.toString();
             else e2 = (d2[i].ty[3]).toString();
-            html += `<td>` + color(0, d2[i].e1, 1, i, 1, 1) + `</td>`
+
+            if(!d2[i].ty[0]) html += `<td rowspan="` + d2[i].ty[1] + `">` + color(0, d2[i].e1, 1, i, 1, 1) + `</td>`
             html += not(0, i, 1, 1)
             html += not(1, i, 1, 1)
             html += not(6, i, 1, 1)
         }
-
 
         html += `</tr>`
     }

@@ -208,10 +208,12 @@ function cp(des, sor, spl) {
     else des.push(sor)
 }
 
-function parent(index) {
-    if(data[index].st.length) return index
+function parent(index, sec=0) {
+    d = data
+    if(sec) d = d2
+    if(d[index].st.length) return index
     for(var i = index; i > 0; i--) {
-        if(!data[i].ty[0]) return i 
+        if(!d[i].ty[0]) return i 
     }
     return 0
 }
@@ -334,7 +336,7 @@ function stn(line, i, st, page=0) {
     // comparison page
     if(page == 1) 
         return `<tr style='background-color:lightgrey;'><td colspan="100%" style='color:grey;'>
-            <sup style='color:darkcyan; margin-left: 15px;'>` + st + ` </sup>` + line + `</td></tr>`
+            <sup style='color:darkcyan; margin-left: 15px;'>` + st + ` </sup>` + line + `</td></tr><tr>`
     
     if(!phase) w = 45
     else if(phase == 1) w = 30
@@ -365,12 +367,12 @@ function not(type, i, page=0, sec=0) {
             redp = 1
             e = e2
         }
-        if(type == 0) {
+        if(type == 0) { // event
             if(d.ty[4]%qs.length) q = `<span class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
             else q = `<span style='font-size: 90%; color:lightgrey' class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
     
             html = ``;
-            if(d.ev.length) html += `<td>` + e + q + `<span>` + d.ev[0] +`</span>`;
+            if(d.ev.length) html += `<td><span class='num'>` + e + `</span>` + q + `<span>` + d.ev[0] +`</span>`;
             else html += `<td>`
     
             // cc links (cgm)
@@ -893,11 +895,13 @@ function synchronization(d1, d2) {
                 // console.log('d1 extar row at ', i, d1[i].st, d2[i].st)
                 d2.splice(i, 0, tuple)
                 max2 += 1
+                d2[parent(i, 1)].ty[1] += 1
             }
             else {
                 // console.log('d2 extar row at ', i, d1[i].st, d2[i].st)
                 d1.splice(i, 0, tuple)
                 max += 1
+                d1[parent(i)].ty[1] += 1
             } 
             // console.log('after insert at ', i, d1[i].st, d2[i].st)
         }
