@@ -110,9 +110,10 @@ function appendix() {
         if(eja) html += `style='color:darkred'>Compact</span><span class='set' t='6'>Expand</span></tr></table>`
         else html += `>Compact</span><span class='set' t='6' style='color:darkred'>Expand</span></tr></table>`
         // Reference vs Transition
-        html += `<br><table><tr><span class='sett'>CG Mode:</span><span class='set' t='7' `
-        if(cgm) html += `style='color:darkred'>Reference</span><span class='set' t='8'>Transition</span></tr></table>`
-        else html += `>Reference</span><span class='set' t='8' style='color:darkred'>Transition</span></tr></table>`
+        // html += `<br><table><tr><span class='sett'>CG Mode:</span><span class='set' t='7' `
+        // if(cgm) html += `style='color:darkred'>Reference</span><span class='set' t='8'>Transition</span></tr></table>`
+        // else html += `>Reference</span><span class='set' t='8' style='color:darkred'>Transition</span></tr></table>`
+
         html += `<br><table><tr><span class='sett'>Default reference#</span><span class='set' t='9' `
         if(hrefer) html += `style='color:darkred'>Hide</span><span class='set' t='10'>Show</span></tr></table>`
         else html += `>Hide</span><span class='set' t='10' style='color:darkred'>Show</span></tr></table>`
@@ -125,6 +126,11 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
+        html += `<br><div class="info" contenteditable="true" >Mar 18:`;
+        html += `<li class='info'>Added a comparison page that allows users to load and compare two cga files side-by-side</li>`;
+        html += `<li class='info'>Various formatting changes</li>`;
+        html += `<li class='info'>Optimized codes</li></div>`;
+
         html += `<br><div class="info" contenteditable="true" >Feb 23:`;
         html += `<li class='info'>Audios updated</li></div>`;
 

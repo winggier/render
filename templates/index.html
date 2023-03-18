@@ -2,10 +2,7 @@
 <meta charset="utf-8">
 
 <html style="background-color:rgb(238, 230, 203);">
-<head>
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
+<head><link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"></head>
 
 <div class="header" id="header"></div>
 <div id="table"></div>
@@ -21,8 +18,11 @@
 <script type="text/javascript" src="{{ url_for('static', filename='table.js') }}"></script>
 
 <script>
-var updata = {{ data|tojson }}[0]
-var audios = {{ data|tojson }}[1]
+// const con =  JSON.parse('{{data|tojson|safe}}'.replace(/\s+/g, ' '));
+const con = {{data|tojson|safe}};
+var updata = con[0];
+var audios = con[1];
+
 // console.log(text)
 // header = updata[0]
 // var fs = require('fs');
@@ -43,6 +43,7 @@ belc = ['→', '→CT+', '→CT-', '→PS']
 cg = ['', 'JA', 'IN','RT', 'AM']
 cgc = ['→', '→JA', '→IN', '→RT', '→AM']
 why = ['', 'WK', 'C', 'LI']
+
 
 di = 3
 text = 'grey'           // text color
@@ -69,19 +70,15 @@ numRow = ''             // number row span
 for (var i = 0; i < updata.length; i++) {
     did = updata[i].slice(0, 1)
     dialog = updata[i].slice(1)
-    obj = []
-    for (var j = 0; j < dialog.length; j++) {
-        //ty[0] 0:mian event 1:extra
-        //ty[1] #of row of sentence
-        //ty[2] 1:hightlight/selected
-        //ty[3] event #
-        //ty[4] Q
-        var tuple = Object.freeze({ st:dialog[j], e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[],
-            cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 1, 0, j+1, 0], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], 
-            eve:[[], [], [], []]})
-        obj.push(tuple)
-    }
     dids.push(did.toString())
+    obj = []
+    //ty[0] 0:mian  1:extra
+    //ty[1] #of row of sentence
+    //ty[2] 1:hightlight/selected
+    //ty[3] event #
+    //ty[4] Q
+    for (var j = 0; j < dialog.length; j++) obj.push(getTup(dialog[j], 0, 1, 0, j+1))
+    
     data = []
     data.push(did)
     data.push(dialog)

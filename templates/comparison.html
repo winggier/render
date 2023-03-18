@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html style="background-color:rgb(238, 230, 203);">
+
+<head><link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"></head>
+
+<div id="header"></div>
+<div id="ctable"></div>
+
+<br><br><br><br><p class="sbufoot">Department of Linguistics | Stony Brook University, Stony Brook, NY 11794-4376</p>
+<p class="sbufoot">© 2022 Stony Brook University</p>
+
+<script type="text/javascript" src="{{ url_for('static', filename='helpers.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='header.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='ctable.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='loader.js') }}"></script>
+
+<script>
+// const con =  JSON.parse('{{data|tojson|safe}}'.replace(/\s+/g, ' '));
+const con = {{data|tojson|safe}};
+var updata = con[0];
+var audios = con[1];
+
+hd2 = ['Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 
+'CG(A)', 'CG(B)', 'CG Why', 'Comment']
+qs = ['Q', 'WhQ', 'YNQ', 'NegYNQ', 'SpecWhQ', 'RightTagQ', 'RhetQ', 'ElidQ']
+bel = ['', 'CT+', 'CT-', 'PS', 'NB']
+cg = ['', 'JA', 'IN','RT', 'AM']
+why = ['', 'WK', 'C', 'LI']
+hdc = ['Entity', 'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)', 'Why', 'Entity',  
+'Event', 'Pragmatics', 'Bel(A)', 'Bel(B)', 'CG(A)', 'CG(B)', 'Why']
+
+di = 3;
+d1f = 0;                // file 1 flap
+d2f = 0;                // file 2 flap
+max = 10;               // file 1 max
+max2 = 10;               // file 2 max
+eja = 1;                // JA mode
+cgm = 1;                // CG mode
+pack = [];              // data pack for all dialogs
+cursor = '';            // cursor tips msg
+dids = [];              // did num array and index
+file1 = 'Load_File_1'
+file2 = 'Load_File_2'
+
+for (var i = 0; i < updata.length; i++) {
+    did = updata[i].slice(0, 1)
+    dids.push(did.toString())
+    dialog = updata[i].slice(1)
+    obj = []
+    for (var j = 0; j < dialog.length; j++) obj.push(getTup(dialog[j], 0, 1, 0, j+1))
+
+    data = []
+    data.push(did)
+    data.push(dialog)
+    data.push(obj)
+    data.push(JSON.parse(JSON.stringify(obj)))
+    // console.log(obj.st)
+    pack.push(data)
+}
+
+cheader()
+ctable()
+</script>

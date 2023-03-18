@@ -1,6 +1,30 @@
 
-function color(type, v, a, b) {
+function color(type, v, a, b, page=0, sec=0) {
+    d = data
     html = ``
+    // comparison
+    if(page == 1) {
+        if(sec) d = d2
+        if(!(v.length)) return html
+        else {
+            for(var i = 0; i < v.length; i++) {
+                k = v[i].indexOf('=')
+                if(k > -1) w = v[i].substring(0, k);
+                else w = v[i];
+
+                // console.log("color:", w, k);
+                if(k > 0) {
+                    // JA green
+                    if(d[b].e2.includes(w) && eja) html += `<span class="gword">` + w + `</span><span> </span>` + `<span class="word">`+ v[i].substring(k)
+                    else html += `<span class="bword">` + w + `</span><span> </span>` + `<span class="word">`+ v[i].substring(k)
+                }
+                else if(d[b].e2.includes(w) && eja) html += `<span class="gword">`+ v[i]
+                else html += `<span class="bword">`+ v[i]
+                html += `</span><div></div>`
+            }
+        }
+        return html
+    }
     // entities
     if(!type) {
         if(!(v.length)) html += `<span class="add" li="${b}" ty="6" style='text-align:center;'>+</span>`
@@ -94,7 +118,7 @@ function save() {
         var textToSave = max + '\n';
         for(var i in obj) {
             if(i < max) {
-                for(var j in obj[i]) { textToSave += obj[i][j] + '\n'; }
+                for(var j in obj[i]) textToSave += obj[i][j] + '\n';
             }
         }
     }
@@ -184,20 +208,6 @@ function cp(des, sor, spl) {
     else des.push(sor)
 }
 
-// function notation(type, index) {
-//     if(type == 0) {
-//         var input = prompt('Please input event', data[index].st);
-//         if(input) data[index].ev.push(input);
-//         console.log(data[index].ev)
-//     }
-//     else if(type == 1) {
-//         var input = prompt('Please input pragmatic', data[index].st);
-//         if(input) data[index].pr.push(input)
-//     }
-//     // console.log(index)
-//     process_table()
-// }
-
 function parent(index) {
     if(data[index].st.length) return index
     for(var i = index; i > 0; i--) {
@@ -258,16 +268,18 @@ function trim(text, mode) {
     else console.log("trim 0");
 }
 
-function red(i, j, r=0) {
+function red(i, j, r=0, sec=0) {
     // r = rule
     
-    dc2 = data[i].cc2
+    // dc2 = data[i].cc2
+    d = data[i]
+    if(sec) d = d2[i]
     // console.log(i, j);
 
     // 0: CT- & RT
     if(!r) {
-        if((bel[dc2[j-2][0][0]%bel.length] == 'CT-' && cg[dc2[j][0][0]%cg.length] != 'RT') &&
-            (dc2[j][0][1] == dc2[j-2][0][1])) {
+        if((bel[d.cc2[j-2][0][0]%bel.length] == 'CT-' && cg[d.cc2[j][0][0]%cg.length] != 'RT') &&
+            (d.cc2[j][0][1] == d.cc2[j-2][0][1])) {
                 // console.log(i, '0: CT- & RT');
                 return 1;
             }
@@ -278,8 +290,8 @@ function red(i, j, r=0) {
         // disable at nov 14
         return 0;
         // if(j>1) console.log(i, j, data[i].eve[j].length, dc2[j][0][0]%cg.length)
-        if(data[i].eve[j].length && j < 2 && !(dc2[j][0][0]%bel.length)) return 1;
-        if(data[i].eve[j].length && j > 1 && !(dc2[j][0][0]%cg.length)) return 1;
+        if(d.eve[j].length && j < 2 && !(d.cc2[j][0][0]%bel.length)) return 1;
+        if(d.eve[j].length && j > 1 && !(d.cc2[j][0][0]%cg.length)) return 1;
     }
     return 0;
 }
@@ -313,11 +325,16 @@ function reload(v, load=1) {
     
 }
 
-function stn(line, i, st) {
+function stn(line, i, st, page=0) {
     // console.log(data[i].ty)
     // return `<td style='padding:4px;' class="text">` 
     //     + line.split(" ").map(word => 
     //         `<span class="word" line="${line}" li="${i}">${word}</span>`).join(" ") + `</td>`
+
+    // comparison page
+    if(page == 1) 
+        return `<tr style='background-color:lightgrey;'><td colspan="100%" style='color:grey;'>
+            <sup style='color:darkcyan; margin-left: 15px;'>` + st + ` </sup>` + line + `</td></tr>`
     
     if(!phase) w = 45
     else if(phase == 1) w = 30
@@ -333,13 +350,173 @@ function stn(line, i, st) {
 }
 
 // table notions
-function not(type, i) {
-    if(!phase) w = 45
-    else if(phase == 1) w = 35
-    else w = 28
+function not(type, i, page=0, sec=0) {
     var line = data[i].st
     var d = data[i]
     var dc2 = data[i].cc2
+    var redp = 0
+
+    // comparison
+    if(page == 1) {
+        if(sec) { // section 2
+            line = d2[i].st
+            d = d2[i]
+            dc2 = d2[i].cc2
+            redp = 1
+            e = e2
+        }
+        if(type == 0) {
+            if(d.ty[4]%qs.length) q = `<span class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
+            else q = `<span style='font-size: 90%; color:lightgrey' class="q" li="${i}">[` + qs[d.ty[4]%qs.length] + `] </span>`
+    
+            html = ``;
+            if(d.ev.length) html += `<td>` + e + q + `<span>` + d.ev[0] +`</span>`;
+            else html += `<td>`
+    
+            // cc links (cgm)
+            firstBr = 0
+            for(var j = 0; j < 4; j++) { // cc slot
+                if(d.eve[j].length) {
+
+                    // slot name
+                    // html += `<div style="height:5px;"></div><span class="clinks">` + hd2[j+5] + `</span>`
+                    if(!firstBr){
+                        html += `<br><span class="clinks">` + hd2[j+5] + `</span>`
+                        firstBr = 1
+                    } 
+                    else html += `<div style="height:15px;"></div><span class="clinks">` + hd2[j+5] + `</span>`
+
+                    rs = ``
+
+                    // current cc
+                    for(var k = 0; k < dc2[j].length; k++) {
+                        ci = dc2[j][k][0]
+                        if(!dc2[j][k][1]) { // find self value in dc2[slot]
+                            if(j < 2) rs += bel[ci%bel.length];
+                            else rs += cg[ci%cg.length];
+                            break;
+                        }
+                    }
+                    html += `<span class="clinks">` + rs + `</span>`
+                    
+                    // referencing cc
+                    for(var k = 0; k < d.eve[j].length; k++) {
+                        // ci = d.eve[j][k][1]
+                        // rs = d.eve[j][k][0] + `:`;
+                        // if(j < 2) rs += bel[ci%bel.length];
+                        // else rs += `<sup class="clinkssub">` + cg[ci%cg.length] + `</sup>`;
+                        // // rs += `(` + d.eve[j][k][0] + `)`
+                        // html += `<p class="clinks">` + rs + `</p>`
+
+                        ci = d.eve[j][k][1]
+                        rs = d.eve[j][k][0] + `:`;
+                        if(j < 2) rs += bel[ci%bel.length];
+                        else rs += cg[ci%cg.length];
+                        // rs += `(` + d.eve[j][k][0] + `)`
+                        html += `<span class="clinks">` + rs + `</span>`
+
+                    }
+                    // html += `<br>`
+
+                }
+            } 
+            return html + `</td>`;
+        }
+
+        if(type == 1) {
+            if(!d.pr.length) return `<td></td>`
+            else return `<td>` + d.pr[0] + `</td>`
+        }
+
+        if(type == 6) {
+            html = ``;
+            // believe
+            for(var j in '12') {
+                html += `<td style='`;
+                if(red(i, j, 1, redp)) html += ` background-color:lightpink; `;
+    
+                // null left
+                // console.log('>>>>>', sec, i, j, dc2)
+                if(!dc2[j].length) {
+                    if(j > 0) html += `border-right:5px solid lightgrey;' class="cc">`;
+                    else html += `border-left:5px solid lightgrey;' class="cc">`;
+                }
+
+                else if((!(dc2[j][0][0]%bel.length) && j == 0)) html += `border-left:5px solid lightgrey;' class="cc">`;
+                    
+                // right
+                else if(!(dc2[j][0][0]%bel.length)) html += `border-right:5px solid lightgrey;' class="cc">`;
+                
+                // j:cc slot, k:item index
+                else {
+                    // console.log("in ccs j", j);
+                    for(var k = 0; k < dc2[j].length; k++) {
+                        // bel
+                        if(!k && j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>
+                            <span class="cc" >` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                        else if(!k) html += `text-align:center; border-right:5px solid lightgrey;'>
+                            <span class="cc" >` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                        else html += `<span class="cc" >` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+    
+                        // != current event number and != 0 (shows referencing #)
+                        if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) 
+                            html += `<sup style='color:grey'>` + dc2[j][k][1] + ` </sup>`
+
+                        if(k+1 < dc2[j].length) html += `<div style="height:2px;"></div>`
+                    }
+                    // console.log("out");
+                }
+                html += `</td>`
+            }
+
+            for(var j in '34') {
+                raw = ``
+                j = parseInt(j) + 2;
+    
+                // null
+                if((!dc2[j].length) || !(dc2[j][0][0]%cg.length)) {
+                    if(red(i, j, 1, redp)) {
+                        raw += `<td style='background-color:lightpink;' class="cc" ty="${j}" li="${i}" cgi="0">`;
+                    }
+                    else raw += `<td class="cc" ty="${j}" li="${i}" cgi="0">`;
+                }
+    
+                else {
+                    for(var k = 0; k < dc2[j].length; k++) {
+                        // cg
+                        if(!k & red(i, j, 0, redp)) raw += `<td style='text-align:center; background-color:lightpink;'>
+                            <span class="cc" >` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                        else if(!k) raw += `<td style='text-align:center;'>
+                            <span class="cc" >` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                        else raw += `<span class="cc" >` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+    
+                        // != current event number and != 0 (shows referencing #)
+                        if(dc2[j][k][1] != d.ty[3] && dc2[j][k][1])
+                            raw += `<sup style='color:grey'>` + dc2[j][k][1] + ` </sup>`
+                        if(k+1 < dc2[j].length) raw += `<div style="height:2px;"></div>`
+                    }
+                }
+                html += color(2, raw, j, i) + `</td>`;
+            }
+
+            whyIndex = d.cc[4]%why.length
+    
+            if(sec) html += `<td style='text-align:center;'`
+            else html += `<td style='text-align:center; border-right:5px solid grey;'`
+    
+            if(whyIndex) {
+                html += `><span>` + why[whyIndex] + `</span>`;    //why
+                if(d.wip.length) html += `<span style='color:grey; font-size: 75%;'> ` + d.wip[0] + `</span>`
+            }
+            return html + `</td>`
+        }
+    }
+
+
+    // 0 page
+    if(!phase) w = 45
+    else if(phase == 1) w = 35
+    else w = 28
 
     // event
     if(type == 0) {
@@ -582,9 +759,7 @@ function not(type, i) {
         // believe
         for(var j in '12') {
             html += `<td style='`;
-
             if(red(i, j, 1)) html += ` background-color:lightpink; `;
-
 
             // null left
             if(!(dc2[j][0][0]%bel.length) && j == 0) 
@@ -626,7 +801,6 @@ function not(type, i) {
                 }
                 html += `</td>`
                 // console.log("out");
-
             }
         }
 
@@ -705,4 +879,34 @@ function not(type, i) {
         }
         return html + `></td>`
     }
+}
+
+function synchronization(d1, d2) {
+    i = 0;
+    while(i < Math.max(max, max2)) {
+        // console.log('synchronization ', i, max, max2)
+        // if(i < 5) console.log('synchronization d:', d1[i], d2[i])
+        if(d1[i].ty[0] !=d2[i].ty[0]) {
+            console.log('synchronization at ', i, d1[i], d2[i])
+            var tuple = getTup('', 1)
+            if(d1[i].ty[0]) {
+                // console.log('d1 extar row at ', i, d1[i].st, d2[i].st)
+                d2.splice(i, 0, tuple)
+                max2 += 1
+            }
+            else {
+                // console.log('d2 extar row at ', i, d1[i].st, d2[i].st)
+                d1.splice(i, 0, tuple)
+                max += 1
+            } 
+            // console.log('after insert at ', i, d1[i].st, d2[i].st)
+        }
+        i += 1
+    }
+}
+
+function getTup(dia='', ty0=0, ty1=0, ty2=0, ty3=0) {
+    // freeze?
+    return Object({ st:dia, e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], 
+        ccc:[0, 0, 0, 0], ty:[ty0, ty1, ty2, ty3, 0], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
 }

@@ -6,13 +6,16 @@ app = Flask(__name__, static_folder='./static')
 @app.route('/')
 def home(): return render_template("index.html", data = data)
 
+@app.route('/comparison')
+def comparison():
+    return render_template('comparison.html', data = data)
+
 # @app.route('/mds', methods=['GET', 'POST'])
 # def mds():
 #     if request.method == 'POST':
 #         return redirect(url_for('home'))
 #     # show the form, it wasn't submitted
 #     return render_template('mds.html', data = data_MDS)
-
 
 # <<<<<<<<<<<<<<<<<<<<<  data prepare  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # from pydub import AudioSegment
@@ -75,16 +78,15 @@ for i in files:
           clip.append([head, tail])
           head = tail
 
-
         # dialog
         line = line.rstrip('\n')
+        # line = line.rstrip('\r')
+        # line = line.rstrip('\t')
         line = line.replace('.', '. ')
         line = line.replace("'", '’')
         line = line.replace('  ', ' ')
-        # line = line.replace('  ', ' ')
         k = max(line.find('A:'), line.find('B:'))
         dialog.append(line[k:])
-
         c += 1
   
       line = f.readline()

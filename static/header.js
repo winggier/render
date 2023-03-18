@@ -12,10 +12,11 @@ function header() {
     else if(phase == 1) html +=`<span class='p' p='0'> Entities</span><span style='color:Darkred;'> Events </span>` + 
         `<span class='p' p='2'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
     else html +=`<span class='p' p='0'> Entities</span><span class='p' p='1'> Events </span>` + 
-        `<span style='color:Darkred;'>Full</span><span class='tab'></span>@:<span class='at'>` + nm + `</span>`
+        `<span style='color:Darkred;'>Full</span><span class='tab'></span>@ <span class='at'>` + nm + `</span>`
 
+    html += `<a class="links" href="comparison">Comparison</a>`
     if(next) html += `<span class='next'>>></span>`
-    html += `<span class='tab' style='float:right'>&nbsp;</span>`
+    // html += `<span class='tab' style='float:right'>&nbsp;</span>`
     if(prev) html += `<span class='prev'><<</span>`
 
     // if(next) html += `<span class='next'>#` + next + `&nbsp;></span>`
@@ -129,5 +130,13 @@ function header() {
             header()
         });
     });
+}
 
+function cheader() {
+    html = `<p class = "header"></header><span class="cload"><label for="in">` + file1 + `</label><input type="file" id="in"/></span>`
+    if(d1f) html += `<span style='margin-left: 30px; margin-right: 20px; color:darkcyan'>:</span>
+        <span class="cload"><label for="inc">` + file2 + `</label><input type="file" id="inc"/></span>`
+    else html += `<span><input type="file" id="inc"/></span>`
+    html += `<a class="links" href="/">Annotation</a>`
+    document.getElementById("header").innerHTML = html;
 }

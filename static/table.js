@@ -7,7 +7,7 @@ function process_table() {
     did = pack[di][0]
     dialog = pack[di][1]
     data = pack[di][2]
-    senc = 0;
+    senc = 0;  // ty[3]?
     if(audios.includes(did[0])) clips = 1;
     // console.log("clips:", clips)
 
@@ -64,7 +64,7 @@ function process_table() {
             else html += `<tr>`;
         }
 
-
+        // console.log(data[i].st);
         html += stn(data[i].st, i, senc);                 //sentance
 
         // not rowspan
@@ -84,14 +84,16 @@ function process_table() {
         // else html += `</td><td class="cc" ty="5" li="${i}">` + data[i].e1[data[i].cc[5]%data[i].e1.length];
         // e2
         if(!eja) html += not(4, i); 
+    
 
-        // #
+        // #  ------------------------------------------------------------------------------------------------------------------------
         if(i == rows-1) {
             // html += `<td class="add" style='color:grey; font-weight: bold;' ty="5">↓</td>`;
             numRow = `<span class="add" style='color:grey; font-weight: bold;' ty="5">↓</span>`
         }
         else {
             // current or next is extra event
+            
             if(data[i].ty[0] || data[i+1].ty[0]) {
                 if(data[i].ty[0]) e = senc.toString() + '.' + subnum.toString();
                 else e = (senc+1).toString() + '.' + subnum.toString();
@@ -169,6 +171,8 @@ function process_table() {
             // html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
             numRow = `<span class="num" li="${i}">` + e + ` </span>`
         }
+
+        // console.log('#? ', e)
            
         if(ph) {
             html += not(0, i);                          //event
@@ -185,9 +189,10 @@ function process_table() {
         if(!data[i].ty[0]) senc++;
     }
     
+    // save and load
     html += `</table><p><span id='i'></span><span id="tips" ty="5" ></span>
         <span><label for="in" class="foot" ty='1'>LOAD</label><input type="file" id="in"/></span>
-        <span class="foot">SAVE</span></p>`;
+        <span class="foot">SAVE(` + (autoSave - autoSaveCount) + `)</span></p>`;
 
     document.getElementById("table").innerHTML = html;
     document.getElementById("tips").innerText = cursor;
@@ -900,13 +905,12 @@ function process_table() {
                     if((i == max) || (i == data.length)) break;
                     replace = 1;
 
-                    var tuple = Object({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
-                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0, 0],  
-                            cc2:[[], [], [], []], eve:[[], [], [], []]})
+                    var tuple = getTup()
 
                     // console.log(i, max, data.length)
                     if(data[i].st != line[0]) {
-                        console.log("Dialog != ", i, data[i].st, line[0])
+                        // console.log("Dialog != ", i, data[i].st, line[0])
+                        console.log("Dialog != :", i)
                         replace = 0;
                     }
 
@@ -955,12 +959,9 @@ function process_table() {
                     if(data[i].st != text[i*12+1]) {
                         console.log("!= to data[i]", data[i].st, text[i*12+1])
                         if(text[i*12+1].length) {alert('Error : Bad dialogs'); return;}
-                        var tuple = Object.freeze({ st:'', e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], 
-                            com:[], cc:[0, 0, 0, 0, 0], ccc:[0, 0, 0, 0], ty:[0, 0, 0, 0], 
-                            cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
+                        var tuple = getTup()
                             // data.splice(parseInt(li) + 1, 0, tuple);
                         data.splice(i, 0, tuple);
-                        
                     }
 
                     // else console.log("st check equal")
@@ -990,5 +991,10 @@ function process_table() {
 
         // read as text file
         reader.readAsText(file);
+    });
+
+    document.getElementById("header").querySelectorAll(".links").forEach(word => {
+        word.addEventListener("mouseover", () => {event.target.style.color = "DarkRed";});
+        word.addEventListener("mouseout", () => {event.target.style.color = "darkcyan";});
     });
 }

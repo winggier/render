@@ -33,7 +33,7 @@ audio {
 .header {
     font-family: Verdana;
     color: grey;
-    margin-left: 10px;
+    margin-left: 20px;
     margin-top: 15px;
     margin-bottom: 15px;
     /* line-height: 300%; */
@@ -83,7 +83,7 @@ td, th {
 }
 
 tr:nth-child(even) {
-    background-color: #e7ded7;
+    background-color: #e9decb;
 }
 
 /* h1 {
@@ -143,6 +143,11 @@ li {
     margin-left: 40px;
 }
 
+.tabright {
+    display: inline-block;
+    margin-right: 20px;
+}
+
 .aa {
     font-family: Verdana, sans-serif;
     font-weight: bold;
@@ -167,6 +172,8 @@ li {
 .next {
     /* font-size: 70%; */
     float: right;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .num {
@@ -184,6 +191,7 @@ li {
 .q {
     font-family: Verdana, sans-serif;
     /* font-weight: bold; */
+    font-size: 90%;
     color: blue;
 }
 
@@ -196,6 +204,16 @@ li {
     float: right;
     margin-left: 20px;
     margin-right: 20px;
+}
+
+.foot2 {
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+    font-size: 120%;
+    color: grey;
+    float: right;
+    /* margin-left: 20px;
+    margin-right: 20px; */
 }
 
 .sett {
@@ -232,13 +250,15 @@ li {
     line-height: 100%;
     margin-left: 10px;
     /* margin-right: 20px; */
+    margin-bottom: -.4em;
 }
 
 .clinkssub {
     font-family: Verdana, sans-serif;
     /* font-weight: bold; */
-    font-size: 80%;
+    font-size: 60%;
     color: darkcyan;
+    /* line-height: 100%; */
     vertical-align: super;
     /* color: lightpink; */
     /* float: left; */
@@ -259,7 +279,7 @@ li {
     float: right;
 }
 
-#in {
+#in, #inc {
 	display: none;
 }
 
@@ -274,4 +294,46 @@ li {
     /* margin-right: 20px; */
 }
 
+a:hover, a:visited, a:link, a:active{
+    font-family: Verdana;
+    padding: 2px;
+    font-size: 100%;
+    color: darkcyan;
+    float: right;
+    text-decoration: none;
+    margin-right: 40px;
+}
 
+.cload {
+    font-family: Verdana, sans-serif;
+    /* font-weight: bold; */
+    font-size: 80%;
+    color: grey;
+    /* color: lightpink; */
+    /* text-align: center;  */
+    float: center;
+    /* height: 35px; */
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+
+/* .cload {
+    font-family: Verdana, sans-serif;
+    color: grey;
+    border:0px solid lightgrey;
+} */
+
+/* br {
+    display: block; 
+    margin: 10px;
+    content: "";
+} */
+
+.gword {
+    color: green;
+}
+
+.bword {
+    color: blue; 
+}
