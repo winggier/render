@@ -161,7 +161,6 @@ li {
     font-size: 120%;
     color: lightgrey;
     text-align: center; 
-    text-align: center;
 }
 
 .prev {
@@ -184,11 +183,22 @@ li {
     text-align: center; 
 }
 
+.cn {
+    text-align: center; 
+}
+
 .ccc0 {
     color: lightgrey;
 }
 
 .q {
+    font-family: Verdana, sans-serif;
+    /* font-weight: bold; */
+    font-size: 90%;
+    color: blue;
+}
+
+.q2 {
     font-family: Verdana, sans-serif;
     /* font-weight: bold; */
     font-size: 90%;

@@ -126,6 +126,15 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
+        html += `<br><div class="info" contenteditable="true" >Apr 5:`;
+        html += `<li class='info'>The interface will automatically remove inconsistent event numbers at the beginning of loading a cga file</li>`;
+        html += `<li class='info'>The action of clicking "cancel" in the input prompt will no longer remove previous content</li></div>`;
+
+        html += `<br><div class="info" contenteditable="true" >Apr 3:`;
+        html += `<li class='info'>Comparison page with editing on File_2</li>`;
+        html += `<li class='info'>Remove event bugs fix</li>`;
+        html += `<li class='info'>Event number bug fix</li></div>`;
+
         html += `<br><div class="info" contenteditable="true" >Mar 18:`;
         html += `<li class='info'>Added a comparison page that allows users to load and compare two cga files side-by-side</li>`;
         html += `<li class='info'>Various formatting changes</li>`;

@@ -1,16 +1,5 @@
 function process_table() {
-    refresh = 0;
-    autoSaveCount++;
-    console.log('autoSaveCount', autoSaveCount);
-    if(autoSaveCount == autoSave) save();
-    ph = parseInt(phase)
-    did = pack[di][0]
-    dialog = pack[di][1]
-    data = pack[di][2]
-    senc = 0;  // ty[3]?
-    if(audios.includes(did[0])) clips = 1;
-    // console.log("clips:", clips)
-
+    ini()
     html = `<table style='font-family:Verdana; padding:2px; columnWidth:100px'>`;
     html += "<tr style='font-weight:bold; background-color:Grey'>";
 
@@ -48,8 +37,8 @@ function process_table() {
         // console.log("ty3",data[i].ty[3]);
         // if(i<2) console.log(i, data[i].eve)
 
-        if(data[i].ty[0]) subnum += 1;
-        else subnum = 1;
+        // if(data[i].ty[0]) subnum += 1;
+        // else subnum = 1;
         // if(data[i].st[0] == 'A') html += "<tr style='background-color:blue'><td>" + i + "</td>";
         // else html += "<tr><td>" + i + "</td>";
         
@@ -87,90 +76,7 @@ function process_table() {
     
 
         // #  ------------------------------------------------------------------------------------------------------------------------
-        if(i == rows-1) {
-            // html += `<td class="add" style='color:grey; font-weight: bold;' ty="5">↓</td>`;
-            numRow = `<span class="add" style='color:grey; font-weight: bold;' ty="5">↓</span>`
-        }
-        else {
-            // current or next is extra event
-            
-            if(data[i].ty[0] || data[i+1].ty[0]) {
-                if(data[i].ty[0]) e = senc.toString() + '.' + subnum.toString();
-                else e = (senc+1).toString() + '.' + subnum.toString();
-            }
-            // regular #
-            else e = (senc+1).toString();
-            e = parseFloat(e);
-
-            // ty3 updata
-            if(e != data[i].ty[3]) {
-                
-                // console.log("ty[3]", data[i].ty[3], " changed to ", e);
-                data[i].ty[3] = e;
-
-                // change new ty3 in others' eve
-                for (var j = 0; j < data[i].cc2.length; j++) {
-                    for (var k = 0; k < data[i].cc2[j].length; k++) {
-                        ri = checkr(data[i].cc2[j][k][1]);
-                        if(ri < 0) { 
-                            console.log("Invalid event number", i, j, k, data[i].cc2[j][k][1], data[i]);
-                            // alert('Error: Invalid event number(+ev1)');
-                            break;
-                            // return;
-                        }
-
-                        for (var l = 0; l < data[ri].eve[j].length; l++) {
-                            // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
-                            if(data[ri].eve[j][l][0] == data[i].ty[3]) {
-
-                                data[ri].eve[j][l][0] = e;
-                                // console.log("after remote1 ", data[ri].eve[j][l]);
-                                // this change after previous line print, then reload table again
-                                // process_table()
-                                refresh = 1;
-                            }
-                        }
-                    }
-                }
-
-                // change others reference(cc2) to new ty3
-                for (var j = 0; j < data[i].eve.length; j++) {
-                    for (var k = 0; k < data[i].eve[j].length; k++) {
-                        ri = checkr(data[i].eve[j][k][0]);
-                        // if(data[i].eve[j][k][0] == 91.2) {
-                        //     console.log('912 ri:',ri);
-                        //     console.log(data[116]);
-                        //     console.log(data[135]);
-
-                        // }
-                        if(ri < 0) { 
-                            // alert('Error: Invalid event number(+ev2)'); 
-                            
-                            console.log("ev2err in change others (cc2) to new ty3", i, j, k); 
-                            console.log(data[i].eve)
-                            // console.log(data[i].eve[j][k])
-                            console.log(data[i].eve[j][k][0])
-                            // console.log(data[i].ty[3])
-                            // console.log(data[i-1].ty[3])
-                            break;
-                            // return;
-                        }
-
-                        for (var l = 0; l < data[ri].cc2[j].length; l++) {
-                            // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
-                            if(data[ri].cc2[j][l][1] == data[i].ty[3]) {
-                                data[ri].cc2[j][l][1] = e;
-                                refresh = 1;
-                            }
-                        }
-                    }
-                }
-
-                // data[i].ty[3] = e;
-            }
-            // html += `<td style='text-align:center; width:1%; font-weight:bold;' class="num" li="${i}">` + e + `</td>`;
-            numRow = `<span class="num" li="${i}">` + e + ` </span>`
-        }
+        numCorr(i, rows);
 
         // console.log('#? ', e)
            
@@ -194,10 +100,11 @@ function process_table() {
         <span><label for="in" class="foot" ty='1'>LOAD</label><input type="file" id="in"/></span>
         <span class="foot">SAVE(` + (autoSave - autoSaveCount) + `)</span></p>`;
 
+    if(refresh) {process_table();return}
+    // if(refresh) process_table();
     document.getElementById("table").innerHTML = html;
     document.getElementById("tips").innerText = cursor;
     appendix();
-    if(refresh) process_table();
     // console.log("table done");
 
     //click functions
@@ -244,12 +151,14 @@ function process_table() {
                 // console.log(data[li].er, e, data[li].er.indexOf(e))
                 // console.log(data[li].e1, w, data[li].e1.indexOf(w))
                 
-                data[li].e1.splice(index, 1)
-                data[li].er.splice(index, 1)
                 var input = prompt('Please input new entity value');
-                if(input) data[li].e1.push(e + '=' + input)
-                else data[li].e1.push(e)
-                data[li].er.push(e)
+                if(input) {
+                    data[li].e1.splice(index, 1)
+                    data[li].er.splice(index, 1)
+                    data[li].e1.push(e + '=' + input)
+                    data[li].er.push(e)
+                }
+                // else data[li].e1.push(e)
 
                 console.log("Modified", li, type, e, w)
                 console.log(data[li].er)
@@ -652,29 +561,30 @@ function process_table() {
                 event.target.style.color = "lightgrey";
             else event.target.style.color = "black";
         });
-        word.addEventListener("click", () => { 
+        word.addEventListener("click", () => {
+            // console.log('edits click:', input)
             const type = event.target.getAttribute("ty");
             const li = event.target.getAttribute("li");
             const ct = event.target.getAttribute("ct"); // cc type
             const cgi = event.target.getAttribute("cgi"); // cc item index
 
-            var input = prompt('Please input new value', event.target.innerText);
+            input = prompt('Please input new value', event.target.innerText);
 
             if(type == 0) {
                 if(input) data[li].ev.splice(0, 1, input);
-                else data[li].ev.splice(0, 1)
+                // else data[li].ev.splice(0, 1)
             }
             if(type == 1) {
                 if(input) data[li].pr.splice(0, 1, input);
-                else data[li].pr.splice(0, 1)
+                // else data[li].pr.splice(0, 1)
             }
             if(type == 2) {
                 if(input) data[li].wip.splice(0, 1, input);
-                else data[li].wip.splice(0, 1)
+                // else data[li].wip.splice(0, 1)
             }
             if(type == 3) {
                 if(input) data[li].com.splice(0, 1, input);
-                else data[li].com.splice(0, 1)
+                // else data[li].com.splice(0, 1)
             }
             if(type == 4) {
                 console.log("Not edit at e2 anymore");
@@ -702,7 +612,7 @@ function process_table() {
                 // else data[li].e2.splice(0, 1)
             }
             if(type == 5) {
-                // console.log("edit refer#");
+                console.log("edit refer#");
                 if(input) {
                     k = parseFloat(input);
                     ri = checkr(k);
@@ -770,8 +680,9 @@ function process_table() {
         });
     });
 
-    // remive
+    // remove
     document.getElementById("table").querySelectorAll(".remove").forEach(word => {
+        // console.log('remove hit')
         word.addEventListener("mouseover", () => {
             document.getElementById("tips").innerText = `Remove current row(extra event row)`;
             event.target.style.color = "lightgrey";
@@ -783,44 +694,43 @@ function process_table() {
         word.addEventListener("click", () => { 
             const li = parseInt(event.target.getAttribute("li"));
             console.log("remove click", li);
+            removeFix(li, data)
+            // dcp = data[li];
+
+            // // remove cc2 links
+            // for (var j = 0; j < data[li].cc2.length; j++) {
+            //     for (var k = 0; k < data[li].cc2[j].length; k++) {
+            //         ri = checkr(data[li].cc2[j][k][1]);
+            //         if(ri < 0) { alert('Error: Invalid event number(rm1)'); return;}
+
+            //         for (var l = 0; l < data[ri].eve[j].length; l++) {
+            //             // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
+            //             if(data[ri].eve[j][l][0] == data[li].ty[3]) {
+            //                 data[ri].eve[j].splice(l, 1);
+            //             }
+            //         }
+            //     }
+            // }
+
+            // // remove eve links
+            // for (var j = 0; j < data[li].eve.length; j++) {
+            //     for (var k = 0; k < data[li].eve[j].length; k++) {
+            //         ri = checkr(data[li].eve[j][k][0]);
+            //         if(ri < 0) { alert('Error: Invalid event number(rm2)'); return;}
+
+            //         for (var l = 0; l < data[ri].cc2[j].length; l++) {
+            //             console.log("remote 2", ri, '', data);
+            //             if(data[ri].cc2[j][l][1] == data.ty[3]) {
+            //                 data[ri].cc2[j].splice(l, 1);
+            //                 if(!(data[ri].cc2[j].length)) data[ri].cc2[j].push([0, 0])
+            //             }
+            //         }
+            //     }
+            // }                
+            // console.log('b4 remove', i, data[li])
             data[parent(li)].ty[1] -= 1;
-            d = data[li];
-
-            // remove cc2 links
-            for (var j = 0; j < d.cc2.length; j++) {
-                for (var k = 0; k < d.cc2[j].length; k++) {
-                    ri = checkr(d.cc2[j][k][1]);
-                    if(ri < 0) { alert('Error: Invalid event number(rm1)'); return;}
-
-                    for (var l = 0; l < data[ri].eve[j].length; l++) {
-                        // console.log("remote1 ", ri, " eve ", data[ri].eve[j][l], " e ", e);
-                        if(data[ri].eve[j][l][0] == d.ty[3]) {
-                            data[ri].eve[j].splice(l, 1);
-                            
-                        }
-                    }
-                }
-            }
-
-            // remove eve links
-            for (var j = 0; j < d.eve.length; j++) {
-                for (var k = 0; k < d.eve[j].length; k++) {
-                    ri = checkr(d.eve[j][k][0]);
-                    if(ri < 0) { alert('Error: Invalid event number(rm2)'); return;}
-
-                    for (var l = 0; l < data[ri].cc2[j].length; l++) {
-                        // console.log("remote ", ri, " cc2 ", data[ri].cc2[j][l], " e ", e);
-                        if(data[ri].cc2[j][l][1] == d.ty[3]) {
-                            data[ri].cc2[j].splice(l, 1);
-                            if(!(data[ri].cc2[j].length)) data[ri].cc2[j].push([0, 0])
-                        }
-                    }
-                }
-            }                
-
-
-
             data.splice(li, 1)
+            // console.log('af remove', i, data[li])
             process_table()
         });
     });
@@ -839,7 +749,7 @@ function process_table() {
         });
         word.addEventListener("click", () => { 
             const ty = parseInt(event.target.getAttribute("ty"));
-            console.log("foot click = ", ty);
+            // console.log("foot click = ", ty);
             if(!ty) save()
         });
     });
@@ -863,11 +773,12 @@ function process_table() {
             console.log(file.name)
             k = file.name.indexOf('_')
             // if(k < 0) { alert('Error : Wrong File Name'); return;}
-            if(k < 0) { alert('Error : Wrong File Name');}
+            if(k < 0) { alert('Error : Wrong File Name'); return}
+            
             
             load_did = file.name.substring(0, k);
             v = dids.indexOf(load_did) - dids.indexOf(did[0]);;
-            console.log("Did:", did[0], load_did, v);
+            // console.log("Did:", did[0], load_did, v);
             reload(v, 0);
             
             rest = file.name.substring(k+1);
@@ -896,13 +807,19 @@ function process_table() {
                 cgm = parseInt(line[2]);
                 hrefer = parseInt(line[3]);
                 if(line.length > 4) {
-                    console.log('load first line:', line.length);
+                    // console.log('load first line:', line.length);
                     focusClip = parseInt(line[4]);
                 }
 
+
+                
                 for(i in text) {
                     line = text[i].split('\t');
                     if((i == max) || (i == data.length)) break;
+
+                    // console.log(line[11][0])
+                    // if(line[11][0] == 2) continue // ty[0] == 2 is place holder for comparison
+
                     replace = 1;
 
                     var tuple = getTup()
@@ -910,7 +827,7 @@ function process_table() {
                     // console.log(i, max, data.length)
                     if(data[i].st != line[0]) {
                         // console.log("Dialog != ", i, data[i].st, line[0])
-                        console.log("Dialog != :", i)
+                        // console.log("Dialog != :", i)
                         replace = 0;
                     }
 
@@ -918,7 +835,7 @@ function process_table() {
                     else tuple.st = data[i].st;
 
                     data.splice(i, replace, tuple);
-                    console.log(i, line);
+                    // console.log(i, line);
                     // console.log(data[i])
                     cp(data[i].e1,  line[1], 1)
                     cp(data[i].e2,  line[2], 0)
@@ -982,6 +899,8 @@ function process_table() {
                     // console.log("ty", data[i].ty)
                 }
             }
+
+            preFix(data, 1)
             header()
             process_table()
         });

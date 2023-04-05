@@ -16,19 +16,14 @@
 <script type="text/javascript" src="{{ url_for('static', filename='header.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='appendix.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='table.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='loader.js') }}"></script>
+
 
 <script>
 // const con =  JSON.parse('{{data|tojson|safe}}'.replace(/\s+/g, ' '));
 const con = {{data|tojson|safe}};
 var updata = con[0];
 var audios = con[1];
-
-// console.log(text)
-// header = updata[0]
-// var fs = require('fs');
-// var files = fs.readdirSync('/assets/photos/');
-// console.log(pack[3][0])
-// var nm = prompt('User name?', 'Annotator');
 
 hd0 = ['Sentence', 'Entity', 'Entity(JA)', 'Comment']
 hd1 = ['Sentence', 'Entity', 'Entity(JA)', 'Event', 'Pragmatics', 'Comment']
@@ -44,8 +39,9 @@ cg = ['', 'JA', 'IN','RT', 'AM']
 cgc = ['→', '→JA', '→IN', '→RT', '→AM']
 why = ['', 'WK', 'C', 'LI']
 
-
-di = 3
+di = 3                  // initial dialog index (3:4092)
+d1f = 0;                // file 1 flap
+d2f = 0;                // file 2 flap
 text = 'grey'           // text color
 edr = 0;                // last edited line
 max = 10;               // max line
@@ -72,11 +68,15 @@ for (var i = 0; i < updata.length; i++) {
     dialog = updata[i].slice(1)
     dids.push(did.toString())
     obj = []
-    //ty[0] 0:mian  1:extra
+    //ty[0] 0:mian  1:extra  2:empty
     //ty[1] #of row of sentence
     //ty[2] 1:hightlight/selected
     //ty[3] event #
     //ty[4] Q
+    //eve   Bel/CG change BY other event
+    //eve[i][j][k]: i:BelA~CGB(1-4), j:change list index k:0: from eve # k:1:change to value
+    //cc    transition mode
+    //cc2   change other Bel/CG list
     for (var j = 0; j < dialog.length; j++) obj.push(getTup(dialog[j], 0, 1, 0, j+1))
     
     data = []
