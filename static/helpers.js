@@ -89,7 +89,6 @@ function color(type, v, a, b, page=0, sec=0) {
 
 }
 
-
 function audio_clips(i) {
     // <span style='color:darkred'; ph='1'>Dialog</span> 
     // console.log('in clips', i);
@@ -281,7 +280,7 @@ function not(type, i, page=0, sec=0) {
             else q = ` `
 
             html = ``;
-            if(d.ev.length) html += `<td><span class='num'>` + e + ` </span>` + q + `<span>` + d.ev[0] +`</span>`;
+            if(d.ev.length) html += `<td><span style="color: grey;">` + e + ` </span>` + q + `<span>` + d.ev[0] +`</span>`;
             else html += `<td>`
     
             // cc links (cgm)
@@ -440,7 +439,7 @@ function not(type, i, page=0, sec=0) {
         if(!d.ev.length) {
             //last empty
             if (i == rows-1) {
-                if(sec) html += `<td class="add"  line="${line}" li="${i}" ty="${type}">+`
+                if(sec) html += `<td class="add" line="${line}" li="${i}" ty="${type}">+`
                 else html += `<td>` + numRow + `<span style='float: right;' class="add" line="${line}" li="${i}" ty="${type}">+</span>`
             }
 
