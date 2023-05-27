@@ -126,6 +126,9 @@ function appendix() {
 
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
+        html += `<br><div class="info" contenteditable="true" >May 26:`;
+        html += `<li class='info'>Opinion elements added to Bel and CG columns</li></div>`;
+
         html += `<br><div class="info" contenteditable="true" >Apr 5:`;
         html += `<li class='info'>The interface will automatically remove inconsistent event numbers at the beginning of loading a cga file</li>`;
         html += `<li class='info'>The action of clicking "cancel" in the input prompt will no longer remove previous content</li></div>`;

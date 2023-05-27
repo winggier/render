@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template
 
+# . venv/bin/activate to load env
 app = Flask(__name__, static_folder='./static')
 
 @app.route('/')

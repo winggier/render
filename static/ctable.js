@@ -378,6 +378,40 @@ function ctable() {
         });
     });
 
+    // R(reason) class
+    document.getElementById("ctable").querySelectorAll(".r").forEach(word => {
+        d = d2
+
+        word.addEventListener("mouseover", () => {
+            // const li = event.target.getAttribute("li");
+            // const rt = event.target.getAttribute("rt");
+            // qt = d[li].ty[4]%qs.length;
+            // if(qt == 0) document.getElementById("tips").innerText = `Types of questions?`;
+            // else if(qt == 1) document.getElementById("tips").innerText = `Wh-question`;
+            // else if(qt == 2) document.getElementById("tips").innerText = `Yes/No Question`;
+            // else if(qt == 3) document.getElementById("tips").innerText = `Negated Yes/No Question`;
+            // else if(qt == 4) document.getElementById("tips").innerText = `Speculative self-answered wh-questions`;
+            // else if(qt == 5) document.getElementById("tips").innerText = `Right?/Tag Questions`;
+            // else if(qt == 6) document.getElementById("tips").innerText = `Rhetorical Questions`;
+            // else if(qt == 7) document.getElementById("tips").innerText = `Elided Questions`;
+
+            event.target.style.color = "Red";
+        });
+        word.addEventListener("mouseout", () => {
+            document.getElementById("tips").innerText = ``;
+            const w = event.target.outerText
+            // console.log(event.target.outerText)
+            if(w == '[] ') event.target.style.color = "lightgrey";
+            else  event.target.style.color = "blue";
+        });
+        word.addEventListener("click", () => { 
+            const li = event.target.getAttribute("li");
+            const rt = event.target.getAttribute("rt");
+            d[li].r[rt] += 1;
+            ctable()
+        });
+    });
+
     // edits
     document.getElementById("ctable").querySelectorAll(".edits").forEach(word => {
         d = d2

@@ -719,14 +719,25 @@ function not(type, i, page=0, sec=0) {
             // j:cc slot, k:item index
             else {
                 // console.log("in ccs j", j);
+                // if(sec) console.log("in ccs_sec j", j);
+                // reason
+                if(sec) {
+                    if(j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>`
+                    else html += `text-align:center; border-right:5px solid lightgrey;'>`
+                    if(d.r[j]%reason.length) html += `<span style='font-size: 90%; color:blue' `
+                    else html += `<span style='font-size: 90%; color:lightgrey' `
+                    html += `class="r" li="${i}" rt="${j}">` + reason[d.r[j]%reason.length] + `</span><br>`
+                }
+
                 for(var k = 0; k < dc2[j].length; k++) {
                     // bel
-                    if(!k && j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>
-                        <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
-                    else if(!k) html += `text-align:center; border-right:5px solid lightgrey;'>
-                        <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
-                    else html += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` +
-                        bel[dc2[j][k][0]%bel.length] + `</span>`;
+                    // if(!k && j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>
+                    //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                    // else if(!k) html += `text-align:center; border-right:5px solid lightgrey;'>
+                    //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+                    // else html += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`;
+
+                    html += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` + bel[dc2[j][k][0]%bel.length] + `</span>`
 
                     // != current event number and != 0 (shows referencing #)
                     if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) {
@@ -746,9 +757,9 @@ function not(type, i, page=0, sec=0) {
 
                     html += `<br>`
                 }
-                html += `</td>`
                 // console.log("out");
             }
+            html += `</td>`
         }
 
         // CG
@@ -770,17 +781,25 @@ function not(type, i, page=0, sec=0) {
             // else if(!(dc2[j][0][0]%cg.length)) raw += `<td class="cc" ty="${j}" li="${i}" cgi="0">`;
 
             else {
+                raw += `<td style='text-align:center;'>`
+
+                if(sec) {
+                    if(d.r[j]%reason.length) raw += `<span style='font-size: 90%; color:blue' `
+                    else raw += `<span style='font-size: 90%; color:lightgrey' `
+                    raw += `class="r" li="${i}" rt="${j}">` + reason[d.r[j]%reason.length] + `</span><br>`
+                }
                 for(var k = 0; k < dc2[j].length; k++) {
                     // cg
-                    if(!k & red(i, j)) raw += `<td style='text-align:center; background-color:lightpink;'>
-                        <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
-                    else if(!k) raw += `<td style='text-align:center;'>
-                        <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
-                    // if(!k && j == 3) raw += `<td style='text-align:center; border-right:5px solid black;'>
+                    // if(!k & red(i, j)) raw += `<td style='text-align:center; background-color:lightpink;'>
                     //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
                     // else if(!k) raw += `<td style='text-align:center;'>
-                        // <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
-                    else raw += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                    //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                    // // if(!k && j == 3) raw += `<td style='text-align:center; border-right:5px solid black;'>
+                    // //     <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                    // // else if(!k) raw += `<td style='text-align:center;'>
+                    //     // <span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                    // else raw += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
+                    raw += `<span class="cc" ty="${j}" li="${i}" cgi="${k}">` + cg[dc2[j][k][0]%cg.length] + `</span>`;
 
                     // != current event number and != 0 (shows referencing #)
                     if(dc2[j][k][1] != data[i].ty[3] && dc2[j][k][1]) {

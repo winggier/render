@@ -192,8 +192,8 @@ function synchronization(d1, d2) {
 
 function getTup(dia='', ty0=0, ty1=0, ty2=0, ty3=0) {
     // freeze?
-    return Object({ st:dia, e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[], cc:[0, 0, 0, 0, 0], 
-        ccc:[0, 0, 0, 0], ty:[ty0, ty1, ty2, ty3, 0], cc2:[[[0, 0]], [[0, 0]], [[0, 0]], [[0, 0]]], eve:[[], [], [], []]})
+    return Object({ st:dia, e1:[], e2:[], er:[], ev:[], pr:[], why:[], wip:[], com:[], cc:[0,0,0,0,0], ccc:[0,0,0,0], 
+        ty:[ty0, ty1, ty2, ty3, 0], cc2:[[[0,0]], [[0,0]], [[0,0]], [[0,0]]], eve:[[], [], [], []], r:[0,0,0,0]})
 }
 
 function loader(files, alt=0, ct=0) {
@@ -289,6 +289,8 @@ function loader(files, alt=0, ct=0) {
             cp(d[i].cc2, line[12], 3)
             // if(i < 5) console.log(i, d[i])
             cp(d[i].eve, line[13], 4)
+            // reason
+            if(line.length > 14) cp(d[i].r,  line[14], 2)
             // console.log(line);
             // console.log(d[i]);
 
