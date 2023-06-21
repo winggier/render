@@ -127,7 +127,7 @@ function appendix() {
     // news                                                         <<<<<<<<<<<<<<<<<<<<<<<<<<
     else if(appp == 4) {
         html += `<br><div class="info" contenteditable="true" >Jun 20:`;
-        html += `<li class='info'>Bel columns bug fixed</li></div>`;
+        html += `<li class='info'>Bel columns bug fix</li></div>`;
 
         html += `<br><div class="info" contenteditable="true" >May 26:`;
         html += `<li class='info'>Opinion elements added to Bel and CG columns</li></div>`;
