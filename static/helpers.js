@@ -720,10 +720,14 @@ function not(type, i, page=0, sec=0) {
             else {
                 // console.log("in ccs j", j);
                 // if(sec) console.log("in ccs_sec j", j);
+
+                if(j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>`
+                else html += `text-align:center; border-right:5px solid lightgrey;'>`
+
                 // reason
                 if(sec) {
-                    if(j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>`
-                    else html += `text-align:center; border-right:5px solid lightgrey;'>`
+                    // if(j == 0) html += `text-align:center; border-left:5px solid lightgrey;'>`
+                    // else html += `text-align:center; border-right:5px solid lightgrey;'>`
                     if(d.r[j]%reason.length) html += `<span style='font-size: 90%; color:blue' `
                     else html += `<span style='font-size: 90%; color:lightgrey' `
                     html += `class="r" li="${i}" rt="${j}">` + reason[d.r[j]%reason.length] + `</span><br>`
